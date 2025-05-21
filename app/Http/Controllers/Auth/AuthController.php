@@ -22,23 +22,28 @@ class AuthController extends Controller
             $phone = $request->get('usermailorphone');
 
         }
-        if (filter_var($request->get('usermailorphone'), FILTER_VALIDATE_EMAIL)) {
-            $email = $request->get('usermailorphone');
+        else{
+            $userId = $request->usermailorphone;
         }
-        if($phone===0 &&  $email===''){
+//        if (filter_var($request->get('usermailorphone'), FILTER_VALIDATE_EMAIL)) {
+//            $email = $request->get('usermailorphone');
+//        }
+        if($phone===0 &&  $userId===''){
             return response()->json(['message' => 'Invalid'], 400);
         }
-        $user = User::where(['Email' => $email,'Status' => 1])->orWhere(['Mobile' => $phone,'Status' => 1])->first();
+        $user = User::where(['UserId' => $userId,'Status' => 1])->orWhere(['Mobile' => $phone,'Status' => 1])->first();
 
         if ($phone && $token = JWTAuth::attempt(['Mobile' => $phone, 'password' => $request->password,'Status' => 1])) {
             return $this->respondWithToken($token);
         }
-        elseif ($email && $token = JWTAuth::attempt(['Email' => $email, 'password' => $request->password,'Status' => 1])) {
+        elseif ($userId && $token = JWTAuth::attempt(['UserId' => $userId, 'password' => $request->password,'Status' => 1])) {
+            Auth::login($user);
+            $token = JWTAuth::fromUser($user);
             return $this->respondWithToken($token);
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Invalid User Email/Phone or Password!'
+                'message' => 'Invalid User Id/Phone or Password!'
             ], 401);
         }
     }
@@ -69,6 +74,7 @@ class AuthController extends Controller
 
     protected function respondWithToken($token)
     {
+
         return response()->json([
             'access_token' => $token,
 //            'Users' => Auth::user(),

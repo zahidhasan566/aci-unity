@@ -56,7 +56,7 @@ const routes = [
             },
             //Report
             {
-                path: baseurl + 'report/shop-information-report',
+                path: baseurl + 'users',
                 name: 'ReportAllShopInformation',
                 component: ReportAllShopInformation
             },

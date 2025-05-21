@@ -1,1 +1,1 @@
-export const baseurl = "/e-verification/";
+export const baseurl = "/";
