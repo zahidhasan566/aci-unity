@@ -10,7 +10,7 @@
             <form class="form-horizontal m-t-30" @submit.prevent="handleSubmit(onSubmit)">
               <ValidationProvider name="User ID" mode="eager" rules="required" v-slot="{ errors }">
                 <div class="form-group">
-                  <label for="username">User Email Or Phone</label>
+                  <label for="username">UserId</label>
                   <input type="text" class="form-control" :class="{'error-border': errors[0]}" id="usermailorphone"
                          v-model="usermailorphone" name="usermailorphone" placeholder="User Mail Or Mobile" autocomplete="off">
                   <span class="error-message"> {{ errors[0] }}</span>
