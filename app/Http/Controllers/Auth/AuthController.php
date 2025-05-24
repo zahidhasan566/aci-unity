@@ -18,12 +18,12 @@ class AuthController extends Controller
         $email = '';
 
 
-        if (is_numeric($request->usermailorphone)) {
-            $phone = $request->get('usermailorphone');
+        if (is_numeric($request->userID)) {
+            $phone = $request->get('userID');
 
         }
         else{
-            $userId = $request->usermailorphone;
+            $userId = $request->userID;
         }
 //        if (filter_var($request->get('usermailorphone'), FILTER_VALIDATE_EMAIL)) {
 //            $email = $request->get('usermailorphone');
