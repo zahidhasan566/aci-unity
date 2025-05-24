@@ -39,7 +39,7 @@ class AuthController extends Controller
         elseif ($userId && $token = JWTAuth::attempt(['UserId' => $userId, 'password' => $request->password,'Status' => 1])) {
             Auth::login($user);
             $token = JWTAuth::fromUser($user);
-            return $this->respondWithToken($token);
+            return $this->respondWithToken($token,$user);
         } else {
             return response()->json([
                 'status' => 'error',
@@ -72,14 +72,15 @@ class AuthController extends Controller
         return $this->respondWithToken($this->guard()->refresh());
     }
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($token,$user)
     {
 
         return response()->json([
             'access_token' => $token,
 //            'Users' => Auth::user(),
             'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
+            'expires_in' => $this->guard()->factory()->getTTL() * 60,
+            'user' => $user
         ]);
     }
 
