@@ -9,7 +9,7 @@ class ShopInformation extends Model
 {
     use HasFactory;
     protected $table = "ShopInformation";
-    public $primaryKey = 'shopID';
+    public $primaryKey = 'ShopID';
     protected $guarded = [];
     public $timestamps = false;
 }

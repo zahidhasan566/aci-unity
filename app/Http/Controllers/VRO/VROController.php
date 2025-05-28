@@ -193,11 +193,10 @@ class VROController extends Controller
         if(!empty($userId)){
 
             if(Auth::user()->RoleID === 'Admin'){
-                $shop = ShopInformation::select(
+                $shop = ShopInformation::with('competitorShopBusinesses','businessWithACI')->select(
                     'ShopInformation.*',
                     'Users.Name as VROStaffName',
                     'Business.BusinessName',
-
                 )
 
                 ->join('Users', 'Users.UserID', '=', 'ShopInformation.AssignVROStaffId')
@@ -205,7 +204,7 @@ class VROController extends Controller
                 ->get();
             }
             else{
-                $shop = ShopInformation::select(
+                $shop = ShopInformation::with('competitorShopBusinesses','businessWithACI')->select(
                     'ShopInformation.*',
                     'Users.Name as VROStaffName',
                     'Business.BusinessName',
