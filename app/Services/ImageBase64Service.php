@@ -32,7 +32,7 @@ class ImageBase64Service
         return $fileNameToStore;
     }
 
-    function uploadBase64Image($base64String,$uploadDirectory='uploads/',$prfix='') {
+    public static function uploadBase64Image($base64String,$uploadDirectory='uploads/',$prfix='') {
         if(empty($base64String)) {
             return null;
         }
