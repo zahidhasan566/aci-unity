@@ -55,7 +55,6 @@ class VROController extends Controller
 
     }
     public function storeShopInformation(Request $request){
-        dd($request);
         DB::beginTransaction();
         try{
             $singleShopInfo = $request->all();
@@ -91,8 +90,14 @@ class VROController extends Controller
 
                 // Create a new record for each field
                 $shop = new ShopInformation();
-                $shop->AssignVROStaffId = Auth::user()->UserId;
+                $shop->AssignVROStaffId = Auth::user()->UserID;
                 $shop->Business =$singleShopInfo['Business'] ;
+                $shop->ContactPersonDesignation =$singleShopInfo['ContactPersonDesignation'] ;
+                $shop->ProprietorName =$singleShopInfo['ProprietorName'] ;
+                $shop->TypeOfEntity =$singleShopInfo['TypeOfEntity'] ;
+
+
+
                 $shop->CustomerName = $existingShopInformation->CustomerName;
                 $shop->CustomerCode = $singleShopInfo['CustomerCode'];
                 $shop->CustomerContactPersonName = $existingShopInformation->ContactPerson ?? null;
@@ -120,7 +125,7 @@ class VROController extends Controller
 
                 $shop->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::imageResizeUpload($singleShopInfo['RepresentativePhoto'], 'RepresentativePhoto', public_path('uploads/')): null;
                 $shop->BalancePerCustomer = $singleShopInfo['BalancePerCustomer'] ?? null;
-                $shop->EntryBy = Auth::user()->UserId;
+                $shop->EntryBy = Auth::user()->UserID;
                 $shop->EntryDate = Carbon::now();
                 $shop->IpAddress = request()->ip();
 
@@ -186,6 +191,10 @@ class VROController extends Controller
     public function getExistingShop(Request $request){
         $userId =  $request->userId;
         if(!empty($userId)){
+
+            if(Auth::user()->RoleID === ''){
+
+            }
             $shop = ShopInformation::where('AssignVROStaffId', $userId)->get();
             if($shop){
                 return response()->json(['status' => 'Success',
@@ -247,8 +256,11 @@ class VROController extends Controller
 
                         // Create a new record for each field
                         $shop = new ShopInformation();
-                        $shop->AssignVROStaffId = Auth::user()->UserId;
+                        $shop->AssignVROStaffId = Auth::user()->UserID;
                         $shop->Business =$singleShopInfo['Business'] ;
+                        $shop->ContactPersonDesignation =$singleShopInfo['ContactPersonDesignation'] ;
+                        $shop->ProprietorName =$singleShopInfo['ProprietorName'] ;
+                        $shop->TypeOfEntity =$singleShopInfo['TypeOfEntity'] ;
                         $shop->CustomerName = $existingShopInformation->CustomerName;
                         $shop->CustomerCode = $singleShopInfo['CustomerCode'];
                         $shop->CustomerContactPersonName = $existingShopInformation->ContactPerson ?? null;
@@ -276,7 +288,7 @@ class VROController extends Controller
 
                         $shop->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::imageResizeUpload($singleShopInfo['RepresentativePhoto'], 'RepresentativePhoto', public_path('uploads/')): null;
                         $shop->BalancePerCustomer = $singleShopInfo['BalancePerCustomer'] ?? null;
-                        $shop->EditBy = Auth::user()->UserId;
+                        $shop->EditBy = Auth::user()->UserID;
                         $shop->EditDate = Carbon::now();
                         $shop->save();
 

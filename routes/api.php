@@ -44,7 +44,7 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::get('get-supporting-data',[\App\Http\Controllers\VRO\VROController::class,'getSupportingData']);
         Route::post('get-business-customerCode-wise-information',[\App\Http\Controllers\VRO\VROController::class,'getBusinessWiseCustomerInformation']);
         Route::post('store-shop-information',[\App\Http\Controllers\VRO\VROController::class,'storeShopInformation']);
-        Route::post('show-shop-information',[\App\Http\Controllers\VRO\VROController::class,'getExistingShop']);
+        Route::get('show-shop-information',[\App\Http\Controllers\VRO\VROController::class,'getExistingShop']);
         Route::post('shop-edit-information',[\App\Http\Controllers\VRO\VROController::class,'updateExistingShop']);
     });
 

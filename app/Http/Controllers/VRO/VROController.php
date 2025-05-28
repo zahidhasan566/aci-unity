@@ -92,6 +92,12 @@ class VROController extends Controller
                 $shop = new ShopInformation();
                 $shop->AssignVROStaffId = Auth::user()->UserID;
                 $shop->Business =$singleShopInfo['Business'] ;
+                $shop->ContactPersonDesignation =$singleShopInfo['ContactPersonDesignation'] ;
+                $shop->ProprietorName =$singleShopInfo['ProprietorName'] ;
+                $shop->TypeOfEntity =$singleShopInfo['TypeOfEntity'] ;
+
+
+
                 $shop->CustomerName = $existingShopInformation->CustomerName;
                 $shop->CustomerCode = $singleShopInfo['CustomerCode'];
                 $shop->CustomerContactPersonName = $existingShopInformation->ContactPerson ?? null;
@@ -182,10 +188,17 @@ class VROController extends Controller
             ], 500);
         }
     }
-    public function getExistingShop(Request $request){
-        $userId =  $request->userId;
+    public function getExistingShop(){
+        $userId = Auth::user()->UserID;
         if(!empty($userId)){
-            $shop = ShopInformation::where('AssignVROStaffId', $userId)->get();
+
+            if(Auth::user()->RoleID === 'Admin'){
+                $shop = ShopInformation::all();
+            }
+            else{
+                $shop = ShopInformation::where('AssignVROStaffId', $userId)->get();
+            }
+
             if($shop){
                 return response()->json(['status' => 'Success',
                     'message' => 'Shop Information fetched successfully!',
@@ -248,6 +261,9 @@ class VROController extends Controller
                         $shop = new ShopInformation();
                         $shop->AssignVROStaffId = Auth::user()->UserID;
                         $shop->Business =$singleShopInfo['Business'] ;
+                        $shop->ContactPersonDesignation =$singleShopInfo['ContactPersonDesignation'] ;
+                        $shop->ProprietorName =$singleShopInfo['ProprietorName'] ;
+                        $shop->TypeOfEntity =$singleShopInfo['TypeOfEntity'] ;
                         $shop->CustomerName = $existingShopInformation->CustomerName;
                         $shop->CustomerCode = $singleShopInfo['CustomerCode'];
                         $shop->CustomerContactPersonName = $existingShopInformation->ContactPerson ?? null;
