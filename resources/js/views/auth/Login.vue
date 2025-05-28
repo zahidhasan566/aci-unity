@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       usermailorphone: '',
+      userID: '',
       password: '',
     }
   },
@@ -56,7 +57,7 @@ export default {
     onSubmit() {
       this.$store.commit('submitButtonLoadingStatus', true);
       this.axiosPostWithoutToken('login', {
-        usermailorphone: this.usermailorphone,
+        userID: this.usermailorphone,
         password: this.password
       }, (response) => {
           console.log(response)
