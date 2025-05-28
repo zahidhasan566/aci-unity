@@ -114,7 +114,7 @@ class VROController extends Controller
                 $shop->Longitude = $singleShopInfo['Longitude'] ?? null;
                 $shop->ShopAddress = $singleShopInfo['ShopAddress'] ?? null;
 
-                $shop->ShopPhoto = $singleShopInfo['ShopPhoto'] ? ImageBase64Service::imageResizeUpload($singleShopInfo['ShopPhoto'], 'ShopPhoto', public_path('uploads/')): null;
+                $shop->ShopPhoto = $singleShopInfo['ShopPhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['ShopPhoto'], public_path('uploads/'),'ShopPhoto'): null;
                 $shop->CustomerReputation = $singleShopInfo['CustomerReputation'] ?? null;
                 $shop->PaymentBehaviour = $singleShopInfo['PaymentBehaviour'] ?? null;
                 $shop->ModeOfPayment = $singleShopInfo['ModeOfPayment'] ?? null;
@@ -123,7 +123,7 @@ class VROController extends Controller
                 $shop->CustomerProposedCreditLimit = $singleShopInfo['CustomerProposedCreditLimit'] ?? null;
                 $shop->RepresentativeComment = $singleShopInfo['RepresentativeComment'] ?? null;
 
-                $shop->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::imageResizeUpload($singleShopInfo['RepresentativePhoto'], 'RepresentativePhoto', public_path('uploads/')): null;
+                $shop->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['RepresentativePhoto'], public_path('uploads/'),'RepresentativePhoto'): null;
                 $shop->BalancePerCustomer = $singleShopInfo['BalancePerCustomer'] ?? null;
                 $shop->EntryBy = Auth::user()->UserID;
                 $shop->EntryDate = Carbon::now();
@@ -280,7 +280,7 @@ class VROController extends Controller
                         $shop->Longitude = $singleShopInfo['Longitude'] ?? null;
                         $shop->ShopAddress = $singleShopInfo['ShopAddress'] ?? null;
 
-                        $shop->ShopPhoto = $singleShopInfo['ShopPhoto'] ? ImageBase64Service::imageResizeUpload($singleShopInfo['ShopPhoto'], 'ShopPhoto', public_path('uploads/')): null;
+                        $shop->ShopPhoto = $singleShopInfo['ShopPhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['ShopPhoto'], public_path('uploads/'),'ShopPhoto'): null;
                         $shop->CustomerReputation = $singleShopInfo['CustomerReputation'] ?? null;
                         $shop->PaymentBehaviour = $singleShopInfo['PaymentBehaviour'] ?? null;
                         $shop->ModeOfPayment = $singleShopInfo['ModeOfPayment'] ?? null;
@@ -289,7 +289,7 @@ class VROController extends Controller
                         $shop->CustomerProposedCreditLimit = $singleShopInfo['CustomerProposedCreditLimit'] ?? null;
                         $shop->RepresentativeComment = $singleShopInfo['RepresentativeComment'] ?? null;
 
-                        $shop->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::imageResizeUpload($singleShopInfo['RepresentativePhoto'], 'RepresentativePhoto', public_path('uploads/')): null;
+                        $shop->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['RepresentativePhoto'], public_path('uploads/'),'RepresentativePhoto'):
                         $shop->BalancePerCustomer = $singleShopInfo['BalancePerCustomer'] ?? null;
                         $shop->EditBy = Auth::user()->UserID;
                         $shop->EditDate = Carbon::now();
