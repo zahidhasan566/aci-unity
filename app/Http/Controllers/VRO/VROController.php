@@ -193,10 +193,28 @@ class VROController extends Controller
         if(!empty($userId)){
 
             if(Auth::user()->RoleID === 'Admin'){
-                $shop = ShopInformation::all();
+                $shop = ShopInformation::select(
+                    'ShopInformation.*',
+                    'Users.Name as VROStaffName',
+                    'Business.BusinessName',
+
+                )
+
+                ->join('Users', 'Users.UserID', '=', 'ShopInformation.AssignVROStaffId')
+                ->join('Business', 'Business.Business', '=', 'ShopInformation.Business')
+                ->get();
             }
             else{
-                $shop = ShopInformation::where('AssignVROStaffId', $userId)->get();
+                $shop = ShopInformation::select(
+                    'ShopInformation.*',
+                    'Users.Name as VROStaffName',
+                    'Business.BusinessName',
+
+                )
+
+                    ->join('Users', 'Users.UserID', '=', 'ShopInformation.AssignVROStaffId')
+                    ->join('Business', 'Business.Business', '=', 'ShopInformation.Business')
+                    ->where('AssignVROStaffId', $userId)->get();
             }
 
             if($shop){
