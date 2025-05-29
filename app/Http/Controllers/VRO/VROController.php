@@ -55,7 +55,6 @@ class VROController extends Controller
 
     }
     public function storeShopInformation(Request $request){
-        DB::beginTransaction();
         try{
             $singleShopInfo = $request->all();
             if (!empty($singleShopInfo['Business'])
@@ -76,97 +75,104 @@ class VROController extends Controller
                 && !empty($singleShopInfo['CustomerProposedCreditLimit'])
                 && !empty($singleShopInfo['RepresentativeComment'])
                 && !empty($singleShopInfo['RepresentativePhoto'])
-                && !empty($singleShopInfo['RepresentativePhoto'])
             ){
 
-                //BussinessWiseCustomerInformation
-                $db = BusinessConnection::getConnectionName($singleShopInfo['Business']);
-                $customerCode = ($singleShopInfo['CustomerCode']);
-                $results = DB::connection($db)->select("select * from Customer where CustomerCode = '$customerCode' AND Active='Y'");
+                if(!empty($singleShopInfo['ShopId'])){
+                    $updateShopInfo  = $this->updateExistingShop($singleShopInfo);
+                    return $updateShopInfo;
 
-                if(!empty($results[0])){
-                    $existingShopInformation = $results[0];
                 }
+                else{
+                    DB::beginTransaction();
+                    //BussinessWiseCustomerInformation
+                    $db = BusinessConnection::getConnectionName($singleShopInfo['Business']);
+                    $customerCode = ($singleShopInfo['CustomerCode']);
+                    $results = DB::connection($db)->select("select * from Customer where CustomerCode = '$customerCode' AND Active='Y'");
 
-                // Create a new record for each field
-                $shop = new ShopInformation();
-                $shop->AssignVROStaffId = Auth::user()->UserID;
-                $shop->Business =$singleShopInfo['Business'] ;
-                $shop->ContactPersonDesignation =$singleShopInfo['ContactPersonDesignation'] ;
-                $shop->ProprietorName =$singleShopInfo['ProprietorName'] ;
-                $shop->TypeOfEntity =$singleShopInfo['TypeOfEntity'] ;
-
-
-
-                $shop->CustomerName = $existingShopInformation->CustomerName;
-                $shop->CustomerCode = $singleShopInfo['CustomerCode'];
-                $shop->CustomerContactPersonName = $existingShopInformation->ContactPerson ?? null;
-                $shop->CustomerContactPersonDesignation = $singleShopInfo['CustomerContactPersonDesignation'] ?? null;
-                $shop->CustomerProprietorName = $singleShopInfo['CustomerProprietorName'] ?? null;
-                $shop->CustomerMobileNo = $existingShopInformation->Mobile ?? null;
-                $shop->CustomerMobileNoTwo = $existingShopInformation->Mobile ?? null;
-                $shop->CustomerAddress = $existingShopInformation->Add1 ?? null;
-                $shop->OwnerShip = $singleShopInfo['OwnerShip'] ?? null;
-
-                $shop->Condition = $singleShopInfo['Condition'] ?? null;
-                $shop->DeedAgreement = $singleShopInfo['DeedAgreement'] ?? null;
-                $shop->Latitude = $singleShopInfo['Latitude'] ?? null;
-                $shop->Longitude = $singleShopInfo['Longitude'] ?? null;
-                $shop->ShopAddress = $singleShopInfo['ShopAddress'] ?? null;
-
-                $shop->ShopPhoto = $singleShopInfo['ShopPhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['ShopPhoto'], public_path('uploads/'),'ShopPhoto'): null;
-                $shop->CustomerReputation = $singleShopInfo['CustomerReputation'] ?? null;
-                $shop->PaymentBehaviour = $singleShopInfo['PaymentBehaviour'] ?? null;
-                $shop->ModeOfPayment = $singleShopInfo['ModeOfPayment'] ?? null;
-                $shop->YearlyPurchasePotential = $singleShopInfo['YearlyPurchasePotential'] ?? null;
-                $shop->PaymentTermsInDays = $singleShopInfo['PaymentTermsInDays'] ?? null;
-                $shop->CustomerProposedCreditLimit = $singleShopInfo['CustomerProposedCreditLimit'] ?? null;
-                $shop->RepresentativeComment = $singleShopInfo['RepresentativeComment'] ?? null;
-
-                $shop->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['RepresentativePhoto'], public_path('uploads/'),'RepresentativePhoto'): null;
-                $shop->BalancePerCustomer = $singleShopInfo['BalancePerCustomer'] ?? null;
-                $shop->EntryBy = Auth::user()->UserID;
-                $shop->EntryDate = Carbon::now();
-                $shop->IpAddress = request()->ip();
-
-
-                $shop->save();
-
-
-
-                //Insert Competitor Shop Business
-                if(!empty($singleShopInfo['CompetitorShopBusiness'])){
-                    foreach($singleShopInfo['CompetitorShopBusiness'] as $competitorBusiness){
-                        $competitor = new CompetitorShopBusiness();
-                        $competitor->ShopID = $shop->ShopID;
-                        $competitor->Name = $competitorBusiness['Name'];
-                        $competitor->InvoiceAmount = $competitorBusiness['InvoiceAmount'];
-                        $competitor->PaymentAmount = $competitorBusiness['PaymentAmount'];
-                        $competitor->save();
+                    if(!empty($results[0])){
+                        $existingShopInformation = $results[0];
                     }
-                }
 
-                //Insert Competitor Shop Business
-                if(!empty($singleShopInfo['BusinessWithACI'])){
-                    foreach($singleShopInfo['BusinessWithACI'] as $businessACI){
-                        $businessWithAci = new BusinessWithACI();
-                        $businessWithAci->Business = $businessACI['Business'];
-                        $businessWithAci->ShopID = $shop->ShopID;
-                        $businessWithAci->Limit = $businessACI['Limit'];
-                        $businessWithAci->Days = $businessACI['Days'];
-                        $businessWithAci->Dues = $businessACI['Dues'];
-                        $businessWithAci->OverDue = $businessACI['OverDue'];
-                        $businessWithAci->Age = $businessACI['Age'];
-                        $businessWithAci->save();
+                    // Create a new record for each field
+                    $shop = new ShopInformation();
+                    $shop->AssignVROStaffId = Auth::user()->UserID;
+                    $shop->Business =$singleShopInfo['Business'] ;
+                    $shop->ContactPersonDesignation =$singleShopInfo['ContactPersonDesignation'] ;
+                    $shop->ProprietorName =$singleShopInfo['ProprietorName'] ;
+                    $shop->TypeOfEntity =$singleShopInfo['TypeOfEntity'] ;
+
+
+
+                    $shop->CustomerName = $existingShopInformation->CustomerName;
+                    $shop->CustomerCode = $singleShopInfo['CustomerCode'];
+                    $shop->CustomerContactPersonName = $existingShopInformation->ContactPerson ?? null;
+                    $shop->CustomerContactPersonDesignation = $singleShopInfo['CustomerContactPersonDesignation'] ?? null;
+                    $shop->CustomerProprietorName = $singleShopInfo['CustomerProprietorName'] ?? null;
+                    $shop->CustomerMobileNo = $existingShopInformation->Mobile ?? null;
+                    $shop->CustomerMobileNoTwo = $existingShopInformation->Mobile ?? null;
+                    $shop->CustomerAddress = $existingShopInformation->Add1 ?? null;
+                    $shop->OwnerShip = $singleShopInfo['OwnerShip'] ?? null;
+
+                    $shop->Condition = $singleShopInfo['Condition'] ?? null;
+                    $shop->DeedAgreement = $singleShopInfo['DeedAgreement'] ?? null;
+                    $shop->Latitude = $singleShopInfo['Latitude'] ?? null;
+                    $shop->Longitude = $singleShopInfo['Longitude'] ?? null;
+                    $shop->ShopAddress = $singleShopInfo['ShopAddress'] ?? null;
+
+                    $shop->ShopPhoto = $singleShopInfo['ShopPhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['ShopPhoto'], public_path('uploads/'),'ShopPhoto'): null;
+                    $shop->CustomerReputation = $singleShopInfo['CustomerReputation'] ?? null;
+                    $shop->PaymentBehaviour = $singleShopInfo['PaymentBehaviour'] ?? null;
+                    $shop->ModeOfPayment = $singleShopInfo['ModeOfPayment'] ?? null;
+                    $shop->YearlyPurchasePotential = $singleShopInfo['YearlyPurchasePotential'] ?? null;
+                    $shop->PaymentTermsInDays = $singleShopInfo['PaymentTermsInDays'] ?? null;
+                    $shop->CustomerProposedCreditLimit = $singleShopInfo['CustomerProposedCreditLimit'] ?? null;
+                    $shop->RepresentativeComment = $singleShopInfo['RepresentativeComment'] ?? null;
+
+                    $shop->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['RepresentativePhoto'], public_path('uploads/'),'RepresentativePhoto'): null;
+                    $shop->BalancePerCustomer = $singleShopInfo['BalancePerCustomer'] ?? null;
+                    $shop->EntryBy = Auth::user()->UserID;
+                    $shop->EntryDate = Carbon::now();
+                    $shop->IpAddress = request()->ip();
+
+
+                    $shop->save();
+
+
+
+                    //Insert Competitor Shop Business
+                    if(!empty($singleShopInfo['CompetitorShopBusiness'])){
+                        foreach($singleShopInfo['CompetitorShopBusiness'] as $competitorBusiness){
+                            $competitor = new CompetitorShopBusiness();
+                            $competitor->ShopID = $shop->ShopID;
+                            $competitor->Name = $competitorBusiness['Name'];
+                            $competitor->InvoiceAmount = $competitorBusiness['InvoiceAmount'];
+                            $competitor->PaymentAmount = $competitorBusiness['PaymentAmount'];
+                            $competitor->save();
+                        }
                     }
+
+                    //Insert Competitor Shop Business
+                    if(!empty($singleShopInfo['BusinessWithACI'])){
+                        foreach($singleShopInfo['BusinessWithACI'] as $businessACI){
+                            $businessWithAci = new BusinessWithACI();
+                            $businessWithAci->Business = $businessACI['Business'];
+                            $businessWithAci->ShopID = $shop->ShopID;
+                            $businessWithAci->Limit = $businessACI['Limit'];
+                            $businessWithAci->Days = $businessACI['Days'];
+                            $businessWithAci->Dues = $businessACI['Dues'];
+                            $businessWithAci->OverDue = $businessACI['OverDue'];
+                            $businessWithAci->Age = $businessACI['Age'];
+                            $businessWithAci->save();
+                        }
+                    }
+
+
+
+
+                    DB::commit();
+
+                    return response()->json(['status' => 'Success','message' => 'Shop Information created successfully!', 'Data' => $shop->ShopID], 201);
                 }
-
-
-
-
-                DB::commit();
-
-                return response()->json(['status' => 'Success','message' => 'Shop Information created successfully!', 'Data' => $shop->ShopID], 201);
 
             }
             else{
@@ -236,8 +242,8 @@ class VROController extends Controller
 
     }
 
-    public function updateExistingShop(Request $request){
-        $shopID =  $request->ShopId;
+    public function updateExistingShop($singleShopInfo){
+        $shopID =  $singleShopInfo['ShopId'];
         if(!empty($shopID)){
             $shop = ShopInformation::where('ShopID', $shopID)->first();
             if($shop){
@@ -245,9 +251,7 @@ class VROController extends Controller
                 BusinessWithACI::where('ShopID', $shopID)->delete();
                 CompetitorShopBusiness::where('ShopID', $shopID)->delete();
 
-                DB::beginTransaction();
                 try{
-                    $singleShopInfo = $request->all();
                     if (!empty($singleShopInfo['Business'])
                         &&!empty($singleShopInfo['CustomerCode'])
                         &&!empty($singleShopInfo['OwnerShip'])
@@ -266,7 +270,6 @@ class VROController extends Controller
                         && !empty($singleShopInfo['CustomerProposedCreditLimit'])
                         && !empty($singleShopInfo['RepresentativeComment'])
                         && !empty($singleShopInfo['RepresentativePhoto'])
-                        && !empty($singleShopInfo['RepresentativePhoto'])
                     ){
 
                         //BussinessWiseCustomerInformation
@@ -278,42 +281,42 @@ class VROController extends Controller
                             $existingShopInformation = $results[0];
                         }
 
+                        DB::beginTransaction();
                         // Create a new record for each field
-                        $shop = new ShopInformation();
-                        $shop->AssignVROStaffId = Auth::user()->UserID;
-                        $shop->Business =$singleShopInfo['Business'] ;
-                        $shop->ContactPersonDesignation =$singleShopInfo['ContactPersonDesignation'] ;
-                        $shop->ProprietorName =$singleShopInfo['ProprietorName'] ;
-                        $shop->TypeOfEntity =$singleShopInfo['TypeOfEntity'] ;
-                        $shop->CustomerName = $existingShopInformation->CustomerName;
-                        $shop->CustomerCode = $singleShopInfo['CustomerCode'];
-                        $shop->CustomerContactPersonName = $existingShopInformation->ContactPerson ?? null;
-                        $shop->CustomerContactPersonDesignation = $singleShopInfo['CustomerContactPersonDesignation'] ?? null;
-                        $shop->CustomerProprietorName = $singleShopInfo['CustomerProprietorName'] ?? null;
-                        $shop->CustomerMobileNo = $existingShopInformation->Mobile ?? null;
-                        $shop->CustomerMobileNoTwo = $existingShopInformation->Mobile ?? null;
-                        $shop->CustomerAddress = $existingShopInformation->Add1 ?? null;
-                        $shop->OwnerShip = $singleShopInfo['OwnerShip'] ?? null;
+                        $shopUpdate = new ShopInformation();
+                        $shopUpdate->AssignVROStaffId = Auth::user()->UserID;
+                        $shopUpdate->Business =$singleShopInfo['Business'] ;
+                        $shopUpdate->ContactPersonDesignation =$singleShopInfo['ContactPersonDesignation'] ;
+                        $shopUpdate->ProprietorName =$singleShopInfo['ProprietorName'] ;
+                        $shopUpdate->TypeOfEntity =$singleShopInfo['TypeOfEntity'] ;
+                        $shopUpdate->CustomerName = $existingShopInformation->CustomerName;
+                        $shopUpdate->CustomerCode = $singleShopInfo['CustomerCode'];
+                        $shopUpdate->CustomerContactPersonName = $existingShopInformation->ContactPerson ?? null;
+                        $shopUpdate->CustomerContactPersonDesignation = $singleShopInfo['CustomerContactPersonDesignation'] ?? null;
+                        $shopUpdate->CustomerProprietorName = $singleShopInfo['CustomerProprietorName'] ?? null;
+                        $shopUpdate->CustomerMobileNo = $existingShopInformation->Mobile ?? null;
+                        $shopUpdate->CustomerMobileNoTwo = $existingShopInformation->Mobile ?? null;
+                        $shopUpdate->CustomerAddress = $existingShopInformation->Add1 ?? null;
+                        $shopUpdate->OwnerShip = $singleShopInfo['OwnerShip'] ?? null;
 
-                        $shop->Condition = $singleShopInfo['Condition'] ?? null;
-                        $shop->DeedAgreement = $singleShopInfo['DeedAgreement'] ?? null;
-                        $shop->Latitude = $singleShopInfo['Latitude'] ?? null;
-                        $shop->Longitude = $singleShopInfo['Longitude'] ?? null;
-                        $shop->ShopAddress = $singleShopInfo['ShopAddress'] ?? null;
+                        $shopUpdate->Condition = $singleShopInfo['Condition'] ?? null;
+                        $shopUpdate->DeedAgreement = $singleShopInfo['DeedAgreement'] ?? null;
+                        $shopUpdate->Latitude = $singleShopInfo['Latitude'] ?? null;
+                        $shopUpdate->Longitude = $singleShopInfo['Longitude'] ?? null;
+                        $shopUpdate->ShopAddress = $singleShopInfo['ShopAddress'] ?? null;
 
-                        $shop->ShopPhoto = $singleShopInfo['ShopPhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['ShopPhoto'], public_path('uploads/'),'ShopPhoto'): null;
-                        $shop->CustomerReputation = $singleShopInfo['CustomerReputation'] ?? null;
-                        $shop->PaymentBehaviour = $singleShopInfo['PaymentBehaviour'] ?? null;
-                        $shop->ModeOfPayment = $singleShopInfo['ModeOfPayment'] ?? null;
-                        $shop->YearlyPurchasePotential = $singleShopInfo['YearlyPurchasePotential'] ?? null;
-                        $shop->PaymentTermsInDays = $singleShopInfo['PaymentTermsInDays'] ?? null;
-                        $shop->CustomerProposedCreditLimit = $singleShopInfo['CustomerProposedCreditLimit'] ?? null;
-                        $shop->RepresentativeComment = $singleShopInfo['RepresentativeComment'] ?? null;
-
-                        $shop->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['RepresentativePhoto'], public_path('uploads/'),'RepresentativePhoto'):
-                        $shop->BalancePerCustomer = $singleShopInfo['BalancePerCustomer'] ?? null;
-                        $shop->EditBy = Auth::user()->UserID;
-                        $shop->EditDate = Carbon::now();
+                        $shopUpdate->ShopPhoto = $singleShopInfo['ShopPhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['ShopPhoto'], public_path('uploads/'),'ShopPhoto'): null;
+                        $shopUpdate->CustomerReputation = $singleShopInfo['CustomerReputation'] ?? null;
+                        $shopUpdate->PaymentBehaviour = $singleShopInfo['PaymentBehaviour'] ?? null;
+                        $shopUpdate->ModeOfPayment = $singleShopInfo['ModeOfPayment'] ?? null;
+                        $shopUpdate->YearlyPurchasePotential = $singleShopInfo['YearlyPurchasePotential'] ?? null;
+                        $shopUpdate->PaymentTermsInDays = $singleShopInfo['PaymentTermsInDays'] ?? null;
+                        $shopUpdate->CustomerProposedCreditLimit = $singleShopInfo['CustomerProposedCreditLimit'] ?? null;
+                        $shopUpdate->RepresentativeComment = $singleShopInfo['RepresentativeComment'] ?? null;
+                        $shopUpdate->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['RepresentativePhoto'], public_path('uploads/'),'RepresentativePhoto'):
+                        $shopUpdate->BalancePerCustomer = 3333;
+                        $shopUpdate->EditBy = Auth::user()->UserID;
+                        $shopUpdate->EditDate = Carbon::now();
                         $shop->save();
 
 
@@ -344,9 +347,7 @@ class VROController extends Controller
                                 $businessWithAci->save();
                             }
                         }
-
                         DB::commit();
-
                         return response()->json(['status' => 'Success','message' => 'Shop Information updated successfully!', 'Data' => $shop->ShopID], 201);
 
                     }
