@@ -301,7 +301,11 @@ class VROController extends Controller
                         $shopUpdate->Longitude = $singleShopInfo['Longitude'] ?? null;
                         $shopUpdate->ShopAddress = $singleShopInfo['ShopAddress'] ?? null;
 
-                        $shopUpdate->ShopPhoto = $singleShopInfo['ShopPhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['ShopPhoto'], public_path('uploads/'),'ShopPhoto'): null;
+                        if(!empty($singleShopInfo['ShopPhoto'])){
+                            $shopUpdate->ShopPhoto = ImageBase64Service::uploadBase64Image($singleShopInfo['ShopPhoto'], public_path('uploads/'),'ShopPhoto');
+                        }
+
+
                         $shopUpdate->CustomerReputation = $singleShopInfo['CustomerReputation'] ?? null;
                         $shopUpdate->PaymentBehaviour = $singleShopInfo['PaymentBehaviour'] ?? null;
                         $shopUpdate->ModeOfPayment = $singleShopInfo['ModeOfPayment'] ?? null;
@@ -309,7 +313,11 @@ class VROController extends Controller
                         $shopUpdate->PaymentTermsInDays = $singleShopInfo['PaymentTermsInDays'] ?? null;
                         $shopUpdate->CustomerProposedCreditLimit = $singleShopInfo['CustomerProposedCreditLimit'] ?? null;
                         $shopUpdate->RepresentativeComment = $singleShopInfo['RepresentativeComment'] ?? null;
-                        $shopUpdate->RepresentativePhoto = $singleShopInfo['RepresentativePhoto'] ? ImageBase64Service::uploadBase64Image($singleShopInfo['RepresentativePhoto'], public_path('uploads/'),'RepresentativePhoto'):
+
+                        if(!empty($shopUpdate->RepresentativePhoto)){
+                            $shopUpdate->RepresentativePhoto = ImageBase64Service::uploadBase64Image($singleShopInfo['RepresentativePhoto'], public_path('uploads/'),'RepresentativePhoto');
+                        }
+
                         $shopUpdate->BalancePerCustomer = 3333;
                         $shopUpdate->EditBy = Auth::user()->UserID;
                         $shopUpdate->EditDate = Carbon::now();
