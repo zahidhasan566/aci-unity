@@ -197,6 +197,7 @@ class VROController extends Controller
                     'ShopInformation.*',
                     'Users.Name as VROStaffName',
                     DB::raw("CASE WHEN ShopInformation.ShopPhoto IS NULL THEN 'default.png' ELSE CONCAT('https://wa.acibd.com/e-verification/uploads/', ShopInformation.ShopPhoto) END AS ShopPhoto"),
+                    DB::raw("CASE WHEN ShopInformation.RepresentativePhoto IS NULL THEN 'default.png' ELSE CONCAT('https://wa.acibd.com/e-verification/uploads/', ShopInformation.RepresentativePhoto) END AS RepresentativePhoto"),
                     'Business.BusinessName',
                 )
 
@@ -209,6 +210,7 @@ class VROController extends Controller
                     'ShopInformation.*',
                     'Users.Name as VROStaffName',
                     DB::raw("CASE WHEN ShopInformation.ShopPhoto IS NULL THEN 'default.png' ELSE CONCAT('https://wa.acibd.com/e-verification/uploads/', ShopInformation.ShopPhoto) END AS ShopPhoto"),
+                    DB::raw("CASE WHEN ShopInformation.RepresentativePhoto IS NULL THEN 'default.png' ELSE CONCAT('https://wa.acibd.com/e-verification/uploads/', ShopInformation.RepresentativePhoto) END AS RepresentativePhoto"),
                     'Business.BusinessName',
 
                 )
