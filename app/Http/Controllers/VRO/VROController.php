@@ -260,7 +260,6 @@ class VROController extends Controller
                         && !empty($singleShopInfo['Latitude'])
                         && !empty($singleShopInfo['Longitude'])
                         && !empty($singleShopInfo['ShopAddress'])
-                        && !empty($singleShopInfo['ShopPhoto'])
                         && !empty($singleShopInfo['CustomerReputation'])
                         && !empty($singleShopInfo['PaymentBehaviour'])
                         && !empty($singleShopInfo['ModeOfPayment'])
@@ -269,7 +268,6 @@ class VROController extends Controller
                         && !empty($singleShopInfo['BalancePerCustomer'])
                         && !empty($singleShopInfo['CustomerProposedCreditLimit'])
                         && !empty($singleShopInfo['RepresentativeComment'])
-                        && !empty($singleShopInfo['RepresentativePhoto'])
                     ){
 
                         //BussinessWiseCustomerInformation
@@ -317,7 +315,7 @@ class VROController extends Controller
                         $shopUpdate->BalancePerCustomer = 3333;
                         $shopUpdate->EditBy = Auth::user()->UserID;
                         $shopUpdate->EditDate = Carbon::now();
-                        $shop->save();
+                        $shopUpdate->save();
 
 
 
