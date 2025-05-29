@@ -196,6 +196,7 @@ class VROController extends Controller
                 $shop = ShopInformation::with('competitorShopBusinesses','businessWithACI')->select(
                     'ShopInformation.*',
                     'Users.Name as VROStaffName',
+                    DB::raw("CASE WHEN ShopInformation.ShopPhoto IS NULL THEN 'default.png' ELSE CONCAT('https://wa.acibd.com/e-verification/uploads/', ShopInformation.ShopPhoto) END AS ShopPhoto"),
                     'Business.BusinessName',
                 )
 
@@ -207,6 +208,7 @@ class VROController extends Controller
                 $shop = ShopInformation::with('competitorShopBusinesses','businessWithACI')->select(
                     'ShopInformation.*',
                     'Users.Name as VROStaffName',
+                    DB::raw("CASE WHEN ShopInformation.ShopPhoto IS NULL THEN 'default.png' ELSE CONCAT('https://wa.acibd.com/e-verification/uploads/', ShopInformation.ShopPhoto) END AS ShopPhoto"),
                     'Business.BusinessName',
 
                 )
