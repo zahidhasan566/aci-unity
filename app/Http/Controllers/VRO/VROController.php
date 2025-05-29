@@ -65,7 +65,6 @@ class VROController extends Controller
                 && !empty($singleShopInfo['Latitude'])
                 && !empty($singleShopInfo['Longitude'])
                 && !empty($singleShopInfo['ShopAddress'])
-                && !empty($singleShopInfo['ShopPhoto'])
                 && !empty($singleShopInfo['CustomerReputation'])
                 && !empty($singleShopInfo['PaymentBehaviour'])
                 && !empty($singleShopInfo['ModeOfPayment'])
@@ -74,7 +73,6 @@ class VROController extends Controller
                 && !empty($singleShopInfo['BalancePerCustomer'])
                 && !empty($singleShopInfo['CustomerProposedCreditLimit'])
                 && !empty($singleShopInfo['RepresentativeComment'])
-                && !empty($singleShopInfo['RepresentativePhoto'])
             ){
 
                 if(!empty($singleShopInfo['ShopId'])){
