@@ -247,7 +247,7 @@ class VROController extends Controller
         if(!empty($shopID)){
             $shop = ShopInformation::where('ShopID', $shopID)->first();
             if($shop){
-                ShopInformation::where('ShopID', $shopID)->delete();
+//                ShopInformation::where('ShopID', $shopID)->delete();
                 BusinessWithACI::where('ShopID', $shopID)->delete();
                 CompetitorShopBusiness::where('ShopID', $shopID)->delete();
 
@@ -283,7 +283,7 @@ class VROController extends Controller
 
                         DB::beginTransaction();
                         // Create a new record for each field
-                        $shopUpdate = new ShopInformation();
+                        $shopUpdate = ShopInformation::where('ShopID', $shopID)->first();
                         $shopUpdate->AssignVROStaffId = Auth::user()->UserID;
                         $shopUpdate->Business =$singleShopInfo['Business'] ;
                         $shopUpdate->ContactPersonDesignation =$singleShopInfo['ContactPersonDesignation'] ;
