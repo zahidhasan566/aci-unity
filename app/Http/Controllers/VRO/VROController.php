@@ -207,6 +207,7 @@ class VROController extends Controller
 
                 ->join('Users', 'Users.UserID', '=', 'ShopInformation.AssignVROStaffId')
                 ->join('Business', 'Business.Business', '=', 'ShopInformation.Business')
+                ->orderBy('ShopInformation.ShopID', 'desc')
                 ->get();
             }
             else{
@@ -221,6 +222,7 @@ class VROController extends Controller
 
                     ->join('Users', 'Users.UserID', '=', 'ShopInformation.AssignVROStaffId')
                     ->join('Business', 'Business.Business', '=', 'ShopInformation.Business')
+                    ->orderBy('ShopInformation.ShopID', 'desc')
                     ->where('AssignVROStaffId', $userId)->get();
             }
 
