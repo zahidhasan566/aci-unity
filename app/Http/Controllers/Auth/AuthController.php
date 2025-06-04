@@ -71,8 +71,7 @@ class AuthController extends Controller
 //            'Users' => Auth::user(),
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60*60*24,
-            'user' => $user,
-            'assign_customer_list' => AssignedVro::select('CustomerCode','Business')->where('AssignedVROStaffId',$user->UserID)->get()
+            'user' => $user
         ]);
     }
 

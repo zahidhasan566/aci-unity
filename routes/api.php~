@@ -49,7 +49,7 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::post('assigned-vro-list',[\App\Http\Controllers\Admin\AdminVRO\AdminVroController::class,'index']);
         Route::get('sample-file-assigned-vro-list',[\App\Http\Controllers\Admin\AdminVRO\AdminVroController::class,'getDemoExcelFile']);
         Route::post('store-assigned-vro',[\App\Http\Controllers\Admin\AdminVRO\AdminVroController::class,'storeVro']);
-        Route::get('get-vro-assign-list',[\App\Http\Controllers\VRO\VROController::class,'getVroAssignList']);
+        Route::post('get-vro-assign-list',[\App\Http\Controllers\VRO\VROController::class,'getVroAssignList']);
     });
 
     Route::group(['prefix' => 'reports'],function () {

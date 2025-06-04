@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VRO;
 
 use App\Helpers\BusinessConnection;
 use App\Http\Controllers\Controller;
+use App\Models\AssignedVro;
 use App\Models\Business;
 use App\Models\BusinessWithACI;
 use App\Models\CompetitorShopBusiness;
@@ -373,6 +374,15 @@ class VROController extends Controller
                 ],404);
             }
             }
+    }
+
+    public function getVroAssignList(){
+        $vroCustomerList = AssignedVro::select('CustomerCode','Business')->where('AssignedVROStaffId',Auth::user()->UserID)->get();
+        return response()->json(['status' => 'Success',
+            'message' => 'Shop Information fetched successfully!',
+            'data' => $vroCustomerList], 200);
+
+
     }
 
 }
