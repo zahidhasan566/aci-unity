@@ -8,6 +8,7 @@ import NotFound from '../views/404/Index';
 
 import Users from '../views/users/Index';
 import ReportAllShopInformation from "../views/reports/reportAllShopInformation.vue";
+import AssignVroIndex from "../views/vro/AssignVroIndex.vue";
 
 
 Vue.use(VueRouter);
@@ -47,6 +48,12 @@ const routes = [
                 path: baseurl + 'dashboard',
                 name: 'Dashboard',
                 component: Dashboard
+            },
+            //VRO
+            {
+                path: baseurl + 'vro/assign-vro',
+                name: 'AssignVroIndex',
+                component: AssignVroIndex
             },
             //ADMIN ROUTE | SHOW USER LIST
             {

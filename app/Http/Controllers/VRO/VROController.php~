@@ -240,6 +240,7 @@ class VROController extends Controller
         }
 
     }
+
     public function updateExistingShop($singleShopInfo){
         $shopID =  $singleShopInfo['ShopId'];
         if(!empty($shopID)){

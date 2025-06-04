@@ -1,0 +1,356 @@
+<template>
+    <div class="container-fluid">
+
+        <div class="modal fade" id="add-edit-dept" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title modal-title-font" id="exampleModalLabel">Assign VRO</div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
+                            Close
+                        </button>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <div class="row" v-if="actionType==='add'">
+                            <div class="col-12 col-md-6">
+                                <ValidationProvider name="Invoice Adjustment File" mode="eager" rules="required"
+                                                    v-slot="{ errors }">
+
+                                    <label style="font-weight:bold" for="inputExcelFile">Assign Vro List <span
+                                        class="error">*</span></label>
+                                    <input type="file" ref="inputFile" @change="readExcelFile($event)" class="btn btn-info btn-sm">
+                                    <!--                    <button type="button" style="background-color: #4d79f6;padding: 6px;" class="btn btn-info btn-sm" @click="importAllAdjustment">Import Adjustment</button>-->
+
+
+                                    <span class="error-message"> {{ errors[0] }}</span>
+
+                                </ValidationProvider>
+                            </div>
+                            <div class="col-md-5">
+                                <label style="font-weight:bold" for="downloadExcelFile">Sample Assignment File: <span
+                                    class="error">*</span></label>
+                                <a href="#" style="float: right;padding: 6px;margin-right: 5px" @click="downloadDemoExcel"
+                                   class="btn btn-success btn-sm">Download Sample</a>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top: 15px" v-if="form.ExcelData.importStatus">
+                            <div class="row col-md-12">
+                                <div class="col-md-4"><p>Uploaded Data: </p></div>
+                                <div class="col-md-2"></div>
+
+
+                            </div>
+                            <div class="row col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped dt-responsive nowrap dataTable no-footer dtr-inline table-sm small">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th>SL</th>
+                                            <th>CustomerCode Code</th>
+                                            <th>CustomerCode Name</th>
+                                            <th>Business Code</th>
+                                            <th>Business Name</th>
+                                            <th>Limit Applied For</th>
+                                            <th>Assigned Vro Name </th>
+                                            <th>Assigned Vro StaffId</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(excelData, i) in form.ExcelData" :key="i" v-if="form.ExcelData.length>0">
+                                            <td scope="row">{{ ++i }}</td>
+                                            <td>{{ excelData.CustomerCode }}</td>
+                                            <td>{{ excelData.CustomerName }}</td>
+                                            <td>{{ excelData.BusinessCode }}</td>
+                                            <td>{{ excelData.Business }}</td>
+                                            <td>{{ excelData.LimitAppliedFor }}</td>
+                                            <td>{{ excelData.AssignedVROName }}</td>
+                                            <td>{{ excelData.AssignedVROStaffID }}</td>
+
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                        @click="removeRow(i)"><i
+                                                    class="ti-close"></i></button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-12" style="padding-top: 15px;text-align:end">
+                                    <button type="button" id="submitAdjustInvoice" style="padding:6px" class="btn btn-success btn-sm" @click="onSubmit">{{buttonText}}
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+<!--            <loader v-if="PreLoader" object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2"-->
+<!--                    bg="#343a40" objectbg="#999793" opacity="80" name="circular"></loader>-->
+        </div>
+        <!--           <div v-else>-->
+        <!--               <h4>No Data Found</h4>-->
+        <!--           </div>-->
+    </div>
+</template>
+
+<script>
+import {Common} from "../../mixins/common";
+import {baseurl} from "../../base_url";
+import XLSX from "xlsx";
+import moment from "moment";
+import {bus} from "../../app";
+
+export default {
+    mixins: [Common],
+    data() {
+        return {
+            ceilings: [],
+            businesses: [],
+            Depots: [],
+            results: [],
+            title:'',
+            query: "",
+            editMode: false,
+            isLoading: false,
+            form: new Form({
+                // ExcelData: [],
+                 ExcelData: [{
+                     Product_Code: '',
+                     Part_No: '',
+                     Product_Name: '',
+                     Unit_Price: 0,
+                     Current_Stock: 0,
+                     Real_Count: 0,
+                     Adjustment_Stock: 0,
+                     importStatus:false,
+                 }],
+                masterCode:'',
+                adjustmentInvoiceNo:''
+
+            }),
+            loadTempData: [],
+            allDealer: [],
+            errors: [],
+            returnExcelData:[],
+            buttonShow: false,
+            masterCode: '',
+            actionType: '',
+            buttonText:'',
+            PreLoader: false,
+        }
+    },
+    created() {
+    },
+    mounted() {
+        $('#add-edit-dept').on('hidden.bs.modal', () => {
+            this.$emit('changeStatus')
+        });
+        bus.$on('add-edit-assign-vro', (row) => {
+            if (row) {
+                this.selectedBusiness = [];
+                this.selectedDepartment = [];
+                let instance = this;
+                this.axiosGet('user/get-user-info/' + row.UserID, function (response) {
+                    var user = response.data;
+                    instance.title = 'Update User';
+                    instance.buttonText = "Update";
+                    instance.Name = user.Name;
+                    instance.UserID = user.UserID;
+                    instance.NID = user.NID;
+                    instance.Address = user.Address;
+                    instance.password = user.RawPassword;
+                    instance.mobile = user.Mobile;
+                    instance.email = user.Email;
+                    instance.status = user.Status;
+                    instance.userType = {
+                        RoleName: user.roles.RoleName,
+                        RoleID: user.roles.RoleID
+                    };
+                    response.data.user_submenu.forEach(function (item) {
+                        instance.allSubMenuId.push(item.SubMenuID)
+                    });
+                    instance.buttonShow = true;
+                    instance.actionType = 'edit';
+                    instance.getData();
+                }, function (error) {
+
+                });
+            } else {
+                this.title = 'Add User';
+                this.buttonText = "Add";
+                this.UserID = '';
+                this.Name = '';
+                this.Address = '',
+                    this.NID = '',
+                    this.mobile = '',
+                    this.email = '',
+                    this.status = '',
+                    this.password = '',
+                    this.confirm = '',
+                    this.userType = '',
+                    this.allSubMenu = [];
+                this.buttonShow = true;
+                this.actionType = 'add'
+            }
+            $("#add-edit-dept").modal("toggle");
+            // $(".error-message").html("");
+        })
+    },
+    destroyed() {
+        bus.$off('add-edit-assign-vro')
+    },
+    methods: {
+        decodeConvert(val){
+            let convertVal = atob(val);
+            return convertVal
+        },
+        closeModal() {
+            $("#add-edit-dept").modal("toggle");
+        },
+        getSupportingData(val){
+           if (val.length > 2){
+               this.selectBox = false;
+               axios.get(baseurl + "api/invoice-spare-parts/get-adjustment-dealer-data?CustomerCode=" + val , this.config()).then(response => {
+                   this.allDealer = response.data.allDealers
+               }).catch(e => {
+
+               });
+           }
+        },
+        checkFieldValue(){
+            let tempProductCode = this.form.ExcelData[0]['Product_Code']
+            let tempAdjustmentStock = this.form.ExcelData[0]['Adjustment_Stock']
+            let tempPartNo = this.form.ExcelData[0]['Part_No']
+            let tempCurrentStock = this.form.ExcelData[0]['Current_Stock']
+            let tempRealCount = this.form.ExcelData[0]['Real_Count']
+            let tempUnitPrice = this.form.ExcelData[0]['Unit_Price']
+        },
+        removeRow(i) {
+            this.form.ExcelData.splice(i-1, 1)
+            if (this.errors[i-1] !== undefined) {
+                this.errors.splice(i-1, 1)
+            }
+        },
+        readExcelFile(e) {
+            var files = e.target.files, f = files[0];
+            var reader = new FileReader();
+            reader.onload = (e) => {
+                var data = new Uint8Array(e.target.result);
+                var workbook = XLSX.read(data, {type: 'array'});
+                let sheetName = workbook.SheetNames[0]
+                let worksheet = workbook.Sheets[sheetName];
+                this.form.ExcelData = XLSX.utils.sheet_to_json(worksheet);
+                this.form.ExcelData.importStatus = true
+            };
+            reader.readAsArrayBuffer(f);
+        },
+        downloadDemoExcel() {
+            axios.get(baseurl + "api/vro/sample-file-assigned-vro-list", this.config()).then((res) => {
+                const downloadAnchor = document.createElement("a");
+                downloadAnchor.setAttribute("href", res.data);
+                downloadAnchor.setAttribute("download", "assign_vro_file_upload_format.xls");
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                //remove anchor download
+                document.body.removeChild(downloadAnchor);
+            })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        onSubmit() {
+            this.PreLoader = true;
+            var submitUrl = '';
+            if (this.actionType === 'add') {
+                //this.checkFieldValue()
+                submitUrl = 'api/vro/store-assigned-vro';
+            }
+            if(this.errors.length === 0){
+                this.form.post(baseurl + submitUrl, this.config()).then(response => {
+                    if(response){
+                        console.log(response)
+                        $("#add-edit-dept").modal("toggle");
+                        this.successNoti(response.data.message);
+                        this.PreLoader = false;
+                        this.form.ExcelData = []
+                        bus.$emit('refresh-datatable');
+                        //this.$router.go(this.$router.currentRoute)
+
+
+                    }
+                }).catch(e => {
+                    this.PreLoader = false;
+                    this.errorNoti(e);
+                });
+            }
+
+        },
+    }
+}
+</script>
+
+<style scoped>
+#ceilingModal .form-control {
+    font-size: 10px;
+    height: 25px;
+}
+
+#ceilingModal label {
+    font-size: 11px !important;
+}
+
+.form-divider {
+    padding: 6px 0px 5px 5px;
+    border: 1px solid #4d87f64f;
+    border-radius: 13px;
+    margin: 0 auto;
+}
+
+#invoice2 .auto-complete2 {
+    position: relative;
+    display: block;
+}
+
+#invoice2 .auto-complete2 ul {
+    list-style: none;
+    margin: 0;
+    padding: 5px 0 0 0px;
+    position: absolute;
+    width: 100%;
+    border: 1px solid #0000000d;
+    background: #ffffff;
+    max-height: 200px;
+    overflow-y: scroll;
+    z-index: 999;
+}
+
+#invoice2 .auto-complete2 ul li {
+    border-bottom: 1px solid #b7b7b7;
+    background: #cbc4c4;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#invoice2 .auto-complete2 ul li a {
+    color: #000000;
+}
+
+#invoice2 .auto-complete2 ul li:hover {
+    background: #fff3cd;
+}
+
+#invoice2 :focus {
+    background: #fff3cd;
+}
+
+</style>
