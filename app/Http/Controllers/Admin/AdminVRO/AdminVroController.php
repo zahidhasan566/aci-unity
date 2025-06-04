@@ -54,7 +54,7 @@ class AdminVroController extends Controller
                 //Check Existing VRO
 
                 $assignedVROStaffID =(string )$singleData['AssignedVROStaffID'];
-                $checkVro = AssignedVro::select('AssignedVROStaffId')->where('AssignedVROStaffId',$assignedVROStaffID )->first();
+                $checkVro = AssignedVro::select('AssignedVROStaffId')->where('Business',$singleData['BusinessCode'])->where('AssignedVROStaffId',$assignedVROStaffID )->first();
                 if(!empty($checkVro->AssignedVROStaffId)){
                     AssignedVro::where('AssignedVROStaffId', $assignedVROStaffID)->delete();
                 }
