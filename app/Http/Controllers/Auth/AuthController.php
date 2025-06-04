@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\AssignedVro;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,29 +15,20 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+
         $phone = 0;
         $email = '';
 
 
-        if (is_numeric($request->userID)) {
-            $phone = $request->get('userID');
-
-        }
-        else{
-            $userId = $request->userID;
-        }
+        $userId = $request->userID;
 //        if (filter_var($request->get('usermailorphone'), FILTER_VALIDATE_EMAIL)) {
 //            $email = $request->get('usermailorphone');
 //        }
         if($phone===0 &&  $userId===''){
             return response()->json(['message' => 'Invalid'], 400);
         }
-        $user = User::where(['UserID' => $userId,'Status' => 1])->orWhere(['Mobile' => $phone,'Status' => 1])->first();
-
-        if ($phone && $token = JWTAuth::attempt(['Mobile' => $phone, 'password' => $request->password,'Status' => 1])) {
-            return $this->respondWithToken($token);
-        }
-        elseif ($userId && $token = JWTAuth::attempt(['UserID' => $userId, 'password' => $request->password,'Status' => 1])) {
+        $user = User::where(['UserID' => $userId,'Status' => 1])->first();
+        if ($userId && $token = JWTAuth::attempt(['UserID' => $userId, 'password' => $request->password,'Status' => 1])) {
             Auth::login($user);
             $token = JWTAuth::fromUser($user);
             return $this->respondWithToken($token,$user);
@@ -79,7 +71,8 @@ class AuthController extends Controller
 //            'Users' => Auth::user(),
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60*60*24,
-            'user' => $user
+            'user' => $user,
+            'assign_customer_list' => AssignedVro::select('CustomerCode','Business')->where('AssignedVROStaffId',$user->UserID)->get()
         ]);
     }
 
