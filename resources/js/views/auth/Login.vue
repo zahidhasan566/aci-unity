@@ -12,7 +12,7 @@
                 <div class="form-group">
                   <label for="username">User Id</label>
                   <input type="text" class="form-control" :class="{'error-border': errors[0]}" id="usermailorphone"
-                         v-model="usermailorphone" name="usermailorphone" placeholder="User Mail Or Mobile" autocomplete="off">
+                         v-model="usermailorphone" name="usermailorphone" placeholder="User Id" autocomplete="off">
                   <span class="error-message"> {{ errors[0] }}</span>
                 </div>
               </ValidationProvider>
