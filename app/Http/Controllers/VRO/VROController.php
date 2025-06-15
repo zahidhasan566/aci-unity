@@ -377,7 +377,10 @@ class VROController extends Controller
     }
 
     public function getVroAssignList(){
-        $vroCustomerList = AssignedVro::select('CustomerCode','Business')->where('AssignedVROStaffId',Auth::user()->UserID)->get();
+        $vroCustomerList = AssignedVro::select('CustomerCode','Business','BusinessName')
+            ->join('Business', 'Business.Business', '=', 'AssignedVro.Business')
+            ->where('AssignedVROStaffId',Auth::user()->UserID)->get();
+
         return response()->json(['status' => 'Success',
             'message' => 'Shop Information fetched successfully!',
             'data' => $vroCustomerList], 200);
