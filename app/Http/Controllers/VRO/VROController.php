@@ -381,6 +381,12 @@ class VROController extends Controller
             ->join('Business', 'Business.Business', '=', 'AssignedVro.Business')
             ->where('AssignedVROStaffId',Auth::user()->UserID)->get();
 
+        if(empty($vroCustomerList)){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Assign customer not found!',
+            ],404);
+        }
         return response()->json(['status' => 'Success',
             'message' => 'Shop Information fetched successfully!',
             'data' => $vroCustomerList], 200);
