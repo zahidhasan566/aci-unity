@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin\Reports;
+use App\Models\ShopInformation;
 use App\Traits\CommonTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ class ReportController extends Controller
 {
     use CommonTrait;
 
-    public function getShopInformation(Request $request){
+    public function getAllShopInformation(Request $request){
         $CurrentPage = $request->pagination['current_page'];
         $PerPage = 20;
         $Export = $request->Export;
@@ -24,5 +25,51 @@ class ReportController extends Controller
         }
         $sql = "exec usp_reportAllShopInformation '$dateFrom', '$dateTo','$userID','$PerPage','$CurrentPage'";
         return $this->getReportData($sql, $PerPage, $CurrentPage, $Export);
+    }
+    public function getSingleShopInformation($shopId){
+        $shopInfo  =  ShopInformation::with('competitorShopBusinesses','businessWithACI')->select(
+            'ShopInformation.ShopID',
+            'ShopInformation.AssignVROStaffId',
+            'Users.Name as AssignVroName',
+            'ShopInformation.Business',
+            'ShopInformation.ContactPersonDesignation',
+            'ShopInformation.ProprietorName',
+            'ShopInformation.TypeOfEntity',
+            'ShopInformation.CustomerName',
+            'ShopInformation.CustomerCode',
+            'ShopInformation.CustomerContactPersonName',
+            'ShopInformation.CustomerContactPersonDesignation',
+            'ShopInformation.CustomerProprietorName',
+            'ShopInformation.CustomerMobileNo',
+            'ShopInformation.CustomerAddress',
+            'ShopInformation.OwnerShip',
+            'ShopInformation.Condition',
+            'ShopInformation.DeedAgreement',
+            'ShopInformation.ShopPhoto',
+            'ShopInformation.CustomerReputation',
+            'ShopInformation.Latitude',
+            'ShopInformation.Longitude',
+            'ShopInformation.ShopAddress',
+            'ShopInformation.PaymentBehaviour',
+            'ShopInformation.ModeOfPayment',
+            'ShopInformation.YearlyPurchasePotential',
+            'ShopInformation.PaymentTermsInDays',
+            'ShopInformation.CustomerProposedCreditLimit',
+            'ShopInformation.RepresentativeComment',
+            'ShopInformation.RepresentativePhoto',
+            'ShopInformation.BalancePerCustomer',
+            'ShopInformation.ApproveStatus',
+            'Business.BusinessName',
+        )
+            ->join('Users', 'Users.UserID', '=', 'ShopInformation.AssignVROStaffId')
+            ->join('Business', 'Business.Business', '=', 'ShopInformation.Business')
+            ->where('ShopInformation.ShopID', $shopId)
+            ->first();
+
+        return response()->json(['status' => 'Success',
+            'message' => 'Shop Information fetched successfully!',
+            'data' => $shopInfo], 200);
+
+
     }
 }

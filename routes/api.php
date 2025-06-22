@@ -38,6 +38,11 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::post('password-change',[\App\Http\Controllers\Common\HelperController::class,'passwordChange']);
     });
 
+    Route::group(['prefix' => 'approval'],function () {
+        Route::post('shop-list', [\App\Http\Controllers\Admin\Approval\ShopRequisitionApprovalController::class, 'index']);
+        Route::post('add-reject-shop-requisition', [\App\Http\Controllers\Admin\Approval\ShopRequisitionApprovalController::class, 'approveRejectRequisition']);
+
+    });
     //Mobile User
     Route::group(['prefix' => 'vro'],function () {
 
@@ -52,8 +57,10 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::get('get-vro-assign-list',[\App\Http\Controllers\VRO\VROController::class,'getVroAssignList']);
     });
 
+
     Route::group(['prefix' => 'reports'],function () {
-        Route::post('all-shop-information',[\App\Http\Controllers\Admin\Reports\ReportController::class,'getShopInformation']);
+        Route::post('all-shop-information',[\App\Http\Controllers\Admin\Reports\ReportController::class,'getAllShopInformation']);
+        Route::get('get-shop-information/{shopId}',[\App\Http\Controllers\Admin\Reports\ReportController::class,'getSingleShopInformation']);
 
     });
 

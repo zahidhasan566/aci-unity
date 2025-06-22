@@ -49,6 +49,9 @@
                       <th v-for="(item, index) in headers" v-if="index !== 0 && index !== 33">
                         {{ item.replace(/_/g, ' ', " $1").trim() }}
                       </th>
+                        <th>
+                            print
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,6 +60,17 @@
                         <td v-for="(item2, index) in headers.slice(1)" v-bind:class="isInt(item[item2]) === true ? 'text-right' : '' " v-if="index !== 32">
                             {{ item[item2] }}
                         </td>
+                        <td>
+                            <a
+                                class="btn btn-primary"
+                                style="font-size: 10px; width: 65px; padding: 2px 0px"
+                                :href="`${baseUrl}report/shop-information-report/print/${item.ShopID}`"
+                                target="_blank"
+                            >
+                                <i class="fa fa-print"></i> Print
+                            </a>
+                        </td>
+
 
                     </tr>
                     </tbody>
@@ -99,8 +113,14 @@ import moment from "moment";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import Papa from 'papaparse'
+import shopInformationPrint from "./shopInformationPrint.vue";
 export default {
   name: "Report",
+    // computed: {
+    //     shopInformationPrint() {
+    //         return shopInformationPrint
+    //     }
+    // },
   mixins: [Common],
   components: { DatePicker },
   data() {
@@ -136,6 +156,7 @@ export default {
       errors: [],
       exportShow: false,
       products:[],
+        baseUrl : '',
 
     }
   },
@@ -143,6 +164,7 @@ export default {
     //
   },
   mounted() {
+      this.baseUrl = baseurl
     //this.getSupportingData();
     this.filterAllReport();
     this.getData();

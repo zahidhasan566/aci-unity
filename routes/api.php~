@@ -38,6 +38,11 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::post('password-change',[\App\Http\Controllers\Common\HelperController::class,'passwordChange']);
     });
 
+    Route::group(['prefix' => 'approval'],function () {
+        Route::post('shop-list', [\App\Http\Controllers\Admin\Approval\ShopRequisitionApprovalController::class, 'index']);
+        Route::post('add-reject-shop-requisition', [\App\Http\Controllers\Admin\Approval\ShopRequisitionApprovalController::class, 'approveRejectRequisition']);
+
+    });
     //Mobile User
     Route::group(['prefix' => 'vro'],function () {
 
@@ -49,8 +54,9 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::post('assigned-vro-list',[\App\Http\Controllers\Admin\AdminVRO\AdminVroController::class,'index']);
         Route::get('sample-file-assigned-vro-list',[\App\Http\Controllers\Admin\AdminVRO\AdminVroController::class,'getDemoExcelFile']);
         Route::post('store-assigned-vro',[\App\Http\Controllers\Admin\AdminVRO\AdminVroController::class,'storeVro']);
-        Route::post('get-vro-assign-list',[\App\Http\Controllers\VRO\VROController::class,'getVroAssignList']);
+        Route::get('get-vro-assign-list',[\App\Http\Controllers\VRO\VROController::class,'getVroAssignList']);
     });
+
 
     Route::group(['prefix' => 'reports'],function () {
         Route::post('all-shop-information',[\App\Http\Controllers\Admin\Reports\ReportController::class,'getShopInformation']);

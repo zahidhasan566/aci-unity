@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid">
-    <breadcrumb :options="['Assign Vro']">
-      <button class="btn btn-primary" @click="addVroModal()">Assign Vro</button>
+    <breadcrumb :options="['Approval']">
     </breadcrumb>
     <div class="row" style="padding:8px 0px;">
       <div class="col-md-4">
@@ -14,7 +13,8 @@
 <!--        <a href="javascript:" @click="changePassword(row.item.UserID)"> <i class="ti-lock"></i></a>-->
       </template>
     </advanced-datatable>
-    <add-edit-assign-vro @changeStatus="changeStatus" v-if="loading"/>
+    <add-edit-user @changeStatus="changeStatus" v-if="loading"/>
+    <reset-password @changeStatus="changeStatus" v-if="loading"/>
   </div>
 </template>
 <script >
@@ -30,18 +30,19 @@ export default {
       tableOptions: {
         source: 'approval/shop-list',
         search: true,
-        slots: [],
+        slots: [6],
         hideColumn: ['RoleID','UserID'],
-        slotsName: [],
+        slotsName: ['action'],
         sortable: [2],
         pages: [20, 50, 100],
-        addHeader: []
+        addHeader: ['Action']
       },
       loading: false,
       cpLoading: false
     }
   },
   mounted() {
+      console.log("fdd")
     bus.$off('changeStatus',function () {
       this.changeStatus()
     })
@@ -50,10 +51,10 @@ export default {
     changeStatus() {
       this.loading = false
     },
-      addVroModal(row = '') {
+      addUserModal(row = '') {
       this.loading = true;
       setTimeout(() => {
-        bus.$emit('add-edit-assign-vro', row);
+        bus.$emit('add-edit-user', row);
       })
     },
     changePassword(row) {
@@ -74,7 +75,7 @@ export default {
       });
     },
     exportData() {
-      bus.$emit('export-data','assign-vro-list-'+moment().format('YYYY-MM-DD'))
+      bus.$emit('export-data','shop-approval-list-'+moment().format('YYYY-MM-DD'))
     }
   }
 }

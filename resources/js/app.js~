@@ -27,9 +27,7 @@ export const bus = new Vue();
 import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'
 Vue.use(Toaster, {timeout: 5000})
-//import sweetalert
-import Swal from 'sweetalert2';
-window.Swal = Swal;
+
 //moment
 import moment from 'moment'
 

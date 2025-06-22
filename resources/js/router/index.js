@@ -9,6 +9,8 @@ import NotFound from '../views/404/Index';
 import Users from '../views/users/Index';
 import ReportAllShopInformation from "../views/reports/reportAllShopInformation.vue";
 import AssignVroIndex from "../views/vro/AssignVroIndex.vue";
+import ApprovalIndex from "../views/approval/ApprovalIndex.vue";
+import shopInformationPrint from "../views/reports/shopInformationPrint.vue";
 
 
 Vue.use(VueRouter);
@@ -61,11 +63,22 @@ const routes = [
                 name: 'Users',
                 component: Users
             },
+            //Approval
+            {
+                path: baseurl + 'approval/approve-shop-requisition',
+                name: 'ApprovalIndex',
+                component: ApprovalIndex
+            },
             //Report
             {
                 path: baseurl + 'report/shop-information-report',
                 name: 'ReportAllShopInformation',
                 component: ReportAllShopInformation
+            },
+            {
+                path: baseurl + 'report/shop-information-report/print/:shopId',
+                name: 'shopInformationPrint',
+                component: shopInformationPrint
             },
 
 
