@@ -1,26 +1,111 @@
 <template>
-    <div>
-    <div class="page-title-box">
-        <div class="row align-items-center">
-            <div class="col-sm-6">
-                <h4 class="page-title">Dashboard</h4>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">Welcome to E Verification Admin Dashboard</li>
-                </ol>
+    <div class="production-officer-home">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="profile-header" style="color:#0000000">
+                <div class="profile-icon">👤</div> <!-- Profile icon placeholder -->
+                <div class="greeting">
+                    <p class="time">Good Morning</p>
+                    <h1 class="name">Md Zahid Hasan</h1>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <div class="float-right d-none d-md-block">
-                    <div class="dropdown">
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                    </div>
+            <div class="remainingHeader">
+                <div class="welcome-message">
+                    <h2>Welcome</h2>
+                    <p>We are delighted to have you among us. On behalf of all the members and the management, we would like to extend our warmest welcome and good wishes!</p>
+                </div>
+                <div class="hotel-info">
+                    <p><strong>Hotel Name:</strong> Sayeman Beach Resort</p>
+                    <p><strong>Room Number:</strong> 354</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Upcoming Event Section -->
+        <div class="upcoming-events">
+            <div class="section-header">
+                <h3>Upcoming Event Schedule</h3>
+                <div class="header-right">
+                    <span class="count">12</span>
+                    <a href="#" class="see-all">See All</a>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <h4>Annual Marketing and Sales conference. 2025</h4>
+                <p class="event-description">Introduction to SAR</p>
+                <div class="event-datetime">
+                    <p class="event-date">Monday, 26 July</p>
+                    <p class="event-time">09:00 - 10:00</p>
+                </div>
+
+                <div class="event-actions">
+                    <button class="action-btn">
+                        <span class="icon">📍</span> <span class="btn-text">Venue Map</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="icon">👔</span> <span class="btn-text">Dress Code</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="icon">📅</span> <span class="btn-text">Schedule</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="icon">🎫</span> <span class="btn-text">Coupon</span>
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Quick Links Section -->
+        <div class="quick-links">
+            <button class="quick-link-btn">
+                <span class="icon">📅</span>
+                <span class="btn-text">Event Schedule</span>
+            </button>
+            <button class="quick-link-btn">
+                <span class="icon">🏨</span>
+                <span class="btn-text">Room & Hotel Info</span>
+            </button>
+            <button class="quick-link-btn">
+                <span class="icon">✈️</span>
+                <span class="btn-text">Travel Info</span>
+            </button>
+            <button class="quick-link-btn">
+                <span class="icon">🆘</span>
+                <span class="btn-text">Helpline</span>
+            </button>
+        </div>
+
+        <!-- Gallery Section -->
+        <div class="gallery-section">
+            <div class="section-header">
+                <h3>Award Winners Gallery</h3>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            <div class="gallery-items">
+                <div class="gallery-item">
+                    <div class="placeholder">zdfdvfd</div>
+                    <p>Nutrition is the most important strategy to prevent osteoporosis and other bone related diseases.</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="placeholder">zdfdvfd</div>
+                    <p>Nutrition is the most important strategy to prevent osteoporosis and other bone related diseases.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seller Section -->
+        <div class="seller-section">
+            <div class="section-header">
+                <h3>Sellery</h3>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            <div class="seller-item">
+                <div class="placeholder">zdfdvfd</div>
+                <p>Nutrition is the most important strategy to prevent osteoporosis and other bone related diseases.</p>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -59,60 +144,293 @@ export default {
 
 
 <style scoped>
-.bg-blue {
-  background: #626ed4!important;
-  text-align: center;
-  text-transform: uppercase;
+/* Main Background */
+.production-officer-home {
+    background-color: #f5f7fa;
+    font-family: 'Arial', sans-serif;
 }
-.card-body {
-  padding: 0.60rem !important;
+
+/* Header with Correct Gradient */
+.header {
+    padding: 25px 20px;
+    color: white;
+    border-radius: 0 0 15px 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-.bg-blue span {
-  font-size: 18px;
+.remainingHeader{
+    background: linear-gradient(135deg, #0C2189 0%, #4BB5AC 100%);
 }
-.task {
-  background: #00a55d2b;
-  padding: 5px 8px;
-  font-size: 14px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  font-weight: bold;
+/* Header Styles */
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #000000;
 }
-.links {
-  /*height: 148px;*/
+
+.profile-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 24px;
 }
-.helpline {
-  height: 120px;
-  text-align: center;
-  position: relative;
-  background-image: linear-gradient(146deg,#626ed4,#626ed4);
+
+
+.greeting .time {
+    font-size: 16px;
+    color: #080707b8;
+    margin-bottom: 5px;
 }
-.helpline span {
-  position: absolute;
-  top: 40%;
-  left: 0;
-  right: 0;
-  font-weight: bold;
-  font-size: 20px;
-  text-transform: uppercase;
-  color: #FFFFFF;
+
+.greeting .name {
+    font-size: 24px;
+    margin: 0;
+    color: #000000;
+    font-weight: 600;
 }
-.contact {
-  height: 120px;
-  text-align: center;
-  padding-top: 20px;
-  background-image: linear-gradient(146deg,#626ed4,#626ed4);
+
+.welcome-message {
+    /*background-color: rgba(255,255,255,0.15);*/
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
 }
-.contact p {
-  margin: 0;
-  padding: 2px;
-  font-weight: bold;
-  color: #ffffff;
+
+.welcome-message h2 {
+    margin-top: 0;
+    color: white;
+    font-size: 20px;
 }
-.header-bg {
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
+
+.hotel-info {
+    background-color: rgba(255,255,255,0.2);
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Event Card Styling */
+.event-card {
+    background-color: #0C2189; /* Dark blue background */
+    color: white; /* White text */
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.event-card h4 {
+    margin-top: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.event-description {
+    opacity: 0.8;
+    margin: 8px 0 15px;
+    font-size: 14px;
+}
+
+/* Date and Time side by side */
+.event-datetime {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.event-date, .event-time {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.event-date::before {
+    content: "📅";
+    margin-right: 8px;
+}
+
+.event-time::before {
+    content: "⏰";
+    margin-right: 8px;
+}
+
+/* Action Buttons */
+.event-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.action-btn {
+    background-color: rgba(255,255,255,0.15);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+    background-color: rgba(255,255,255,0.25);
+}
+
+.action-btn .icon {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.count {
+    background-color: #4caf50; /* Green */
+    color: white;
+}
+
+.see-all {
+    color: #1e88e5; /* Blue */
+}
+
+.action-btn {
+    background-color: #e3f2fd; /* Light blue */
+    color: #1976d2; /* Dark blue */
+}
+
+/* Quick Links Colors */
+.quick-link-btn {
+    background-color: #f1f8fe; /* Very light blue */
+    color: #1e88e5; /* Blue */
+    border: 1px solid #e1f0ff;
+}
+/* Gallery & Seller Items */
+.gallery-item, .seller-item {
+    background: white;
+    border: 1px solid #e0e0e0;
+}
+
+.placeholder {
+    background-color: #eceff1; /* Light gray */
+    color: #90a4ae; /* Gray text */
+}
+
+/* Seller Section */
+.seller-section {
+    margin-top: 25px;
+}
+@media (min-width: 768px) {
+    .event-actions {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .event-datetime {
+        gap: 30px;
+    }
+}
+/* Responsive Design */
+@media (min-width: 600px) {
+    .production-officer-home {
+        padding: 20px;
+    }
+
+    .greeting .time {
+        font-size: 18px;
+    }
+
+    .greeting .name {
+        font-size: 32px;
+    }
+
+    .welcome-message {
+        padding: 20px;
+    }
+
+    .welcome-message h2 {
+        font-size: 24px;
+    }
+
+    .welcome-message p {
+        font-size: 16px;
+    }
+
+    .hotel-info {
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .section-header h3 {
+        font-size: 20px;
+    }
+
+    .event-card {
+        padding: 20px;
+    }
+
+    .event-card h4 {
+        font-size: 18px;
+    }
+
+    .event-description, .event-date, .event-time {
+        font-size: 16px;
+    }
+
+    .event-actions {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .quick-links {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .quick-link-btn {
+        padding: 15px 10px;
+    }
+
+    .quick-link-btn .icon {
+        font-size: 24px;
+    }
+
+    .quick-link-btn .btn-text {
+        font-size: 14px;
+    }
+
+    .gallery-items {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .gallery-item, .seller-item {
+        padding: 15px;
+    }
+
+    .gallery-item p, .seller-item p {
+        font-size: 14px;
+    }
+
+    .placeholder {
+        height: 150px;
+    }
+}
+
+@media (min-width: 900px) {
+    .quick-links {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .event-actions {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        padding: 8px 12px;
+    }
 }
 </style>

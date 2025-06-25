@@ -41,7 +41,7 @@ class HelperController extends Controller
                 if ($validator->fails()) {
                     return response()->json(['message' => $validator->errors()], 400);
                 }
-                $user = User::where('id', Auth::user()->Id)->first();
+                $user = User::where('id', Auth::user()->userId)->first();
                 $user->Password = bcrypt($request->updatePassword);
                 $user->RawPassword = $request->updatePassword;
                 $user->save();

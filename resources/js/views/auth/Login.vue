@@ -2,9 +2,14 @@
   <div>
     <div class="wrapper-page">
       <div class="card overflow-hidden account-card mx-3">
-        <div class="bg-gradient p-4 text-white text-center position-relative">
-          <h4 class="font-25 m-b-5">E Verification </h4>
-        </div>
+          <div class="image-container">
+              <img :src="`${mainOrigin}assets/images/loginBg.jpg`" alt="Background Image" class="background-image">
+              <div class="image-text">ACI <br> <span style="color: white">Unity</span></div>
+          </div>
+<!--        <div class="bg-gradient p-4 text-white text-center position-relative">-->
+<!--            -->
+<!--          <h4 class="font-25 m-b-5">Aci Conference</h4>-->
+<!--        </div>-->
         <div class="account-card-content">
           <ValidationObserver v-slot="{ handleSubmit }">
             <form class="form-horizontal m-t-30" @submit.prevent="handleSubmit(onSubmit)">
@@ -16,7 +21,7 @@
                   <span class="error-message"> {{ errors[0] }}</span>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="Password" mode="eager" rules="required|min:6" v-slot="{ errors }">
+              <ValidationProvider name="Password" mode="eager" rules="required" v-slot="{ errors }">
                 <div class="form-group">
                   <label for="user-password">Password</label>
                   <input type="password" v-model="password" class="form-control" :class="{'error-border': errors[0]}"
@@ -73,3 +78,28 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.image-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Optional: adjust for layout */
+}
+
+.background-image {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+}
+
+.image-text {
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #5DFFA7;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+</style>

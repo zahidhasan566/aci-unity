@@ -15,14 +15,16 @@ class HelperController extends Controller
     {
         try {
             $auth = Auth::user();
-            $query = Menu::select('Menus.*');
-            $data = $query->with('subMenus')
-                ->orderBy('MenuOrder','asc')
-                ->get();
+//            $query = Menu::select('Menus.*');
+//            $data = $query->with('subMenus')
+//                ->orderBy('MenuOrder','asc')
+//                ->get();
+            $data =[];
             return response()->json([
                 'status' => 'success',
                 'menus' => $data,
-                'user' => User::where('UserId',$auth->UserID)->with('roles')->first(),
+                'user' => User::where('UserId',$auth->UserId)->first(),
+//                'user' => User::where('UserId',$auth->UserId)->with('roles')->first(),
             ]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
@@ -41,7 +43,7 @@ class HelperController extends Controller
                 if ($validator->fails()) {
                     return response()->json(['message' => $validator->errors()], 400);
                 }
-                $user = User::where('id', Auth::user()->Id)->first();
+                $user = User::where('id', Auth::user()->userId)->first();
                 $user->Password = bcrypt($request->updatePassword);
                 $user->RawPassword = $request->updatePassword;
                 $user->save();

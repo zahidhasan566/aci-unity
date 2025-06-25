@@ -3,7 +3,7 @@
         <!-- LOGO -->
         <div class="topbar-left">
             <a href="index.html" class="logo">
-                <span style="color: white">E-Verification </span>
+                <span style="color: white">Aci Unity </span>
             </a>
         </div>
         <nav class="navbar-custom">
@@ -41,7 +41,7 @@
             </ul>
             <ul class="list-inline menu-left mb-0">
                 <li class="float-left">
-                    <button class="button-menu-mobile open-left waves-effect"><i class="mdi mdi-menu"></i></button>
+                    <button  ref="menuButton" class="button-menu-mobile open-left waves-effect"><i class="mdi mdi-menu"></i></button>
                 </li>
             </ul>
 

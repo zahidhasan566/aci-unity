@@ -97,9 +97,9 @@ return [
         'pharmaSqlSrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
-            'host' => '192.168.100.21',
+            'host' => '192.168.100.75',
             'port' => '1433',
-            'database' => 'SDMSMIRROR',
+            'database' => 'DCR',
             'username' => 'sa',
             'password' => 'dataport',
             'charset' => 'utf8',

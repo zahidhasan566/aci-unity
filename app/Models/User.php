@@ -13,10 +13,12 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = "Users";
+    protected $table = "UserManager";
     public $timestamps = false;
-    public $primaryKey = 'Id';
+    public $primaryKey = 'UserId';
     protected $guarded = [];
+    public $incrementing = false;
+    protected $keyType = "string";
 
     /**
      * The attributes that should be hidden for serialization.
@@ -24,8 +26,9 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
-        'password'
+        'Password'
     ];
+    protected $connection = 'pharmaSqlSrv';
 
     /**
      * The attributes that should be cast.
@@ -56,6 +59,6 @@ class User extends Authenticatable implements JWTSubject
     }
     public function userSubmenu()
     {
-        return $this->hasMany(SubMenuPermission::class,'UserID','UserID');
+        return $this->hasMany(SubMenuPermission::class,'UserID','UserId');
     }
 }
