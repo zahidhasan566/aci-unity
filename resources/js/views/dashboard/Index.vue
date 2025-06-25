@@ -2,8 +2,9 @@
     <div class="production-officer-home">
         <!-- Header Section -->
         <div class="header">
-            <div class="profile-header" style="color:#0000000">
-                <div class="profile-icon">👤</div> <!-- Profile icon placeholder -->
+            <div class="profile-header">
+                <div class="profile-icon">
+                    <img :src="`${mainOrigin}assets/icon/profile.png`" alt="profile Image" class="profile"></div> <!-- Profile icon placeholder -->
                 <div class="greeting">
                     <p class="time">Good Morning</p>
                     <h1 class="name">Md Zahid Hasan</h1>
@@ -11,99 +12,124 @@
             </div>
             <div class="remainingHeader">
                 <div class="welcome-message">
-                    <h2>Welcome</h2>
+                    <h2>
+                        <img :src="`${mainOrigin}assets/icon/happyface.png`" alt="happyface Image" class="happyface">
+                        Welcome</h2>
                     <p>We are delighted to have you among us. On behalf of all the members and the management, we would like to extend our warmest welcome and good wishes!</p>
-                </div>
-                <div class="hotel-info">
-                    <p><strong>Hotel Name:</strong> Sayeman Beach Resort</p>
-                    <p><strong>Room Number:</strong> 354</p>
                 </div>
             </div>
 
         </div>
-
+        <div class="hotel-banner">
+            <span class="hotel-name">🏨 Hotel: Sayeman Beach Resort</span>
+            <span class="room-number">🚪 Room: 354</span>
+        </div>
         <!-- Upcoming Event Section -->
         <div class="upcoming-events">
             <div class="section-header">
-                <h3>Upcoming Event Schedule</h3>
-                <div class="header-right">
-                    <span class="count">12</span>
-                    <a href="#" class="see-all">See All</a>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-9"> <h5>Upcoming Event Schedule  <span class="count">12</span></h5></div>
+                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">  <a href="#" class="see-all">See All</a></div>
                 </div>
             </div>
+        </div>
 
-            <div class="event-card">
-                <h4>Annual Marketing and Sales conference. 2025</h4>
-                <p class="event-description">Introduction to SAR</p>
-                <div class="event-datetime">
-                    <p class="event-date">Monday, 26 July</p>
-                    <p class="event-time">09:00 - 10:00</p>
-                </div>
+        <!-- Event Slider -->
+        <div class="event-slider">
+            <!-- Swiper Slider -->
+            <swiper  :options="swiperOptions">
+                <swiper-slide v-for="(event, index) in events" :key="index">
+                    <div  :class="['event-card', event.highlight ? 'highlight' : ''] ">
+                        <h3 class="event-title">⭐ {{ event.title }}</h3>
+                        <p><strong>Sub:</strong> {{ event.sub }}</p>
+                        <p><strong>Venue:</strong> {{ event.venue }}</p>
+                        <div class="event-footer">
+                            <span>📅 {{ event.date }}</span>
+                            <span>⏰ {{ event.time }}</span>
+                        </div>
+                    </div>
+                </swiper-slide>
+            </swiper>
+        </div>
 
-                <div class="event-actions">
-                    <button class="action-btn">
-                        <span class="icon">📍</span> <span class="btn-text">Venue Map</span>
-                    </button>
-                    <button class="action-btn">
-                        <span class="icon">👔</span> <span class="btn-text">Dress Code</span>
-                    </button>
-                    <button class="action-btn">
-                        <span class="icon">📅</span> <span class="btn-text">Schedule</span>
-                    </button>
-                    <button class="action-btn">
-                        <span class="icon">🎫</span> <span class="btn-text">Coupon</span>
-                    </button>
-                </div>
-            </div>
+        <!-- Bottom Menu -->
+        <div class="bottom-menu">
+            <button class="menu-btn">📍 Venue Map</button>
+            <button class="menu-btn">👔 Dress Code</button>
+            <button class="menu-btn">📅 Schedule</button>
+            <button class="menu-btn">🎟️ Coupon</button>
         </div>
 
         <!-- Quick Links Section -->
         <div class="quick-links">
             <button class="quick-link-btn">
-                <span class="icon">📅</span>
+                <div class="icon-wrapper">
+                    <img :src="`${mainOrigin}assets/icon/appointment.png`" alt="appointment Image" class="appointment">
+                </div>
                 <span class="btn-text">Event Schedule</span>
             </button>
+
             <button class="quick-link-btn">
-                <span class="icon">🏨</span>
+                <div class="icon-wrapper">
+                    <img :src="`${mainOrigin}assets/icon/condominium.png`" alt="condominium Image" class="condominium">
+                </div>
                 <span class="btn-text">Room & Hotel Info</span>
             </button>
             <button class="quick-link-btn">
-                <span class="icon">✈️</span>
+                <div class="icon-wrapper">
+                    <img :src="`${mainOrigin}assets/icon/travel.png`" alt="travel Image" class="travel">
+                </div>
                 <span class="btn-text">Travel Info</span>
             </button>
             <button class="quick-link-btn">
-                <span class="icon">🆘</span>
+                <div class="icon-wrapper">
+                    <img :src="`${mainOrigin}assets/icon/customer-support.png`" alt="customer-support Image" class="customer-support">
+                </div>
                 <span class="btn-text">Helpline</span>
             </button>
         </div>
 
         <!-- Gallery Section -->
-        <div class="gallery-section">
+        <div class="award-section">
             <div class="section-header">
-                <h3>Award Winners Gallery</h3>
-                <a href="#" class="see-all">See All</a>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-9"> <h5>Award Winning Gallery </h5></div>
+                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">  <a href="#" class="see-all">See All</a></div>
+                </div>
             </div>
-            <div class="gallery-items">
-                <div class="gallery-item">
-                    <div class="placeholder">zdfdvfd</div>
-                    <p>Nutrition is the most important strategy to prevent osteoporosis and other bone related diseases.</p>
-                </div>
-                <div class="gallery-item">
-                    <div class="placeholder">zdfdvfd</div>
-                    <p>Nutrition is the most important strategy to prevent osteoporosis and other bone related diseases.</p>
-                </div>
+            <div class="awards-swiper">
+                <!-- Swiper Slider -->
+                <swiper  :options="swiperOptions">
+                    <swiper-slide v-for="(award, index) in awardsImage" :key="index">
+                        <div class="slide-card">
+                            <img :src="`${mainOrigin}assets/images/${award.image}`" alt="award" class="slide-img" />
+                            <h5 class="slide-title">{{ truncateText(award.title, 40) }}</h5>
+                            <p class="slide-desc"><strong>Venue:</strong> {{ truncateText(award.details, 40) }}</p>
+                        </div>
+                    </swiper-slide>
+                </swiper>
             </div>
         </div>
 
         <!-- Seller Section -->
-        <div class="seller-section">
+        <div class="gallery-section">
             <div class="section-header">
-                <h3>Sellery</h3>
-                <a href="#" class="see-all">See All</a>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-9"> <h5>Gallery </h5></div>
+                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">  <a href="#" class="see-all">See All</a></div>
+                </div>
             </div>
-            <div class="seller-item">
-                <div class="placeholder">zdfdvfd</div>
-                <p>Nutrition is the most important strategy to prevent osteoporosis and other bone related diseases.</p>
+            <div class="awards-swiper">
+                <!-- Swiper Slider -->
+                <swiper  :options="swiperOptions">
+                    <swiper-slide v-for="(award, index) in awardsImage" :key="index">
+                        <div class="slide-card">
+                            <img :src="`${mainOrigin}assets/images/${award.image}`" alt="award" class="slide-img" />
+                            <h5 class="slide-title">{{ truncateText(award.title, 40) }}</h5>
+                            <p class="slide-desc"><strong>Venue:</strong> {{ truncateText(award.details, 40) }}</p>
+                        </div>
+                    </swiper-slide>
+                </swiper>
             </div>
         </div>
     </div>
@@ -112,10 +138,70 @@
 import {Common} from "../../mixins/common";
 
 export default {
+
   mixins: [Common],
+
   data() {
     return {
-      isLoading: true
+      isLoading: true,
+        events: [
+            {
+                title: 'Annual Marketing and Sales conference. 2025',
+                sub: 'Introduction to SAR',
+                venue: 'Sayeman Beach Resort, 2nd Floor, Room 345',
+                date: 'Monday, 26 July',
+                time: '09:00 - 10:00',
+                highlight: true
+            },
+            {
+                title: 'Annual Marketing and Sales conference. 2025',
+                sub: 'Introduction to SAR',
+                venue: 'Sayeman Beach Resort, 2nd Floor, Room 345',
+                date: 'Monday, 27 July',
+                time: '09:00 - 10:00',
+                highlight: false
+            }
+        ],
+        awardsImage: [
+            {
+                image: 'award1.png',
+                title: 'Loren Ipsum Is simply',
+                highlight: true,
+                details: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ',
+            },
+            {
+                image: 'award2.png',
+                title: 'Loren Ipsum Is simply',
+                highlight: true,
+                details: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ',
+            }
+        ],
+        swiperOptions: {
+            loop: false,
+            slidesPerView: 'auto',
+            spaceBetween: 12,
+            // autoplay: {
+            //     delay: 1000,
+            //     disableOnInteraction: false,
+            //     pauseOnMouseEnter: false,
+            // },
+            // speed: 10000, // controls scroll speed, lower = faster
+            freeMode: true,
+            freeModeMomentum: false,
+            grabCursor: true,
+            breakpoints: {
+                // For mobile
+                0: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 10
+                },
+                // For tablets and up
+                768: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 20
+                }
+            }
+        },
     }
   },
   computed: {
@@ -127,6 +213,10 @@ export default {
     this.getData();
   },
   methods: {
+      truncateText(text, maxLength = 50) {
+          if (!text) return '';
+          return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+      },
     getData() {
       // this.axiosGet('dashboard-data', (response) => {
       //    this.total_pending = response.total_pending;
@@ -149,6 +239,7 @@ export default {
     background-color: #f5f7fa;
     font-family: 'Arial', sans-serif;
 }
+
 
 /* Header with Correct Gradient */
 .header {
@@ -180,7 +271,57 @@ export default {
     margin-right: 15px;
     font-size: 24px;
 }
+.awards-swiper {
+    padding-left: 12px;
+    padding-right: 0;
+    overflow-x: hidden;
+}
 
+/* Make each slide wrap its content */
+.award-slide {
+    width: auto !important;
+}
+
+/* Card layout */
+.awards-swiper  .swiper-slide {
+    width: auto !important;
+    flex-shrink: 0;
+}
+.slide-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    min-width: 180px;
+    max-width: 220px;
+    justify-content: space-between;
+    width: fit-content;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+}
+
+/* Image style */
+.slide-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Text styles */
+.slide-title,
+.slide-desc {
+    font-size: 14px;
+    margin-top: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Optional: Prevent Swiper adding trailing space */
+.swiper-wrapper {
+    display: flex;
+}
 
 .greeting .time {
     font-size: 16px;
@@ -216,55 +357,108 @@ export default {
 }
 
 /* Event Card Styling */
+
+.hotel-banner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #EFF2FF;
+    padding: 12px;
+    border: 1px solid #EFF2FF;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.event-slider {
+    width: 100%;
+    margin-bottom: 25px;
+}
 .event-card {
-    background-color: #0C2189; /* Dark blue background */
-    color: white; /* White text */
+    background-color: #f3f3f3;
+    padding: 15px;
+    border-radius: 12px;
+    width: 100%; /* Full width of swiper-slide */
+    box-sizing: border-box;
+}
+.event-card.highlight {
+    background-color: #003366;
+    color: white;
+}
+
+.bottom-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding-bottom: 25px;
+}
+
+.menu-btn {
+    flex: 1 1 45%;
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 10px;
     border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.event-card h4 {
-    margin-top: 0;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.event-description {
-    opacity: 0.8;
-    margin: 8px 0 15px;
+    text-align: center;
     font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-/* Date and Time side by side */
-.event-datetime {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 15px;
+.menu-btn:hover {
+    background-color: #003366;
+}
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .slide-card {
+        min-width: 140px;
+        max-width: 180px;
+        padding: 8px;
+    }
+
+    .slide-title,
+    .slide-desc {
+        font-size: 12px;
+    }
+    .quick-link-btn {
+        padding: 12px;
+        width: 22%;
+    }
+
+    .icon-wrapper {
+        width: 50px;
+        height: 50px;
+    }
+
+    .icon-img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .btn-text {
+        font-size: 13px;
+    }
 }
 
-.event-date, .event-time {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-}
-
-.event-date::before {
-    content: "📅";
-    margin-right: 8px;
-}
-
-.event-time::before {
-    content: "⏰";
-    margin-right: 8px;
-}
-
-/* Action Buttons */
-.event-actions {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+@media (max-width: 400px) {
+    .hotel-banner {
+        font-size: 13px;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .quick-link-btn {
+        padding: 12px;
+        width: 22%;
+    }
+    .event-title {
+        font-size: 14px;
+    }
+    .menu-btn {
+        font-size: 13px;
+    }
 }
 
 .action-btn {
@@ -290,8 +484,10 @@ export default {
 }
 
 .count {
-    background-color: #4caf50; /* Green */
-    color: white;
+    background-color: #E4F2FF; /* Green */
+    color: #4169E1;
+    margin-left: 10px;
+    border-radius: 10px;
 }
 
 .see-all {
@@ -304,10 +500,52 @@ export default {
 }
 
 /* Quick Links Colors */
+.quick-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
 .quick-link-btn {
-    background-color: #f1f8fe; /* Very light blue */
-    color: #1e88e5; /* Blue */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #ffffff;
+    color: #1e88e5;
     border: 1px solid #e1f0ff;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: box-shadow 0.3s;
+}
+
+.quick-link-btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon-wrapper {
+    width: 60px;
+    height: 60px;
+    background: #F2F5FF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.icon-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.btn-text {
+    font-size: 14px;
+    font-weight: 500;
 }
 /* Gallery & Seller Items */
 .gallery-item, .seller-item {
@@ -328,6 +566,10 @@ export default {
     .event-actions {
         grid-template-columns: repeat(4, 1fr);
     }
+    .quick-link-btn {
+        padding: 12px;
+        width: 24%;
+    }
 
     .event-datetime {
         gap: 30px;
@@ -337,6 +579,10 @@ export default {
 @media (min-width: 600px) {
     .production-officer-home {
         padding: 20px;
+    }
+    .quick-link-btn {
+        padding: 12px;
+        width: 24%;
     }
 
     .greeting .time {
@@ -384,14 +630,6 @@ export default {
         grid-template-columns: repeat(4, 1fr);
     }
 
-    .quick-links {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-    }
-
-    .quick-link-btn {
-        padding: 15px 10px;
-    }
 
     .quick-link-btn .icon {
         font-size: 24px;

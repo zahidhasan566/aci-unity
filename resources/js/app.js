@@ -32,7 +32,10 @@ import Swal from 'sweetalert2';
 window.Swal = Swal;
 //moment
 import moment from 'moment'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css' // NOT 'swiper/css'
 
+Vue.use(VueAwesomeSwiper)
 
 //Component
 Vue.component('skeleton-loader', require('./components/loaders/Straight').default);

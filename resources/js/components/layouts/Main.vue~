@@ -1,7 +1,7 @@
 <template>
     <div id="wrapper">
         <Navbar/>
-<!--        <LeftSidebar/>-->
+        <LeftSidebar/>
         <div class="content-page">
           <div class="content">
               <div class="container-fluid">
