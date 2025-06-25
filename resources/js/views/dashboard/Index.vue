@@ -441,6 +441,9 @@ export default {
     .btn-text {
         font-size: 13px;
     }
+    .quick-links {
+        gap: 14px;
+    }
 }
 
 @media (max-width: 400px) {
@@ -574,12 +577,16 @@ export default {
     .event-datetime {
         gap: 30px;
     }
+    .quick-links {
+        gap: 14px;
+    }
 }
 /* Responsive Design */
 @media (min-width: 600px) {
     .production-officer-home {
         padding: 20px;
     }
+
     .quick-link-btn {
         padding: 12px;
         width: 24%;
@@ -660,6 +667,9 @@ export default {
 @media (min-width: 900px) {
     .quick-links {
         grid-template-columns: repeat(4, 1fr);
+    }
+    .quick-links {
+        gap: 11px;
     }
 
     .event-actions {
