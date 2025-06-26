@@ -253,7 +253,7 @@ export default {
 /* Main Background */
 .production-officer-home {
     background-color: #ffffff;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 
@@ -535,6 +535,7 @@ export default {
     color: #4169E1;
     margin-left: 10px;
     border-radius: 10px;
+    font-size: 12px;
 }
 
 .see-all {

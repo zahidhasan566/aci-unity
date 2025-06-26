@@ -74,7 +74,6 @@
             <button class="menu-btn">📍 Venue Map</button>
             <button class="menu-btn">👔 Dress Code</button>
             <button class="menu-btn">📅 Schedule</button>
-            <button class="menu-btn">🎟️ Coupon</button>
         </div>
 
         <!-- Quick Links Section -->
@@ -536,6 +535,7 @@ export default {
     color: #4169E1;
     margin-left: 10px;
     border-radius: 10px;
+    font-size: 12px;
 }
 
 .see-all {
