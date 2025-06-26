@@ -4,7 +4,7 @@
 <!--        <LeftSidebar/>-->
         <div class="content-page">
           <div class="content">
-              <div>
+              <div class="container-fluid">
                   <router-view></router-view>
                   <Footer/>
               </div>

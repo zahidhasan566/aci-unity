@@ -74,7 +74,6 @@
             <button class="menu-btn">📍 Venue Map</button>
             <button class="menu-btn">👔 Dress Code</button>
             <button class="menu-btn">📅 Schedule</button>
-            <button class="menu-btn">🎟️ Coupon</button>
         </div>
 
         <!-- Quick Links Section -->
