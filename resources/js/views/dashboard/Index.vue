@@ -14,7 +14,7 @@
                 <div class="welcome-message">
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-8">
-                            <h2>    <img :src="`${mainOrigin}assets/icon/happyface.png`" alt="happyface Image" class="happyface">Welcome</h2>
+                            <h2>    <img :src="`${mainOrigin}assets/icon/happyface.png`" alt="happyface Image" class="happyface"> Welcome</h2>
                             <p>We are delighted to have you among us. On behalf of all the members and the management, we would like to extend our warmest welcome and good wishes!</p>
 
                         </div>
@@ -61,8 +61,12 @@
                         <p><strong>Sub:</strong> {{ event.sub }}</p>
                         <p><strong>Venue:</strong> {{ event.venue }}</p>
                         <div class="event-footer">
-                            <span>📅 {{ event.date }}</span>
-                            <span>⏰ {{ event.time }}</span>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-6"> <span>📅 {{ event.date }}</span></div>
+                                <div class="col-md-6 col-sm-6 col-6"><span>⏰ {{ event.time }}</span></div>
+                            </div>
+
+
                         </div>
                     </div>
                 </swiper-slide>
@@ -120,7 +124,6 @@
                         <div class="slide-card">
                             <img :src="`${mainOrigin}assets/images/${award.image}`" alt="award" class="slide-img" />
                             <h5 class="slide-title">{{ truncateText(award.title, 40) }}</h5>
-                            <p class="slide-desc"><strong>Venue:</strong> {{ truncateText(award.details, 40) }}</p>
                         </div>
                     </swiper-slide>
                 </swiper>
@@ -142,7 +145,6 @@
                         <div class="slide-card">
                             <img :src="`${mainOrigin}assets/images/${award.image}`" alt="award" class="slide-img" />
                             <h5 class="slide-title">{{ truncateText(award.title, 40) }}</h5>
-                            <p class="slide-desc"><strong>Venue:</strong> {{ truncateText(award.details, 40) }}</p>
                         </div>
                     </swiper-slide>
                 </swiper>
