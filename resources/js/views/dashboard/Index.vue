@@ -2,7 +2,7 @@
     <div class="production-officer-home">
         <!-- Header Section -->
         <div class="header">
-            <div class="profile-header d-flex align-items-center justify-content-between flex-wrap">
+            <div class="profile-header d-flex align-items-center flex-wrap">
                 <!-- Profile Icon -->
                 <div class="profile-icon">
                     <img :src="`${mainOrigin}assets/icon/profile.png`" alt="Profile Image" class="profile">
@@ -531,9 +531,6 @@ export default {
     color: white;
 }
 @media (max-width: 576px) {
-    .profile-header {
-        text-align: center;
-    }
     .notification-dropdown {
         left: auto;     /* Same on mobile for consistency */
         right: 0;
