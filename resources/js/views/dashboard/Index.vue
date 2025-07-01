@@ -21,7 +21,7 @@
                 <div class="actions d-flex align-items-center justify-content-end col-md-4 col-4">
                     <!-- Checkbox styled as a button -->
                     <label class="btn btn-checkin m-0"
-                           style="font-size: 12px; background: linear-gradient(135deg, #35ACBC 0%, #154F9E 100%); border-radius:15px; color: #FFFFFF"
+                           style="font-size: 10px; background: linear-gradient(135deg, #35ACBC 0%, #154F9E 100%); border-radius:15px; color: #FFFFFF"
                            :class="{ checked: isCheckedIn }">
                         <input type="checkbox" v-model="isCheckedIn" class="d-none" />
                         <i :class="['me-1', isCheckedIn ? 'fas fa-check-circle' : 'far fa-circle']"></i>
