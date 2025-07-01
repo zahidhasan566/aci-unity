@@ -171,9 +171,9 @@ export default {
     },
     mounted() {
         // Example for real-time notification simulation
-        setInterval(() => {
-            this.receiveNotification("You have a new message at " + new Date().toLocaleTimeString());
-        }, 10000); // Replace with WebSocket or API call in production
+        // setInterval(() => {
+        //     this.receiveNotification("You have a new message at " + new Date().toLocaleTimeString());
+        // }, 10000); // Replace with WebSocket or API call in production
     },
     methods: {
         logout() {

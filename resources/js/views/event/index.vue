@@ -2,8 +2,10 @@
     <div class="event-timeline">
         <div class="container">
             <!-- 🔙 Back Icon Row -->
-            <div class="d-flex align-items-center mb-3">
-                <span @click="goBack" class="back-icon">← Back</span>
+            <div style="text-align: end; margin-bottom: 5px">
+                <button @click="goBack" class="feedback-btn">
+                    ← Back
+                </button>
             </div>
 
             <!-- 🔍 Filter Row -->

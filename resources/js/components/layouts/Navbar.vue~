@@ -37,7 +37,7 @@
                         <i class="mdi mdi-bell-outline noti-icon"></i>
 
                         <span  v-if="unreadCount > 0" class="badge badge-pill badge-danger noti-icon-badge">  {{ unreadCount }}</span></a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg" style="min-width: 355px"  v-if="showNotifications">
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg" style="min-width: 400px"  v-if="showNotifications">
                         <!-- item-->
                         <h6 class="dropdown-item-text">Notifications ({{ unreadCount }})</h6>
                         <div class="slimscroll notification-item-list">

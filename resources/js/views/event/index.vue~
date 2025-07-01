@@ -2,10 +2,13 @@
     <div class="event-timeline">
         <div class="container">
             <!-- 🔙 Back Icon Row -->
-            <div class="d-flex align-items-center mb-3">
-                <span @click="goBack" class="back-icon">← Back</span>
+            <div style="text-align: end; margin-bottom: 5px">
+                <button @click="goBack" class="btn-success">
+                    ← Back
+                </button>
             </div>
 
+            <!-- 🔍 Filter Row -->
             <div class="row mb-3">
                 <div class="col-6 pe-1">
                     <input
@@ -25,23 +28,6 @@
                 </div>
             </div>
 
-            <!-- 🔍 Filter Row -->
-<!--            <div class="d-flex flex-wrap gap-2 mb-3">-->
-<!--                <input-->
-<!--                    type="text"-->
-<!--                    v-model="searchText"-->
-<!--                    placeholder="🔍 Search by title or sub..."-->
-<!--                    class="form-control flex-grow-1"-->
-<!--                    style="min-width: 150px;"-->
-<!--                />-->
-
-<!--                <input-->
-<!--                    type="date"-->
-<!--                    v-model="selectedDate"-->
-<!--                    class="form-control flex-grow-1"-->
-<!--                    style="min-width: 150px;"-->
-<!--                />-->
-<!--            </div>-->
         </div>
 
 
@@ -67,6 +53,7 @@
                 </div>
             </div>
         </div>
+        <!-- Feedback Modal -->
         <div v-if="showModal" class="modal-overlay">
             <div class="modal-content">
                 <h5>Submit Feedback</h5>
@@ -82,35 +69,8 @@
             </div>
         </div>
     </div>
-    <!-- Feedback Modal -->
 
-<!--    <div class="event-schedule">-->
-<!--        <div v-for="(event, index) in events" :key="index" class="event-card">-->
-<!--            <div class="event-header">-->
-<!--                <strong>{{ event.title }}</strong>-->
-<!--                <p><b>Sub:</b> {{ event.sub }}</p>-->
-<!--                <p><b>Venue:</b> {{ event.venue }}</p>-->
-<!--                <p><b>Date:</b> {{ event.date }} | <b>Time:</b> {{ event.time }}</p>-->
-<!--            </div>-->
-<!--            <button @click="openFeedback(index)">Feedback</button>-->
-<!--        </div>-->
 
-<!--        &lt;!&ndash; Feedback Modal &ndash;&gt;-->
-<!--        <div v-if="showModal" class="modal-overlay">-->
-<!--            <div class="modal-content">-->
-<!--                <h3>Submit Feedback</h3>-->
-<!--                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
-<!--                <label>Overall Rating</label>-->
-<!--                <div class="slider-wrap">-->
-<!--                    <input type="range" min="1" max="5" v-model="rating" />-->
-<!--                    <span>{{ rating }}★</span>-->
-<!--                </div>-->
-<!--                <textarea v-model="feedbackText" placeholder="Type Here..."></textarea>-->
-<!--                <button @click="submitFeedback">Submit</button>-->
-<!--                <button class="close-btn" @click="showModal = false">×</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 </template>
 <script>
 export default {
