@@ -13,6 +13,45 @@
                     <a class="nav-link waves-effect" href="#" id="btn-fullscreen"><i class="mdi mdi-fullscreen noti-icon"></i></a>
                 </li>
 
+<!--                <div class="notification-icon position-relative" @click="toggleNotification">-->
+<!--                    <i class="fas fa-bell fa-lg"></i>-->
+<!--                    <span v-if="unreadCount > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle p-1 rounded-circle">-->
+<!--          {{ unreadCount }}-->
+<!--        </span>-->
+
+<!--                    &lt;!&ndash; Notification dropdown &ndash;&gt;-->
+<!--                    <div-->
+<!--                        v-if="showNotifications"-->
+<!--                        class="notification-dropdown bg-white shadow rounded"-->
+<!--                    >-->
+<!--                        <p v-if="notifications.length === 0" class="text-muted mb-0">No new notifications</p>-->
+<!--                        <ul class="list-unstyled mb-0">-->
+<!--                            <li v-for="(note, index) in notifications" :key="index" class="border-bottom py-1">-->
+<!--                                {{ note.message }}-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <li class="dropdown notification-list list-inline-item"  @click="toggleNotification">
+                    <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <i class="mdi mdi-bell-outline noti-icon"></i>
+
+                        <span  v-if="unreadCount > 0" class="badge badge-pill badge-danger noti-icon-badge">  {{ unreadCount }}</span></a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg"  v-if="showNotifications">
+                        <!-- item-->
+                        <h6 class="dropdown-item-text">Notifications ({{ unreadCount }})</h6>
+                        <div class="slimscroll notification-item-list">
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item active" v-for="(note, index) in notifications" :key="index">
+                                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
+                                <p v-if="notifications.length === 0" class="text-muted mb-0">No new notifications</p>
+                                <p v-else class="notify-details"> {{ note.message }}</p>
+                            </a>
+                        </div>
+<!--                        &lt;!&ndash; All&ndash;&gt;<a href="javascript:void(0);" class="dropdown-item text-center text-primary">View all <i class="fi-arrow-right"></i></a>-->
+                    </div>
+                </li>
+
                 <!-- notification -->
 <!--                <li class="dropdown notification-list list-inline-item">-->
 <!--                    <div class="dropdown notification-list nav-pro-img">-->
@@ -26,18 +65,18 @@
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </li>-->
-                <li class="dropdown notification-list list-inline-item">
-                    <div class="dropdown notification-list nav-pro-img">
-                        <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                            <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right profile-dropdown">
-                            <!-- item-->
-                            <button @click="openUserModel" class="dropdown-item" title="profile"> <i class="mdi mdi-account-circle m-r-5"></i>  Profile</button>
+<!--                <li class="dropdown notification-list list-inline-item">-->
+<!--                    <div class="dropdown notification-list nav-pro-img">-->
+<!--                        <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">-->
+<!--                            <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">-->
+<!--                        </a>-->
+<!--                        <div class="dropdown-menu dropdown-menu-right profile-dropdown">-->
+<!--                            &lt;!&ndash; item&ndash;&gt;-->
+<!--                            <button @click="openUserModel" class="dropdown-item" title="profile"> <i class="mdi mdi-account-circle m-r-5"></i>  Profile</button>-->
 
-                        </div>
-                    </div>
-                </li>
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
 
                 <li  class="notification-list list-inline-item">
                     <div class="nav-link waves-effect" style="padding: 0">
@@ -115,15 +154,26 @@ export default {
         return {
             menus: [],
             authUser: {},
+            showNotifications: false,
             myModel:false,
             updatePassword:'',
             confirmUpdatePassword: '',
+            notifications: [],
         }
     },
     computed: {
         me() {
             return this.$store.state.me
-        }
+        },
+        unreadCount() {
+            return this.notifications.length;
+        },
+    },
+    mounted() {
+        // Example for real-time notification simulation
+        setInterval(() => {
+            this.receiveNotification("You have a new message at " + new Date().toLocaleTimeString());
+        }, 10000); // Replace with WebSocket or API call in production
     },
     methods: {
         logout() {
@@ -136,6 +186,13 @@ export default {
                     this.errorNoti(error);
                 }
             );
+        },
+        receiveNotification(message) {
+            this.notifications.push({ message });
+        },
+        toggleNotification() {
+            console.log("fgg")
+            this.showNotifications = !this.showNotifications;
         },
         openUserModel(){
             this.myModel = true;

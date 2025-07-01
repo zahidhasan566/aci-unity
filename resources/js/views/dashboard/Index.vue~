@@ -2,60 +2,35 @@
     <div class="production-officer-home">
         <!-- Header Section -->
         <div class="header">
-            <div class="profile-header d-flex align-items-center flex-wrap">
-                <!-- Profile Icon -->
-                <div class="profile-icon">
-                    <img :src="`${mainOrigin}assets/icon/profile.png`" alt="Profile Image" class="profile">
+            <div class="profile-header d-flex align-items-center flex-wrap justify-content-between">
+                <!-- Left Section: Profile Icon & Greeting -->
+                <div class="d-flex align-items-center flex-grow-1 col-md-7 col-7">
+                    <!-- Profile Icon -->
+                    <div class="profile-icon me-3">
+                        <img :src="`${mainOrigin}assets/icon/profile.png`" alt="Profile Image" class="profile">
+                    </div>
+
+                    <!-- Greeting Section -->
+                    <div class="greeting">
+                        <p class="time">Good Morning</p>
+                        <h1 class="name">Md Zahid Hasan</h1>
+                    </div>
                 </div>
 
-                <!-- Greeting Section -->
-                <div class="greeting">
-                    <p class="time">Good Morning</p>
-                    <h1 class="name">Md Zahid Hasan</h1>
-                </div>
-
-                <!-- Check-In & Notification -->
-                <div class="actions d-flex align-items-center gap-3 ms-auto">
+                <!-- Right Section: Check-In & Notification -->
+                <div class="actions d-flex align-items-center justify-content-end col-md-5 col-5">
                     <!-- Checkbox styled as a button -->
                     <label class="btn btn-checkin m-0"
-                           style=" background: linear-gradient(135deg, #35ACBC 0%, #154F9E 100%);border-radius:15px;color: #FFFFFF"
+                           style="font-size: 12px; background: linear-gradient(135deg, #35ACBC 0%, #154F9E 100%); border-radius:15px; color: #FFFFFF"
                            :class="{ checked: isCheckedIn }">
-                        <input type="checkbox" v-model="isCheckedIn" class="d-none" :checked="false" />
+                        <input type="checkbox" v-model="isCheckedIn" class="d-none" />
                         <i :class="['me-1', isCheckedIn ? 'fas fa-check-circle' : 'far fa-circle']"></i>
                         {{ isCheckedIn ? "Checked In" : "Check In" }}
                     </label>
-
-                    <!-- Notification Icon with count and dropdown -->
-                    <div class="notification-icon position-relative" style="    margin-left: 10px;" @click="toggleNotification">
-                        <i class="fas fa-bell fa-lg"></i>
-                        <span v-if="unreadCount > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle p-1 rounded-circle">
-          {{ unreadCount }}
-        </span>
-
-                        <!-- Notification dropdown -->
-                        <div
-                            v-if="showNotifications"
-                            class="notification-dropdown bg-white shadow rounded"
-                        >
-                            <p v-if="notifications.length === 0" class="text-muted mb-0">No new notifications</p>
-                            <ul class="list-unstyled mb-0">
-                                <li v-for="(note, index) in notifications" :key="index" class="border-bottom py-1">
-                                    {{ note.message }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <!--            <div class="profile-header">-->
-<!--                <div class="profile-icon">-->
-<!--                    <img :src="`${mainOrigin}assets/icon/profile.png`" alt="profile Image" class="profile"></div> &lt;!&ndash; Profile icon placeholder &ndash;&gt;-->
-<!--                <div class="greeting">-->
-<!--                    <p class="time">Good Morning</p>-->
-<!--                    <h1 class="name">Md Zahid Hasan</h1>-->
-<!--                </div>-->
-<!--            </div>-->
+
             <div class="remainingHeader">
                 <div class="welcome-message">
                     <div class="row">
@@ -212,8 +187,6 @@ export default {
     return {
       isLoading: true,
         isCheckedIn: false,
-        showNotifications: false,
-        notifications: [],
         events: [
             {
                 title: 'Annual Marketing and Sales conference. 2025',
@@ -278,28 +251,14 @@ export default {
     me() {
       return this.$store.state.me
     },
-      unreadCount() {
-          return this.notifications.length;
-      },
   },
   created() {
     this.getData();
   },
-    mounted() {
-        // Example for real-time notification simulation
-        setInterval(() => {
-            this.receiveNotification("You have a new message at " + new Date().toLocaleTimeString());
-        }, 10000); // Replace with WebSocket or API call in production
-    },
+    mounted() {},
   methods: {
       toggleCheckIn() {
           this.isCheckedIn = !this.isCheckedIn;
-      },
-      toggleNotification() {
-          this.showNotifications = !this.showNotifications;
-      },
-      receiveNotification(message) {
-          this.notifications.push({ message });
       },
       truncateText(text, maxLength = 50) {
           if (!text) return '';
@@ -540,7 +499,7 @@ export default {
         font-size: 17px;
     }
     .greeting .time {
-        font-size: 9px;
+        font-size: 12px;
     }
 
     .btn-checkin {
