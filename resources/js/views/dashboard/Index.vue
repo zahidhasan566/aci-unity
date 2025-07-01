@@ -18,7 +18,7 @@
                 <div class="actions d-flex align-items-center gap-3 ms-auto">
                     <!-- Checkbox styled as a button -->
                     <label class="btn btn-checkin m-0"
-                           style=" background: linear-gradient(135deg, #35ACBC 0%, #154F9E 100%);border-radius:15px;color: #FFFFFF"
+                           style="font-size: 12px; background: linear-gradient(135deg, #35ACBC 0%, #154F9E 100%);border-radius:15px;color: #FFFFFF"
                            :class="{ checked: isCheckedIn }">
                         <input type="checkbox" v-model="isCheckedIn" class="d-none" :checked="false" />
                         <i :class="['me-1', isCheckedIn ? 'fas fa-check-circle' : 'far fa-circle']"></i>
@@ -540,7 +540,7 @@ export default {
         font-size: 17px;
     }
     .greeting .time {
-        font-size: 9px;
+        font-size: 12px;
     }
 
     .btn-checkin {

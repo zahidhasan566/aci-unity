@@ -539,6 +539,9 @@ export default {
     .greeting .name{
         font-size: 17px;
     }
+    .greeting .time {
+        font-size: 9px;
+    }
 
     .btn-checkin {
         flex: 1 1 100%;
