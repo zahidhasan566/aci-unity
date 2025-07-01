@@ -14,18 +14,30 @@
                 </li>
 
                 <!-- notification -->
-                <li class="dropdown notification-list list-inline-item">
-                    <div class="dropdown notification-list nav-pro-img">
-                        <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                            <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right profile-dropdown">
-                            <!-- item-->
-                            <button @click="openUserModel" class="dropdown-item" title="profile"> <i class="mdi mdi-account-circle m-r-5"></i>  Profile</button>
+<!--                <li class="dropdown notification-list list-inline-item">-->
+<!--                    <div class="dropdown notification-list nav-pro-img">-->
+<!--                        <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">-->
+<!--                            <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">-->
+<!--                        </a>-->
+<!--                        <div class="dropdown-menu dropdown-menu-right profile-dropdown">-->
+<!--                            &lt;!&ndash; item&ndash;&gt;-->
+<!--                            <button @click="openUserModel" class="dropdown-item" title="profile"> <i class="mdi mdi-account-circle m-r-5"></i>  Profile</button>-->
 
-                        </div>
-                    </div>
-                </li>
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="dropdown notification-list list-inline-item">-->
+<!--                    <div class="dropdown notification-list nav-pro-img">-->
+<!--                        <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">-->
+<!--                            <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">-->
+<!--                        </a>-->
+<!--                        <div class="dropdown-menu dropdown-menu-right profile-dropdown">-->
+<!--                            &lt;!&ndash; item&ndash;&gt;-->
+<!--                            <button @click="openUserModel" class="dropdown-item" title="profile"> <i class="mdi mdi-account-circle m-r-5"></i>  Profile</button>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
 
                 <li  class="notification-list list-inline-item">
                     <div class="nav-link waves-effect" style="padding: 0">

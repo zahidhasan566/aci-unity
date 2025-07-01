@@ -2,7 +2,7 @@
     <div class="production-officer-home">
         <!-- Header Section -->
         <div class="header">
-            <div class="profile-header d-flex align-items-center justify-content-between flex-wrap">
+            <div class="profile-header d-flex align-items-center flex-wrap">
                 <!-- Profile Icon -->
                 <div class="profile-icon">
                     <img :src="`${mainOrigin}assets/icon/profile.png`" alt="Profile Image" class="profile">
@@ -529,6 +529,32 @@ export default {
 .menu-btn:hover {
     background-color: #0C2189;
     color: white;
+}
+@media (max-width: 385px) {
+    /*.actions {*/
+    /*    flex-wrap: wrap !important;*/
+    /*    justify-content: center !important;*/
+    /*    gap: 0.5rem !important;*/
+    /*}*/
+    .greeting .name{
+        font-size: 17px;
+    }
+
+    .btn-checkin {
+        flex: 1 1 100%;
+        max-width: 150px; /* or adjust */
+        text-align: center;
+    }
+
+    .notification-icon {
+        flex: 1 1 auto;
+    }
+
+    /* Optional: reduce font size or padding */
+    .btn-checkin, .notification-icon i {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.7rem;
+    }
 }
 @media (max-width: 576px) {
     .notification-dropdown {

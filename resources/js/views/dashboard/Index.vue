@@ -530,6 +530,35 @@ export default {
     background-color: #0C2189;
     color: white;
 }
+@media (max-width: 385px) {
+    /*.actions {*/
+    /*    flex-wrap: wrap !important;*/
+    /*    justify-content: center !important;*/
+    /*    gap: 0.5rem !important;*/
+    /*}*/
+    .greeting .name{
+        font-size: 17px;
+    }
+    .greeting .time {
+        font-size: 9px;
+    }
+
+    .btn-checkin {
+        flex: 1 1 100%;
+        max-width: 150px; /* or adjust */
+        text-align: center;
+    }
+
+    .notification-icon {
+        flex: 1 1 auto;
+    }
+
+    /* Optional: reduce font size or padding */
+    .btn-checkin, .notification-icon i {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.7rem;
+    }
+}
 @media (max-width: 576px) {
     .notification-dropdown {
         left: auto;     /* Same on mobile for consistency */
