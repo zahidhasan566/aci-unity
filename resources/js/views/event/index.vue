@@ -1,6 +1,40 @@
 <template>
     <div class="event-timeline">
-        <div v-for="(event, index) in events" :key="index" class="timeline-item">
+        <div class="container">
+            <!-- 🔙 Back Icon Row -->
+            <div class="d-flex align-items-center mb-3">
+                <span @click="goBack" class="back-icon">← Back</span>
+            </div>
+
+            <!-- 🔍 Filter Row -->
+            <div class="row mb-3">
+                <div class="col-6 pe-1">
+                    <input
+                        type="text"
+                        v-model="searchText"
+                        placeholder="🔍 Search by title or sub..."
+                        class="form-control"
+                    />
+                </div>
+
+                <div class="col-6 ps-1">
+                    <input
+                        type="date"
+                        v-model="selectedDate"
+                        class="form-control"
+                    />
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div
+            v-for="(event, index) in filteredEvents"
+            :key="index"
+            class="timeline-item"
+        >
             <div class="timeline-marker">
                 <span class="marker-circle">{{ index + 1 }}</span>
                 <div class="timeline-line" v-if="index !== events.length - 1"></div>
@@ -17,6 +51,7 @@
                 </div>
             </div>
         </div>
+        <!-- Feedback Modal -->
         <div v-if="showModal" class="modal-overlay">
             <div class="modal-content">
                 <h5>Submit Feedback</h5>
@@ -32,40 +67,15 @@
             </div>
         </div>
     </div>
-    <!-- Feedback Modal -->
 
-<!--    <div class="event-schedule">-->
-<!--        <div v-for="(event, index) in events" :key="index" class="event-card">-->
-<!--            <div class="event-header">-->
-<!--                <strong>{{ event.title }}</strong>-->
-<!--                <p><b>Sub:</b> {{ event.sub }}</p>-->
-<!--                <p><b>Venue:</b> {{ event.venue }}</p>-->
-<!--                <p><b>Date:</b> {{ event.date }} | <b>Time:</b> {{ event.time }}</p>-->
-<!--            </div>-->
-<!--            <button @click="openFeedback(index)">Feedback</button>-->
-<!--        </div>-->
 
-<!--        &lt;!&ndash; Feedback Modal &ndash;&gt;-->
-<!--        <div v-if="showModal" class="modal-overlay">-->
-<!--            <div class="modal-content">-->
-<!--                <h3>Submit Feedback</h3>-->
-<!--                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
-<!--                <label>Overall Rating</label>-->
-<!--                <div class="slider-wrap">-->
-<!--                    <input type="range" min="1" max="5" v-model="rating" />-->
-<!--                    <span>{{ rating }}★</span>-->
-<!--                </div>-->
-<!--                <textarea v-model="feedbackText" placeholder="Type Here..."></textarea>-->
-<!--                <button @click="submitFeedback">Submit</button>-->
-<!--                <button class="close-btn" @click="showModal = false">×</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 </template>
 <script>
 export default {
     data() {
         return {
+            searchText: '',
+            selectedDate: '',
             events: [
                 {
                     title: "Annual Marketing and Sales conference. 2025",
@@ -75,7 +85,7 @@ export default {
                     time: "09:00 - 10:00",
                 },
                 {
-                    title: "Annual Marketing and Sales conference. 2025",
+                    title: "Monthly Marketing and Sales conference. 2025",
                     sub: "Introduction to SAR",
                     venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
                     date: "Monday, 27 July",
@@ -96,10 +106,27 @@ export default {
             feedbackText: '',
         };
     },
+    computed: {
+        filteredEvents() {
+            return this.events.filter(event => {
+                const searchMatch = this.searchText === '' || (
+                    event.title.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                    event.sub.toLowerCase().includes(this.searchText.toLowerCase())
+                );
+
+                const dateMatch = this.selectedDate === '' || event.date === this.selectedDate;
+
+                return searchMatch && dateMatch;
+            });
+        }
+    },
     methods: {
         openFeedback(index) {
             this.selectedEventIndex = index;
             this.showModal = true;
+        },
+        goBack() {
+            this.$router.go(-1); // or use this.$router.push({ name: 'YourPreviousRoute' });
         },
         async submitFeedback() {
             const payload = {
@@ -124,6 +151,23 @@ export default {
 </script>
 
 <style scoped>
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.search-input,
+.date-input {
+    padding: 8px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 14px;
+    flex: 1;
+    min-width: 220px;
+}
 .event-timeline {
     display: flex;
     flex-direction: column;
@@ -227,6 +271,10 @@ export default {
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
     .event-meta {
         align-items: flex-start;
     }
