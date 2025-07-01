@@ -145,7 +145,6 @@
                         <div class="slide-card">
                             <img :src="`${mainOrigin}assets/images/${award.image}`" alt="award" class="slide-img" />
                             <h5 class="slide-title">{{ truncateText(award.title, 40) }}</h5>
-                            <p class="slide-desc"><strong>Venue:</strong> {{ truncateText(award.details, 40) }}</p>
                         </div>
                     </swiper-slide>
                 </swiper>

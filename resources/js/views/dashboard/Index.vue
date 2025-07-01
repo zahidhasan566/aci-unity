@@ -46,7 +46,10 @@
             <div class="section-header">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-9"> <h5>Upcoming Event Schedule  <span class="count">12</span></h5></div>
-                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">  <a href="#" class="see-all">See All</a></div>
+<!--                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">  <a href="#" class="see-all">See All</a></div>-->
+                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">
+                        <router-link :to="{ name: 'eventIndex' }" class="see-all">See All</router-link>
+                    </div>
                 </div>
             </div>
         </div>

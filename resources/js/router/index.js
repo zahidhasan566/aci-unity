@@ -8,9 +8,9 @@ import NotFound from '../views/404/Index';
 
 import Users from '../views/users/Index';
 import ReportAllShopInformation from "../views/reports/reportAllShopInformation.vue";
-import AssignVroIndex from "../views/vro/AssignVroIndex.vue";
 import ApprovalIndex from "../views/approval/ApprovalIndex.vue";
 import shopInformationPrint from "../views/reports/shopInformationPrint.vue";
+import eventIndex from "../views/event/index.vue";
 
 
 Vue.use(VueRouter);
@@ -51,12 +51,6 @@ const routes = [
                 name: 'Dashboard',
                 component: Dashboard
             },
-            //VRO
-            {
-                path: baseurl + 'vro/assign-vro',
-                name: 'AssignVroIndex',
-                component: AssignVroIndex
-            },
             //ADMIN ROUTE | SHOW USER LIST
             {
                 path: baseurl + 'users',
@@ -80,6 +74,13 @@ const routes = [
                 name: 'shopInformationPrint',
                 component: shopInformationPrint
             },
+            {
+                path: baseurl + 'all-event',
+                name: 'eventIndex',
+                component: eventIndex
+            },
+
+
 
 
 
