@@ -37,13 +37,13 @@
                         <i class="mdi mdi-bell-outline noti-icon"></i>
 
                         <span  v-if="unreadCount > 0" class="badge badge-pill badge-danger noti-icon-badge">  {{ unreadCount }}</span></a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg"  v-if="showNotifications">
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg" style="min-width: 355px"  v-if="showNotifications">
                         <!-- item-->
                         <h6 class="dropdown-item-text">Notifications ({{ unreadCount }})</h6>
                         <div class="slimscroll notification-item-list">
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item active" v-for="(note, index) in notifications" :key="index">
-                                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
+                                <div class="notify-icon bg-success"><i class="mdi mdi-bell-outline noti-icon"></i></div>
                                 <p v-if="notifications.length === 0" class="text-muted mb-0">No new notifications</p>
                                 <p v-else class="notify-details"> {{ note.message }}</p>
                             </a>
