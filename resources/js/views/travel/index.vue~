@@ -5,66 +5,22 @@
             <div style="text-align: initial; margin-bottom: 5px">
                 <p style="font-size: 20px;font-weight: bold;color: black"><span style="font-size: 15px;" @click="goBack"> <i class="ti-angle-left"></i></span> {{title}} </p>
             </div>
-
-            <!-- 🔍 Filter Row -->
-            <div class="row mb-3">
-                <div class="col-6 pe-1">
-                    <input
-                        type="text"
-                        v-model="searchText"
-                        placeholder="🔍 Search by title or sub..."
-                        class="form-control"
-                    />
-                </div>
-
-                <div class="col-6 ps-1">
-                    <input
-                        type="date"
-                        v-model="selectedDate"
-                        class="form-control"
-                    />
-                </div>
-            </div>
-
         </div>
 
 
 
-        <div
-            v-for="(hotel, index) in filteredHotels"
-            :key="index"
-            class="timeline-item"
-        >
-            <div class="timeline-marker">
-                <span class="marker-circle">{{ index + 1 }}</span>
-                <div class="timeline-line" v-if="index !== hotel.length - 1"></div>
-            </div>
-
+        <div>
             <div class="timeline-content">
                 <h4 class="data-title">
                     <div class="row hotel-banner">
-                        <div class="col-md-6 col-sm-6 col-7"> <span class="hotel-name">Hotel: {{ hotel.name }}</span></div>
-                        <div style="text-align:right" class="col-md-6 col-sm-6 col-5"> <span class="room-number">Room: {{ hotel.room }}</span></div>
+                        <div class="col-md-6 col-sm-6 col-7"> <span class="hotel-name">Hotel: {{hotelInfo.hotel.name}} </span></div>
+                        <div style="text-align:right" class="col-md-6 col-sm-6 col-5"> <span class="room-number">Room: {{hotelInfo.room.number}}</span></div>
 
                     </div>
 
                 </h4>
-                <p><strong>Address:</strong> {{ hotel.address }}</p>
-            </div>
-        </div>
-        <!-- Feedback Modal -->
-        <div v-if="showModal" class="modal-overlay">
-            <div class="modal-content">
-                <h5>Submit Feedback</h5>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                <label>Overall Rating</label>
-                <div class="slider-wrap">
-                    <input type="range" style="color: #6C85FF" min="1" max="5" v-model="rating" />
-                    <span>{{ rating }}★</span>
-                </div>
-                <textarea v-model="feedbackText" style="margin-bottom:15px" placeholder="Type Here..."></textarea>
-                <button @click="submitFeedback">Submit</button>
-                <button class="close-btn" @click="showModal = false">×</button>
+                <p><strong>Address:</strong> {{ hotelInfo.hotel.address }}</p>
+                <p><strong>Check In :</strong> {{ hotelInfo.hotel.check_in }}</p>
             </div>
         </div>
     </div>
@@ -72,40 +28,24 @@
 
 </template>
 <script>
+import {Common} from "../../mixins/common";
 export default {
+
+    mixins: [Common],
     data() {
         return {
             searchText: '',
             selectedDate: '',
-            hotels: [
-                {
-                    name: "Camp In Cox",
-                    room: "523",
-                    address: "Sayeman Beach Resort, 2nd Floor, Room 345",
-                    date: "Monday, 27 July",
-                    time: "09:00 - 10:00",
+            hotelInfo: {
+                hotel: {
+                    name: '' ,
+
                 },
-                {
-                    name: "Sayemon",
-                    room: "524",
-                    address: "Sayeman Beach Resort, 2nd Floor, Room 345",
-                    date: "Monday, 27 July",
-                    time: "09:00 - 10:00",
-                },
-                {
-                    name: "Hotel Beach",
-                    room: "525",
-                    address: "Sayeman Beach Resort, 2nd Floor, Room 345",
-                    date: "Monday, 27 July",
-                    time: "09:00 - 10:00",
-                },
-                // Add more events as needed
-            ],
-            showModal: false,
-            selectedEventIndex: null,
-            rating: 3,
-            feedbackText: '',
-            title:'Room & Hotel Info'
+                room:{
+                    number: ''
+                }
+            },
+            title:'Travel Info'
         };
     },
     computed: {
@@ -122,32 +62,24 @@ export default {
             });
         }
     },
+    mounted() {
+        this.getData();
+    },
     methods: {
         openFeedback(index) {
             this.selectedEventIndex = index;
             this.showModal = true;
         },
+        getData() {
+            this.axiosGet('room-hotel-data', (response) => {
+                this.hotelInfo = response.hotelInfo
+            }, (error) => {
+                this.errorNoti(error);
+            });
+        },
         goBack() {
             this.$router.go(-1); // or use this.$router.push({ name: 'YourPreviousRoute' });
         },
-        async submitFeedback() {
-            const payload = {
-                event: this.events[this.selectedEventIndex],
-                rating: this.rating,
-                feedback: this.feedbackText,
-            };
-
-            try {
-                const response = await this.$http.post('https://your-api.com/submit-feedback', payload);
-                alert("Feedback submitted successfully!");
-                this.showModal = false;
-                this.rating = 3;
-                this.feedbackText = '';
-            } catch (error) {
-                console.error("Error submitting feedback:", error);
-                alert("Submission failed.");
-            }
-        }
     }
 };
 </script>

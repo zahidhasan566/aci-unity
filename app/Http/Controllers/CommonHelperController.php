@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\EventSchedule;
+use App\Models\Helplines;
+use Illuminate\Http\Request;
+
+class CommonHelperController extends Controller
+{
+    public function index(){
+        $helpLines  = Helplines::all();
+        return response()->json([
+            'helpLines' => $helpLines,
+        ]);
+    }
+}

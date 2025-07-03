@@ -37,14 +37,14 @@
                 <div class="d-flex flex-column align-items-center p-2 h-100">
                     <div class="img-wrapper mb-2">
                         <img
-                            :src="`${mainOrigin}assets/images/${data.image}`"
-                            alt="award"
+                            :src="`${mainOrigin}assets/images/award1.png`"
+                            alt="photos"
                             class="slide-img"
-                            @click="openSinglePageData(data.id)"
+                            @click="openSinglePageData(data.PhotoID)"
 
                         />
                     </div>
-                    <p class="slide-title"   @click="openSinglePageData(data.id)" style="font-size: 12px;">{{ truncateText(data.title, 40) }}</p>
+                    <p class="slide-title"   @click="openSinglePageData(data.PhotoID)" style="font-size: 12px;">{{ truncateText(data.Title, 40) }}</p>
                 </div>
             </div>
         </div>
@@ -54,11 +54,14 @@
 
 </template>
 <script>
+import {Common} from "../../mixins/common";
 export default {
+    mixins: [Common],
     data() {
         return {
             searchText: '',
             selectedDate: '',
+            photos:[],
             awardsImage: [
                 {
                     id: 1,
@@ -104,23 +107,29 @@ export default {
             title:'Gallery'
         };
     },
+    mounted() {
+        this.getData();
+    },
     computed: {
         filteredData() {
-            return this.awardsImage.filter(data => {
+            return this.photos.filter(data => {
                 const searchMatch = this.searchText === '' || (
-                    data.title.toLowerCase().includes(this.searchText.toLowerCase())
+                    data.Title.toLowerCase().includes(this.searchText.toLowerCase())
                 );
 
-                const dateMatch = this.selectedDate === '' || data.date === this.selectedDate;
+                const dateMatch = this.selectedDate === '' || data.UploadDate === String(new Date(this.selectedDate).getFullYear());
 
                 return searchMatch && dateMatch;
             });
         }
     },
     methods: {
-        openFeedback(index) {
-            this.selectedEventIndex = index;
-            this.showModal = true;
+        getData() {
+            this.axiosGet('get-photo-gallery-index', (response) => {
+                this.photos = response.photos
+            }, (error) => {
+                this.errorNoti(error);
+            });
         },
         goBack() {
             this.$router.go(-1); // or use this.$router.push({ name: 'YourPreviousRoute' });

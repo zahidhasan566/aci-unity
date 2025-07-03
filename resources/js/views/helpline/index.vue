@@ -7,34 +7,75 @@
             </div>
         </div>
 
-        <div class="timeline-content">
-            <h4 class="data-title">
-                <div class="hotel-banner">
-                    <div class="col-md-12col-sm-12 col-12"> <span class="hotel-name">Name: {{ name }}</span></div>
-                    <div style="text-align:initial" class="col-md-12 col-sm-12 col-12"> <span class="room-number">Contact: {{contact }}</span></div>
 
-                </div>
 
-            </h4>
+        <div
+            v-for="(helpLine, index) in helpLines"
+            :key="index"
+            class="timeline-item"
+        >
+            <div class="timeline-marker">
+                <span class="marker-circle">{{ index + 1 }}</span>
+                <div class="timeline-line" v-if="index !== helpLines.length - 1"></div>
+            </div>
+
+            <div class="timeline-content">
+                <h4 class="event-title">{{ helpLine.Name }}</h4>
+                <p style="margin:0"><strong>Designation:</strong> {{ helpLine.Designation }}</p>
+                <p style="margin:0"><strong>PhoneNumber:</strong> {{ helpLine.PhoneNumber }}</p>
+                <p style="margin:0"><strong>Purpose:</strong> {{ helpLine.Purpose }}</p>
+            </div>
         </div>
+
     </div>
 
 
 </template>
 <script>
+import {Common} from "../../mixins/common";
 export default {
+
+    mixins: [Common],
     data() {
         return {
+            title:'help Lines',
             searchText: '',
             selectedDate: '',
-            title:'Helpline',
-            name:'Zahid',
-            contact:'01974601166',
+            helpLines: [],
         };
     },
+    mounted() {
+        this.getData();
+    },
+    computed: {
+        filteredEvents() {
+            return this.events.filter(event => {
+                const searchMatch = this.searchText === '' || (
+                    event.Title.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                    event.Description.toLowerCase().includes(this.searchText.toLowerCase())
+                );
+
+                const dateMatch = this.selectedDate === '' || event.EventDate === this.selectedDate;
+
+                return searchMatch && dateMatch;
+            });
+        }
+    },
     methods: {
+        openFeedback(index) {
+            this.selectedEventIndex = index;
+            this.showModal = true;
+        },
         goBack() {
             this.$router.go(-1); // or use this.$router.push({ name: 'YourPreviousRoute' });
+        },
+        getData() {
+            this.axiosGet('helplines', (response) => {
+                this.helpLines = response.helpLines
+                this.isLoading = false;
+            }, (error) => {
+                this.errorNoti(error);
+            });
         },
     }
 };
@@ -100,7 +141,8 @@ export default {
 }
 
 .timeline-content {
-    background: #EFF2FF;
+    background-color: #0C2189;
+    color: white;
     border-radius: 10px;
     padding: 12px 16px;
     flex: 1;
@@ -123,15 +165,9 @@ export default {
     color: white;
 }
 
-.data-title {
+.event-title {
     margin: 0 0 5px;
     font-size: 16px;
-}
-.hotel-banner{
-    background: #0C2189;
-    color: #ffffff;
-    border-radius: 10px;
-    padding: 5px 0;
 }
 
 .event-meta {
@@ -177,7 +213,6 @@ export default {
 
     .feedback-btn {
         margin-left: 0;
-        margin-top: 10px;
     }
 }
 .event-card {

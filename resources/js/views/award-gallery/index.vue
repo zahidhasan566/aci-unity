@@ -37,14 +37,14 @@
                 <div class="d-flex flex-column align-items-center p-2 h-100">
                     <div class="img-wrapper mb-2">
                         <img
-                            :src="`${mainOrigin}assets/images/${data.image}`"
+                            :src="`${mainOrigin}assets/images/award1.png`"
                             alt="award"
                             class="slide-img"
-                            @click="openSinglePageData(data.id)"
+                            @click="openSinglePageData(data.AwardID)"
 
                         />
                     </div>
-                    <p class="slide-title"   @click="openSinglePageData(data.id)" style="font-size: 12px;">{{ truncateText(data.title, 40) }}</p>
+                    <p class="slide-title"   @click="openSinglePageData(data.AwardID)" style="font-size: 12px;">{{ truncateText(data.Title, 40) }}</p>
                 </div>
             </div>
         </div>
@@ -54,11 +54,14 @@
 
 </template>
 <script>
+import {Common} from "../../mixins/common";
 export default {
+    mixins: [Common],
     data() {
         return {
             searchText: '',
             selectedDate: '',
+            awards:[],
             awardsImage: [
                 {
                     id: 1,
@@ -104,23 +107,29 @@ export default {
             title:'Award Winners Gallery'
         };
     },
+    mounted() {
+        this.getData();
+    },
     computed: {
         filteredData() {
-            return this.awardsImage.filter(data => {
+            return this.awards.filter(data => {
                 const searchMatch = this.searchText === '' || (
-                    data.title.toLowerCase().includes(this.searchText.toLowerCase())
+                    data.Title.toLowerCase().includes(this.searchText.toLowerCase())
                 );
 
-                const dateMatch = this.selectedDate === '' || data.date === this.selectedDate;
+                const dateMatch = this.selectedDate === '' || data.Year === String(new Date(this.selectedDate).getFullYear());
 
                 return searchMatch && dateMatch;
             });
         }
     },
     methods: {
-        openFeedback(index) {
-            this.selectedEventIndex = index;
-            this.showModal = true;
+        getData() {
+            this.axiosGet('get-award-gallery-index', (response) => {
+                this.awards = response.awards
+            }, (error) => {
+                this.errorNoti(error);
+            });
         },
         goBack() {
             this.$router.go(-1); // or use this.$router.push({ name: 'YourPreviousRoute' });

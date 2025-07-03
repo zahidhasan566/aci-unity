@@ -16,12 +16,10 @@ class EventScheduleController extends Controller
     public function index(){
         $userId = auth()->user()->UserId;
         $eventInfo = EventSchedule::with(['feedback' => function ($query) use ($userId) {
-            $query->where('UserId', $userId);}])->select('EventSchedule.*')->get();;
+            $query->where('UserId', $userId);}])->select('EventSchedule.*')->OrderBy('EventDate','asc')->get();;
         return response()->json([
             'eventInfo' => $eventInfo,
         ]);
-
-
     }
 
     public function storeEventFeedback(Request $request){
