@@ -16,8 +16,6 @@ import travelIndex from "../views/travel/index.vue";
 import helplineIndex from "../views/helpline/index.vue";
 import AwardGallery from "../views/award-gallery/index.vue";
 import singleDetails from "../views/award-gallery/details.vue";
-import galleryIndex from "../views/gallery/index.vue";
-import detailsGallery from "../views/gallery/details.vue";
 
 Vue.use(VueRouter);
 
@@ -110,17 +108,6 @@ const routes = [
                 name: 'singleDetails',
                 component: singleDetails,
             },
-            {
-                path: baseurl + 'gallery-info',
-                name: 'galleryIndex',
-                component: galleryIndex
-            },
-            {
-                path: baseurl + 'gallery-info/single-details/:id',
-                name: 'detailsGallery',
-                component: detailsGallery,
-            },
-
 
 
 

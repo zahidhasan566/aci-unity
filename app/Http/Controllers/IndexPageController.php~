@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\EventSchedule;
+use App\Models\Hotels;
+use App\Traits\UserHotelHelper;
+use Illuminate\Http\Request;
+
+class IndexPageController extends Controller
+{
+    use UserHotelHelper;
+    public function index(){
+        $userId = auth()->user()->UserId;
+
+        $hotelInfo = $this->getHotelInfoByUser($userId);
+        $eventInfo = EventSchedule::all();
+        return response()->json([
+            'hotelInfo' => $hotelInfo,
+            'eventInfo' => $eventInfo,
+        ]);
+
+
+    }
+}

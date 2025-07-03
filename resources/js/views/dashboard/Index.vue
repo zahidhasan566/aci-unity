@@ -12,8 +12,8 @@
 
                     <!-- Greeting Section -->
                     <div class="greeting">
-                        <p class="time">Good Morning</p>
-                        <h1 class="name">Md Zahid Hasan</h1>
+                        <p class="time">{{ greetingMessage }}</p>
+                        <h1 class="name">{{me.UserName}}</h1>
                     </div>
                 </div>
 
@@ -55,8 +55,8 @@
         </div>
         <div class="hotel-banner">
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-6"> <span class="hotel-name">🏨 Hotel: Sayeman Beach Resort</span></div>
-                <div style="text-align:right" class="col-md-6 col-sm-6 col-6"> <span class="room-number">🚪 Room: 354</span></div>
+                <div class="col-md-6 col-sm-6 col-6"> <span v-if="hotelInfo && hotelInfo.hotel" class="hotel-name">🏨 Hotel: {{hotelInfo.hotel.name}}</span></div>
+                <div style="text-align:right" class="col-md-6 col-sm-6 col-6"> <span v-if="hotelInfo && hotelInfo.room" class="room-number">🚪 Room: {{hotelInfo.room.number}}</span></div>
 
             </div>
 
@@ -67,7 +67,6 @@
             <div class="section-header">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-9"> <h5>Upcoming Event Schedule  <span class="count">12</span></h5></div>
-<!--                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">  <a href="#" class="see-all">See All</a></div>-->
                     <div class="col-md-6 col-sm-6 col-3" style="text-align:right">
                         <router-link :to="{ name: 'eventIndex' }" class="see-all">See All</router-link>
                     </div>
@@ -79,15 +78,15 @@
         <div class="event-slider">
             <!-- Swiper Slider -->
             <swiper  :options="swiperOptions">
-                <swiper-slide v-for="(event, index) in events" :key="index">
-                    <div  :class="['event-card', event.highlight ? 'highlight' : ''] ">
-                        <h3 class="event-title">⭐ {{ event.title }}</h3>
-                        <p><strong>Sub:</strong> {{ event.sub }}</p>
-                        <p><strong>Venue:</strong> {{ event.venue }}</p>
+                <swiper-slide v-for="(event, index) in eventInfo" :key="index">
+                    <div  :class="['event-card highlight'] ">
+                        <h3 class="event-title">⭐ {{ event.Title }}</h3>
+                        <p><strong>Des:</strong> {{ event.Description }}</p>
+                        <p><strong>Venue:</strong> {{ event.Venue }}</p>
                         <div class="event-footer">
                             <div class="row">
-                                <div class="col-md-6 col-sm-6 col-6"> <span>📅 {{ event.date }}</span></div>
-                                <div class="col-md-6 col-sm-6 col-6"><span>⏰ {{ event.time }}</span></div>
+                                <div class="col-md-6 col-sm-6 col-6"> <span>📅 {{ event.EventDate }}</span></div>
+                                <div class="col-md-6 col-sm-6 col-6"><span>⏰ {{ moment(event.StartTime, 'HH:mm:ss').format('hh:mm A') }}</span></div>
                             </div>
 
 
@@ -110,26 +109,35 @@
                 <div class="icon-wrapper">
                     <img :src="`${mainOrigin}assets/icon/appointment.png`" alt="appointment Image" class="appointment">
                 </div>
-                <span class="btn-text">Event Schedule</span>
+                <div class="btn-text">
+                    <router-link :to="{ name: 'eventIndex' }" class="see-all">Event Schedule</router-link>
+                </div>
             </button>
 
             <button class="quick-link-btn">
                 <div class="icon-wrapper">
                     <img :src="`${mainOrigin}assets/icon/condominium.png`" alt="condominium Image" class="condominium">
                 </div>
-                <span class="btn-text">Room & Hotel Info</span>
+
+                <div class="btn-text">
+                    <router-link :to="{ name: 'hotelIndex' }" class="see-all">Room & Hotel Info</router-link>
+                </div>
             </button>
             <button class="quick-link-btn">
                 <div class="icon-wrapper">
                     <img :src="`${mainOrigin}assets/icon/travel.png`" alt="travel Image" class="travel">
                 </div>
-                <span class="btn-text">Travel Info</span>
+                <div class="btn-text">
+                    <router-link :to="{ name: 'travelIndex' }" class="see-all">Travel Info</router-link>
+                </div>
             </button>
             <button class="quick-link-btn">
                 <div class="icon-wrapper">
                     <img :src="`${mainOrigin}assets/icon/customer-support.png`" alt="customer-support Image" class="customer-support">
                 </div>
-                <span class="btn-text">Helpline</span>
+                <div class="btn-text">
+                    <router-link :to="{ name: 'helplineIndex' }" class="see-all">Helpline</router-link>
+                </div>
             </button>
         </div>
 
@@ -138,16 +146,18 @@
             <div class="section-header">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-9"> <h5>Award Winning Gallery </h5></div>
-                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">  <a href="#" class="see-all">See All</a></div>
+                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">
+                        <router-link :to="{ name: 'AwardGallery' }" class="see-all">See All</router-link>
+                    </div>
                 </div>
             </div>
             <div class="awards-swiper">
                 <!-- Swiper Slider -->
                 <swiper  :options="swiperOptions">
-                    <swiper-slide v-for="(award, index) in awardsImage" :key="index">
+                    <swiper-slide v-for="(award, index) in awards" :key="index">
                         <div class="slide-card">
-                            <img :src="`${mainOrigin}assets/images/${award.image}`" alt="award" class="slide-img" />
-                            <h5 class="slide-title">{{ truncateText(award.title, 40) }}</h5>
+                            <img      @click="openSingleAwardPageData(award.AwardID)"  :src="`${mainOrigin}assets/images/award1.png`" alt="award" class="slide-img" />
+                            <h5     @click="openSingleAwardPageData(award.AwardID)"  class="slide-title">{{ truncateText(award.Title, 40) }}</h5>
                         </div>
                     </swiper-slide>
                 </swiper>
@@ -159,16 +169,17 @@
             <div class="section-header">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-9"> <h5>Gallery </h5></div>
-                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">  <a href="#" class="see-all">See All</a></div>
+                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">
+                        <router-link :to="{ name: 'galleryIndex' }" class="see-all">See All</router-link>
+                    </div>
                 </div>
             </div>
             <div class="awards-swiper">
                 <!-- Swiper Slider -->
                 <swiper  :options="swiperOptions">
-                    <swiper-slide v-for="(award, index) in awardsImage" :key="index">
+                    <swiper-slide v-for="(gallery, index) in gallery" :key="index">
                         <div class="slide-card">
-                            <img :src="`${mainOrigin}assets/images/${award.image}`" alt="award" class="slide-img" />
-                            <h5 class="slide-title">{{ truncateText(award.title, 40) }}</h5>
+                            <img @click="openSingleGalleryPageData(gallery.PhotoID)" :src="`${mainOrigin}assets/images/award1.png`" alt="award" class="slide-img" />
                         </div>
                     </swiper-slide>
                 </swiper>
@@ -178,7 +189,6 @@
 </template>
 <script>
 import {Common} from "../../mixins/common";
-
 export default {
 
   mixins: [Common],
@@ -186,33 +196,29 @@ export default {
   data() {
     return {
       isLoading: true,
-        isCheckedIn: false,
-        events: [
-            {
-                title: 'Annual Marketing and Sales conference. 2025',
-                sub: 'Introduction to SAR',
-                venue: 'Sayeman Beach Resort, 2nd Floor, Room 345',
-                date: 'Monday, 26 July',
-                time: '09:00 - 10:00',
-                highlight: true
+      isCheckedIn: false,
+      hotelInfo: {
+            hotel: {
+                name: '' ,
+
             },
-            {
-                title: 'Annual Marketing and Sales conference. 2025',
-                sub: 'Introduction to SAR',
-                venue: 'Sayeman Beach Resort, 2nd Floor, Room 345',
-                date: 'Monday, 27 July',
-                time: '09:00 - 10:00',
-                highlight: false
+            room:{
+                number: ''
             }
-        ],
+        },
+      eventInfo: [],
+      awards: [],
+      gallery :[],
         awardsImage: [
             {
+                id: 1,
                 image: 'award1.png',
                 title: 'Loren Ipsum Is simply',
                 highlight: true,
                 details: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ',
             },
             {
+                id: 2,
                 image: 'award2.png',
                 title: 'Loren Ipsum Is simply',
                 highlight: true,
@@ -223,11 +229,11 @@ export default {
             loop: false,
             slidesPerView: 'auto',
             spaceBetween: 12,
-            // autoplay: {
-            //     delay: 1000,
-            //     disableOnInteraction: false,
-            //     pauseOnMouseEnter: false,
-            // },
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: false,
+            },
             // speed: 10000, // controls scroll speed, lower = faster
             freeMode: true,
             freeModeMomentum: false,
@@ -251,12 +257,31 @@ export default {
     me() {
       return this.$store.state.me
     },
+      greetingMessage() {
+          const hour = new Date().getHours();
+          if (hour >= 5 && hour < 12) return 'Good Morning';
+          if (hour >= 12 && hour < 17) return 'Good Afternoon';
+          if (hour >= 17 && hour < 21) return 'Good Evening';
+          return 'Good Night';
+      }
   },
   created() {
+    this.getProfileData();
     this.getData();
   },
     mounted() {},
   methods: {
+      getProfileData() {
+          this.axiosGet('app-supporting-data', (response) => {
+              this.menus = response.menus;
+              this.$store.commit('me', response.user);
+              setTimeout(() => {
+                  $("#side-menu").metisMenu();
+              })
+          }, (error) => {
+              this.errorNoti(error)
+          })
+      },
       toggleCheckIn() {
           this.isCheckedIn = !this.isCheckedIn;
       },
@@ -264,16 +289,22 @@ export default {
           if (!text) return '';
           return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
       },
+      openSingleAwardPageData(id) {
+          this.$router.push(`/aci-unity/single-details/${id}`);
+      },
+      openSingleGalleryPageData(id) {
+          this.$router.push(`/aci-unity/gallery-info/single-details/${id}`);
+      },
     getData() {
-      // this.axiosGet('dashboard-data', (response) => {
-      //    this.total_pending = response.total_pending;
-      //    this.todays_order = response.todays_order;
-      //    this.todays_amount = response.todays_amount;
-      //    this.total_order = response.total_order;
-      this.isLoading = false;
-      // }, (error) => {
-      //   this.errorNoti(error);
-      // });
+            this.axiosGet('dashboard-data', (response) => {
+            this.hotelInfo = response.hotelInfo;
+            this.eventInfo = response.eventInfo;
+            this.awards = response.awards
+            this.gallery  = response.gallery
+            this.isLoading = false;
+            }, (error) => {
+            this.errorNoti(error);
+            });
     }
   }
 }

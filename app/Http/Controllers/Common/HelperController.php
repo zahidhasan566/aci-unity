@@ -23,7 +23,7 @@ class HelperController extends Controller
             return response()->json([
                 'status' => 'success',
                 'menus' => $data,
-                'user' => User::where('UserId',$auth->UserId)->first(),
+                'user' => $auth,
 //                'user' => User::where('UserId',$auth->UserId)->with('roles')->first(),
             ]);
         } catch (\Exception $e) {

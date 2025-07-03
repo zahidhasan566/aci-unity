@@ -1,0 +1,32 @@
+<template>
+    <div>
+        <div style="text-align: initial; margin-bottom: 5px">
+            <p style="font-size: 20px;font-weight: bold;color: black"><span style="font-size: 15px;" @click="goBack"> <i class="ti-angle-left"></i></span> {{title}} </p>
+        </div>
+
+
+        oioo {{galleryId}}
+    </div>
+</template>
+<script>
+
+export default {
+    data() {
+        return {
+            galleryId: '',
+            title:'Award Gallery Details'
+        };
+    },
+    mounted() {
+         this.galleryId = this.$route.params.id;
+        console.log('Gallery ID:', this.galleryId);
+        // You can now use galleryId to fetch data
+    },
+    methods: {
+        goBack() {
+            this.$router.go(-1); // or use this.$router.push({ name: 'YourPreviousRoute' });
+        }
+    }
+}
+
+</script>

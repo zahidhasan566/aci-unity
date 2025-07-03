@@ -7,7 +7,6 @@ import router from './router/index';
 import store from './store/index'
 import {baseurl} from './base_url'
 
-
 // main origin
 Vue.prototype.mainOrigin = baseurl
 //import v-form
@@ -37,7 +36,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css' // NOT 'swiper/css'
 
 Vue.use(VueAwesomeSwiper)
-Vue.prototype.moment = moment
+
 //Component
 Vue.component('skeleton-loader', require('./components/loaders/Straight').default);
 Vue.component('submit-form', require('./components/buttons/Submit').default);

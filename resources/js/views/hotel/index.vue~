@@ -6,7 +6,6 @@
                 <p style="font-size: 20px;font-weight: bold;color: black"><span style="font-size: 15px;" @click="goBack"> <i class="ti-angle-left"></i></span> {{title}} </p>
             </div>
 
-
             <!-- 🔍 Filter Row -->
             <div class="row mb-3">
                 <div class="col-6 pe-1">
@@ -32,23 +31,30 @@
 
 
         <div
-            v-for="(event, index) in filteredEvents"
+            v-for="(hotel, index) in filteredHotels"
             :key="index"
             class="timeline-item"
         >
             <div class="timeline-marker">
                 <span class="marker-circle">{{ index + 1 }}</span>
-                <div class="timeline-line" v-if="index !== events.length - 1"></div>
+                <div class="timeline-line" v-if="index !== hotel.length - 1"></div>
             </div>
 
             <div class="timeline-content">
-                <h4 class="event-title">⭐ {{ event.Title }}</h4>
-                <p><strong>Des:</strong> {{ event.Description }}</p>
-                <p><strong>Venue:</strong> {{ event.Venue }}</p>
+                <h4 class="data-title">
+                    <div class="row hotel-banner">
+                        <div class="col-md-6 col-sm-6 col-7"> <span class="hotel-name">Hotel: {{ hotel.name }}</span></div>
+                        <div style="text-align:right" class="col-md-6 col-sm-6 col-5"> <span class="room-number">Room: {{ hotel.room }}</span></div>
+
+                    </div>
+
+                </h4>
+                <p><strong>Sub:</strong> {{ hotel.sub }}</p>
+                <p><strong>Venue:</strong> {{ hotel.venue }}</p>
                 <div class="event-meta">
-                    <span class="event-date">📅 {{ event.EventDate }}</span>
-                    <span class="event-time">🕘 {{ moment(event.StartTime, 'HH:mm:ss').format('hh:mm A') }}</span>
-                    <button class="feedback-btn"   v-show="!event.feedback || event.feedback.length === 0" @click="openFeedback(index)">Feedback</button>
+                    <span class="event-date">📅 {{ hotel.date }}</span>
+                    <span class="event-time">🕘 {{ hotel.time }}</span>
+                    <button class="feedback-btn" @click="openFeedback(index)">Feedback</button>
                 </div>
             </div>
         </div>
@@ -72,58 +78,51 @@
 
 </template>
 <script>
-import {Common} from "../../mixins/common";
 export default {
-
-    mixins: [Common],
     data() {
         return {
-            title:'Event Schedule',
             searchText: '',
             selectedDate: '',
-            events: [],
-            // events: [
-            //     {
-            //         title: "Annual Marketing and Sales conference. 2025",
-            //         sub: "Introduction to SAR",
-            //         venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
-            //         date: "Monday, 27 July",
-            //         time: "09:00 - 10:00",
-            //     },
-            //     {
-            //         title: "Monthly Marketing and Sales conference. 2025",
-            //         sub: "Introduction to SAR",
-            //         venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
-            //         date: "Monday, 27 July",
-            //         time: "09:00 - 10:00",
-            //     },
-            //     {
-            //         title: "Annual Marketing and Sales conference. 2025",
-            //         sub: "Introduction to SAR",
-            //         venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
-            //         date: "Monday, 27 July",
-            //         time: "09:00 - 10:00",
-            //     },
-            //     // Add more events as needed
-            // ],
+            hotels: [
+                {
+                    name: "Camp In Cox",
+                    room: "523",
+                    address: "Sayeman Beach Resort, 2nd Floor, Room 345",
+                    date: "Monday, 27 July",
+                    time: "09:00 - 10:00",
+                },
+                {
+                    name: "Sayemon",
+                    room: "524",
+                    venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
+                    date: "Monday, 27 July",
+                    time: "09:00 - 10:00",
+                },
+                {
+                    name: "Hotel Beach",
+                    room: "525",
+                    venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
+                    date: "Monday, 27 July",
+                    time: "09:00 - 10:00",
+                },
+                // Add more events as needed
+            ],
             showModal: false,
             selectedEventIndex: null,
             rating: 3,
             feedbackText: '',
+            title:'Room & Hotel Info'
         };
     },
-    mounted() {
-        this.getData();
-    },
     computed: {
-        filteredEvents() {
-            return this.events.filter(event => {
+        filteredHotels() {
+            return this.hotels.filter(data => {
                 const searchMatch = this.searchText === '' || (
-                    event.Title.toLowerCase().includes(this.searchText.toLowerCase()) ||
-                    event.Description.toLowerCase().includes(this.searchText.toLowerCase())
+                    data.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                    data.room.toLowerCase().includes(this.searchText.toLowerCase())
                 );
 
-                const dateMatch = this.selectedDate === '' || event.EventDate === this.selectedDate;
+                const dateMatch = this.selectedDate === '' || data.date === this.selectedDate;
 
                 return searchMatch && dateMatch;
             });
@@ -137,45 +136,23 @@ export default {
         goBack() {
             this.$router.go(-1); // or use this.$router.push({ name: 'YourPreviousRoute' });
         },
-        getData() {
-            this.axiosGet('event-schedule-data', (response) => {
-                this.events = response.eventInfo
-                this.isLoading = false;
-            }, (error) => {
-                this.errorNoti(error);
-            });
-        },
         async submitFeedback() {
-            let url = 'store-event-feedback';
-            this.axiosPost(url, {
+            const payload = {
                 event: this.events[this.selectedEventIndex],
                 rating: this.rating,
                 feedback: this.feedbackText,
-            }, (response) => {
-                this.rating = '3';
+            };
+
+            try {
+                const response = await this.$http.post('https://your-api.com/submit-feedback', payload);
+                alert("Feedback submitted successfully!");
+                this.showModal = false;
+                this.rating = 3;
                 this.feedbackText = '';
-                this.successNoti(response.message);
-                this.showModal = false
-                this.getData();
-            }, (error) => {
-                this.errorNoti(error);
-            })
-            // const payload = {
-            //     event: this.events[this.selectedEventIndex],
-            //     rating: this.rating,
-            //     feedback: this.feedbackText,
-            // };
-            //
-            // try {
-            //     const response = await this.$http.post('https://your-api.com/submit-feedback', payload);
-            //     alert("Feedback submitted successfully!");
-            //     this.showModal = false;
-            //     this.rating = 3;
-            //     this.feedbackText = '';
-            // } catch (error) {
-            //     console.error("Error submitting feedback:", error);
-            //     alert("Submission failed.");
-            // }
+            } catch (error) {
+                console.error("Error submitting feedback:", error);
+                alert("Submission failed.");
+            }
         }
     }
 };
@@ -264,9 +241,15 @@ export default {
     color: white;
 }
 
-.event-title {
+.data-title {
     margin: 0 0 5px;
     font-size: 16px;
+}
+.hotel-banner{
+    background: #0C2189;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 5px 0;
 }
 
 .event-meta {
@@ -312,6 +295,7 @@ export default {
 
     .feedback-btn {
         margin-left: 0;
+        margin-top: 10px;
     }
 }
 .event-card {

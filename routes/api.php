@@ -27,6 +27,12 @@ Route::group(['middleware' => ['jwt']], function () {
 
 Route::group(['middleware' => ['jwt:api']], function () {
 
+
+    //Home Dashboard
+    Route::get('dashboard-data',[\App\Http\Controllers\IndexPageController::class,'index']);
+    Route::get('event-schedule-data',[\App\Http\Controllers\EventScheduleController::class,'index']);
+    Route::post('store-event-feedback',[\App\Http\Controllers\EventScheduleController::class,'storeEventFeedback']);
+
     // ADMIN USERS
     Route::group(['prefix' => 'user'],function () {
         Route::post('list', [\App\Http\Controllers\Admin\Users\AdminUserController::class, 'index']);

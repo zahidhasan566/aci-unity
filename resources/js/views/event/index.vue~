@@ -2,11 +2,10 @@
     <div class="event-timeline">
         <div class="container">
             <!-- 🔙 Back Icon Row -->
-            <div style="text-align: end; margin-bottom: 5px">
-                <button @click="goBack" class="btn-success">
-                    ← Back
-                </button>
+            <div style="text-align: initial; margin-bottom: 5px">
+                <p style="font-size: 20px;font-weight: bold;color: black"><span style="font-size: 15px;" @click="goBack"> <i class="ti-angle-left"></i></span> {{title}} </p>
             </div>
+
 
             <!-- 🔍 Filter Row -->
             <div class="row mb-3">
@@ -43,13 +42,13 @@
             </div>
 
             <div class="timeline-content">
-                <h4 class="event-title">⭐ {{ event.title }}</h4>
-                <p><strong>Sub:</strong> {{ event.sub }}</p>
-                <p><strong>Venue:</strong> {{ event.venue }}</p>
+                <h4 class="event-title">⭐ {{ event.Title }}</h4>
+                <p><strong>Des:</strong> {{ event.Description }}</p>
+                <p><strong>Venue:</strong> {{ event.Venue }}</p>
                 <div class="event-meta">
-                    <span class="event-date">📅 {{ event.date }}</span>
-                    <span class="event-time">🕘 {{ event.time }}</span>
-                    <button class="feedback-btn" @click="openFeedback(index)">Feedback</button>
+                    <span class="event-date">📅 {{ event.EventDate }}</span>
+                    <span class="event-time">🕘 {{ moment(event.StartTime, 'HH:mm:ss').format('hh:mm A') }}</span>
+                    <button class="feedback-btn"   v-show="!event.feedback || event.feedback.length === 0" @click="openFeedback(index)">Feedback</button>
                 </div>
             </div>
         </div>
@@ -73,50 +72,58 @@
 
 </template>
 <script>
+import {Common} from "../../mixins/common";
 export default {
+
+    mixins: [Common],
     data() {
         return {
+            title:'Event Schedule',
             searchText: '',
             selectedDate: '',
-            events: [
-                {
-                    title: "Annual Marketing and Sales conference. 2025",
-                    sub: "Introduction to SAR",
-                    venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
-                    date: "Monday, 27 July",
-                    time: "09:00 - 10:00",
-                },
-                {
-                    title: "Monthly Marketing and Sales conference. 2025",
-                    sub: "Introduction to SAR",
-                    venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
-                    date: "Monday, 27 July",
-                    time: "09:00 - 10:00",
-                },
-                {
-                    title: "Annual Marketing and Sales conference. 2025",
-                    sub: "Introduction to SAR",
-                    venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
-                    date: "Monday, 27 July",
-                    time: "09:00 - 10:00",
-                },
-                // Add more events as needed
-            ],
+            events: [],
+            // events: [
+            //     {
+            //         title: "Annual Marketing and Sales conference. 2025",
+            //         sub: "Introduction to SAR",
+            //         venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
+            //         date: "Monday, 27 July",
+            //         time: "09:00 - 10:00",
+            //     },
+            //     {
+            //         title: "Monthly Marketing and Sales conference. 2025",
+            //         sub: "Introduction to SAR",
+            //         venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
+            //         date: "Monday, 27 July",
+            //         time: "09:00 - 10:00",
+            //     },
+            //     {
+            //         title: "Annual Marketing and Sales conference. 2025",
+            //         sub: "Introduction to SAR",
+            //         venue: "Sayeman Beach Resort, 2nd Floor, Room 345",
+            //         date: "Monday, 27 July",
+            //         time: "09:00 - 10:00",
+            //     },
+            //     // Add more events as needed
+            // ],
             showModal: false,
             selectedEventIndex: null,
             rating: 3,
             feedbackText: '',
         };
     },
+    mounted() {
+        this.getData();
+    },
     computed: {
         filteredEvents() {
             return this.events.filter(event => {
                 const searchMatch = this.searchText === '' || (
-                    event.title.toLowerCase().includes(this.searchText.toLowerCase()) ||
-                    event.sub.toLowerCase().includes(this.searchText.toLowerCase())
+                    event.Title.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                    event.Description.toLowerCase().includes(this.searchText.toLowerCase())
                 );
 
-                const dateMatch = this.selectedDate === '' || event.date === this.selectedDate;
+                const dateMatch = this.selectedDate === '' || event.EventDate === this.selectedDate;
 
                 return searchMatch && dateMatch;
             });
@@ -130,23 +137,45 @@ export default {
         goBack() {
             this.$router.go(-1); // or use this.$router.push({ name: 'YourPreviousRoute' });
         },
+        getData() {
+            this.axiosGet('event-schedule-data', (response) => {
+                this.events = response.eventInfo
+                this.isLoading = false;
+            }, (error) => {
+                this.errorNoti(error);
+            });
+        },
         async submitFeedback() {
-            const payload = {
+            let url = 'store-event-feedback';
+            this.axiosPost(url, {
                 event: this.events[this.selectedEventIndex],
                 rating: this.rating,
                 feedback: this.feedbackText,
-            };
-
-            try {
-                const response = await this.$http.post('https://your-api.com/submit-feedback', payload);
-                alert("Feedback submitted successfully!");
-                this.showModal = false;
-                this.rating = 3;
+            }, (response) => {
+                this.rating = '';
                 this.feedbackText = '';
-            } catch (error) {
-                console.error("Error submitting feedback:", error);
-                alert("Submission failed.");
-            }
+                this.successNoti(response.message);
+                this.showModal = false
+                this.getData();
+            }, (error) => {
+                this.errorNoti(error);
+            })
+            // const payload = {
+            //     event: this.events[this.selectedEventIndex],
+            //     rating: this.rating,
+            //     feedback: this.feedbackText,
+            // };
+            //
+            // try {
+            //     const response = await this.$http.post('https://your-api.com/submit-feedback', payload);
+            //     alert("Feedback submitted successfully!");
+            //     this.showModal = false;
+            //     this.rating = 3;
+            //     this.feedbackText = '';
+            // } catch (error) {
+            //     console.error("Error submitting feedback:", error);
+            //     alert("Submission failed.");
+            // }
         }
     }
 };
@@ -283,7 +312,6 @@ export default {
 
     .feedback-btn {
         margin-left: 0;
-        margin-top: 10px;
     }
 }
 .event-card {
