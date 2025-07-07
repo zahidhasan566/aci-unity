@@ -37,6 +37,7 @@ Route::group(['middleware' => ['jwt:api']], function () {
     Route::get('get-award-gallery-index',[\App\Http\Controllers\PhotoController::class,'awardGalleryIndex']);
     Route::get('get-award-gallery-details/{id}',[\App\Http\Controllers\PhotoController::class,'awardGalleryDetails']);
     Route::get('get-photo-gallery-index',[\App\Http\Controllers\PhotoController::class,'galleryIndex']);
+    Route::get('get-photo-gallery-details/{id}',[\App\Http\Controllers\PhotoController::class,'photoGalleryDetails']);
 
 
     // ADMIN USERS

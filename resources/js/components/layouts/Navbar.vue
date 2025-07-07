@@ -92,7 +92,13 @@
             </ul>
             <ul class="list-inline menu-left mb-0">
                 <li class="float-left">
-                    <button  ref="menuButton" class="button-menu-mobile open-left waves-effect"><i class="mdi mdi-menu"></i></button>
+                    <div class="container">
+                        <a href="index.html" class="logo">
+                            <img :src="`${mainOrigin}assets/images/logo.png`" style="height: 50px;width: auto;" alt="appointment Image" class="appointment">
+                        </a>
+
+                    </div>
+
                 </li>
             </ul>
 

@@ -49,6 +49,7 @@ Route::group(['middleware' => ['jwt:api']], function () {
         Route::get('get-user-info/{UserID}',[\App\Http\Controllers\Admin\Users\AdminUserController::class,'getUserInfo']);
         Route::post('update', [\App\Http\Controllers\Admin\Users\AdminUserController::class, 'update']);
         Route::post('password-change',[\App\Http\Controllers\Common\HelperController::class,'passwordChange']);
+        Route::post('check-in',[\App\Http\Controllers\Common\HelperController::class,'checkIn']);
     });
 
     Route::group(['prefix' => 'approval'],function () {

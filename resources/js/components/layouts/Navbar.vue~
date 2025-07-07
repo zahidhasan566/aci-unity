@@ -92,7 +92,13 @@
             </ul>
             <ul class="list-inline menu-left mb-0">
                 <li class="float-left">
-                    <button  ref="menuButton" class="button-menu-mobile open-left waves-effect"><i class="mdi mdi-menu"></i></button>
+                    <div class="container">
+                        <a href="index.html" class="logo">
+                            <img :src="`${mainOrigin}assets/images/logoApps.png`" style="height: 50px;width: auto;" alt="appointment Image" class="appointment">
+                        </a>
+
+                    </div>
+
                 </li>
             </ul>
 
@@ -171,9 +177,9 @@ export default {
     },
     mounted() {
         // Example for real-time notification simulation
-        setInterval(() => {
-            this.receiveNotification("You have a new message at " + new Date().toLocaleTimeString());
-        }, 10000); // Replace with WebSocket or API call in production
+        // setInterval(() => {
+        //     this.receiveNotification("You have a new message at " + new Date().toLocaleTimeString());
+        // }, 10000); // Replace with WebSocket or API call in production
     },
     methods: {
         logout() {

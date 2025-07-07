@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\Menu;
+use App\Models\TravelInfo;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -62,6 +64,37 @@ class HelperController extends Controller
         else{
             return response()->json(['message' => 'Password did not match'], 400);
         }
+    }
+
+    public function checkIn(Request $request){
+        $userId = Auth::user()->UserId;
+
+        $checkIn = TravelInfo::where('UserId',$userId)->first();
+
+        if(!$checkIn){
+            $checkIn = new TravelInfo();
+            $checkIn->UserId = $userId;
+            $checkIn->ArrivalTime = Carbon::now();
+            $checkIn->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Check In Successfully',
+                'checkingDone' => false,
+            ],200);
+        }
+
+        if($request->flag ==='checkOut'){
+            $checkIn->DepartureTime = Carbon::now();
+            $checkIn->save();
+            $checkingDone=  !empty($checkIn->DepartureTime) ? true : null;
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Check Out Successfully',
+                'checkingDone' => $checkingDone,
+            ],200);
+        }
+
     }
 
 

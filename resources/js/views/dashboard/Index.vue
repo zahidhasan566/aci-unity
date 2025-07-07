@@ -19,15 +19,20 @@
 
                 <!-- Right Section: Check-In & Notification -->
                 <div class="actions d-flex align-items-center justify-content-end col-md-5 col-5">
-                    <!-- Checkbox styled as a button -->
                     <label class="btn btn-checkin m-0"
+                           :style="checkingDone ? 'opacity: 0.6; pointer-events: none;' : ''"
                            style="font-size: 10px; background: linear-gradient(135deg, #35ACBC 0%, #154F9E 100%); border-radius:15px; color: #FFFFFF"
                            :class="{ checked: isCheckedIn }">
-                        <input type="checkbox" v-model="isCheckedIn" class="d-none" />
-                        <i :class="['me-1', isCheckedIn ? 'fas fa-check-circle' : 'far fa-circle']"></i>
-                        {{ isCheckedIn ? "Checked In" : "Check In" }}
+
+                        <input type="checkbox" @change="handleCheckin" v-model="isCheckedIn" class="d-none" />
+
+                        <i :class="['me-1', isCheckedIn ? 'fas fa-sign-out-alt' : 'fas fa-sign-in-alt']"></i>
+
+                        {{ isCheckedIn ? "Check Out" : "Check In" }}
                     </label>
+
                 </div>
+
             </div>
 
 
@@ -189,6 +194,7 @@
 </template>
 <script>
 import {Common} from "../../mixins/common";
+import {bus} from "../../app";
 export default {
 
   mixins: [Common],
@@ -197,6 +203,8 @@ export default {
     return {
       isLoading: true,
       isCheckedIn: false,
+      loadingCheck: false,
+     checkingDone: false,
       hotelInfo: {
             hotel: {
                 name: '' ,
@@ -271,6 +279,27 @@ export default {
   },
     mounted() {},
   methods: {
+      handleCheckin(event) {
+          if (this.loadingCheck) return; // Prevent double click
+
+          this.loadingCheck = true;
+          console.log("Checked In:", this.isCheckedIn);
+
+          let flag = this.isCheckedIn ? 'checkIn' : 'checkOut';
+
+          let url = 'user/check-in'
+          this.axiosPost(url, {
+              isCheckedIn: this.isCheckedIn,
+              flag: flag,
+          }, (response) => {
+              this.successNoti(response.message);
+              console.log('ff',response.checkingDone)
+              if(response.checkingDone) this.checkingDone = true
+              this.loadingCheck = false;
+          }, (error) => {
+              this.errorNoti(error);
+          })
+      },
       getProfileData() {
           this.axiosGet('app-supporting-data', (response) => {
               this.menus = response.menus;
@@ -302,6 +331,14 @@ export default {
             this.awards = response.awards
             this.gallery  = response.gallery
             this.isLoading = false;
+            if(response.checkIn==='checkIn'){
+                this.isCheckedIn = true
+            }
+            else{
+                this.isCheckedIn = false
+            }
+            if(response.checkingDone) this.checkingDone = true
+
             }, (error) => {
             this.errorNoti(error);
             });
