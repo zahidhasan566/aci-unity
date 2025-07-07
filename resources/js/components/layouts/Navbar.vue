@@ -93,7 +93,7 @@
             <ul class="list-inline menu-left mb-0">
                 <li class="float-left">
                     <div class="container">
-                        <a href="index.html" class="logo">
+                        <a href="javascript:void(0);" class="logo">
                             <img :src="`${mainOrigin}assets/images/logo.png`" style="height: 50px;width: auto;" alt="appointment Image" class="appointment">
                         </a>
 
