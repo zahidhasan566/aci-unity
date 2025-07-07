@@ -1,11 +1,11 @@
 <template>
     <div class="topbar">
         <!-- LOGO -->
-        <div class="topbar-left">
-            <a href="index.html" class="logo">
-                <span style="color: white">Aci Unity </span>
-            </a>
-        </div>
+<!--        <div class="topbar-left">-->
+<!--            <a href="index.html" class="logo">-->
+<!--                <span style="color: white">Aci Unity </span>-->
+<!--            </a>-->
+<!--        </div>-->
         <nav class="navbar-custom">
             <ul class="navbar-right list-inline float-right mb-0">
                 <!-- full screen -->

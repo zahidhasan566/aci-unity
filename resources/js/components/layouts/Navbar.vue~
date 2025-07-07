@@ -94,7 +94,7 @@
                 <li class="float-left">
                     <div class="container">
                         <a href="index.html" class="logo">
-                            <img :src="`${mainOrigin}assets/images/logoApps.png`" style="height: 50px;width: auto;" alt="appointment Image" class="appointment">
+                            <img :src="`${mainOrigin}assets/images/logo.png`" style="height: 50px;width: auto;" alt="appointment Image" class="appointment">
                         </a>
 
                     </div>
