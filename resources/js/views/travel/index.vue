@@ -21,6 +21,11 @@
                 <p><strong>Check In :</strong> {{ hotelInfo.hotel.check_in }}</p>
             </div>
         </div>
+
+        <div>
+            <loader v-if="PreLoader" object="#409aa6" color1="#ffffff" color2="#0C2189" size="5" speed="2"
+                    bg="#343a40" objectbg="#999793" opacity="80" name="circular"></loader>
+        </div>
     </div>
 
 
@@ -34,6 +39,7 @@ export default {
         return {
             searchText: '',
             selectedDate: '',
+            PreLoader: false,
             hotelInfo: {
                 hotel: {
                     name: '' ,
@@ -69,8 +75,10 @@ export default {
             this.showModal = true;
         },
         getData() {
+            this.PreLoader = true;
             this.axiosGet('room-hotel-data', (response) => {
                 this.hotelInfo = response.hotelInfoUserWise
+                this.PreLoader = false;
             }, (error) => {
                 this.errorNoti(error);
             });

@@ -49,7 +49,8 @@ Vue.component('reset-password',require('./components/users/Editpassword').defaul
 Vue.component('submit-form', require('./components/buttons/Submit').default);
 
 Vue.component('add-edit-assign-vro', require('./components/vro/assignVroAddEdit.vue').default);
-
+import loader from "vue-ui-preloader";
+Vue.use(loader);
 
 
 const app = new Vue({

@@ -21,8 +21,6 @@
             </div>
 
         </div>
-
-
         <div
             v-for="(hotel, index) in filteredHotels"
             :key="index"
@@ -40,6 +38,10 @@
                 <p style="margin:0"><strong>User Id:</strong> {{ hotel.UserId  }}</p>
             </div>
         </div>
+        <div>
+            <loader v-if="PreLoader" object="#409aa6" color1="#ffffff" color2="#0C2189" size="5" speed="2"
+                    bg="#343a40" objectbg="#999793" opacity="80" name="circular"></loader>
+        </div>
     </div>
 
 
@@ -53,6 +55,7 @@ export default {
         return {
             searchText: '',
             selectedDate: '',
+            PreLoader: false,
             hotels:[],
             hotelInfo: {
                 hotel: {
@@ -90,8 +93,10 @@ export default {
             this.showModal = true;
         },
         getData() {
+            this.PreLoader = true;
             this.axiosGet('room-hotel-data', (response) => {
                 this.hotels = response.hotelInfo
+                this.PreLoader = false;
             }, (error) => {
                 this.errorNoti(error);
             });

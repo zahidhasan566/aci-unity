@@ -70,7 +70,7 @@ export default {
         },
         getData() {
             this.axiosGet('room-hotel-data', (response) => {
-                this.hotelInfo = response.hotelInfo
+                this.hotelInfo = response.hotelInfoUserWise
             }, (error) => {
                 this.errorNoti(error);
             });
