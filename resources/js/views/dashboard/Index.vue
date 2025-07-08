@@ -110,7 +110,7 @@
         <!-- Bottom Menu -->
         <div class="bottom-menu">
             <button class="menu-btn" @click="goToMap">
-                📍 Venue Map
+                📍 Hotel Map
             </button>
             <button class="menu-btn">👔   <router-link :to="{ name: 'dressCodeIndex' }" class="see-all">Dress Code</router-link></button>
             <button class="menu-btn">📅 <router-link :to="{ name: 'eventIndex' }" class="see-all">Schedule</router-link></button>

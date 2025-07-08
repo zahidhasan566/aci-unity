@@ -113,7 +113,7 @@
                 📍 Venue Map
             </button>
             <button class="menu-btn">👔   <router-link :to="{ name: 'dressCodeIndex' }" class="see-all">Dress Code</router-link></button>
-            <button class="menu-btn">📅 Schedule</button>
+            <button class="menu-btn">📅 <router-link :to="{ name: 'eventIndex' }" class="see-all">Schedule</router-link></button>
         </div>
 
         <!-- Quick Links Section -->
