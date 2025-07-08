@@ -44,14 +44,14 @@
                             <p>We are thrilled to have you join us for this milestone event — a celebration of our achievements, a time to recognize our champions, and a platform to shape the future together.
                                 Let’s recharge our passion, realign our strategies, and reignite the momentum as we move forward into a new era of excellence.</p>
 
-                            <h7>Customer Core, Achieve More
-                                <br>
-                                <span style="margin-top: 10px">
-                                    M Mohibuz Zaman  <br>
+                            <p> <span style="font-size: 12px">Customer Core, Achieve More</span>
+                                <br><br>
+                                <span style="margin-top: 10px;font-size: 12px">
+                                    M Mohibuz Zaman
                                 MD & CEO, ACI HealthCare Limited
                                 </span>
 
-                            </h7>
+                            </p>
 
                         </div>
 <!--                        <div class="col-md-6 col-sm-6 col-4">-->
@@ -80,7 +80,7 @@
         </span>
             </div>
         </div>
-        
+
         <!-- Upcoming Event Section -->
         <div class="upcoming-events">
             <div class="section-header">
@@ -126,40 +126,40 @@
 
         <!-- Quick Links Section -->
         <div class="quick-links">
-            <button class="quick-link-btn">
+            <router-link :to="{ name: 'eventIndex' }" class="quick-link-btn full-link">
                 <div class="icon-wrapper">
                     <img :src="`${mainOrigin}assets/icon/appointment.png`" alt="appointment Image" class="appointment">
                 </div>
                 <div class="btn-text">
-                    <router-link :to="{ name: 'eventIndex' }" class="see-all">Event Schedule</router-link>
+                    Event Schedule
                 </div>
-            </button>
+            </router-link>
 
-            <button class="quick-link-btn">
+            <router-link :to="{ name: 'hotelIndex' }" class="quick-link-btn full-link">
                 <div class="icon-wrapper">
                     <img :src="`${mainOrigin}assets/icon/condominium.png`" alt="condominium Image" class="condominium">
                 </div>
-
                 <div class="btn-text">
-                    <router-link :to="{ name: 'hotelIndex' }" class="see-all">Room & Hotel Info</router-link>
+                    Room & Hotel Info
                 </div>
-            </button>
-            <button class="quick-link-btn">
+            </router-link>
+            <router-link :to="{ name: 'travelIndex' }" class="quick-link-btn full-link">
                 <div class="icon-wrapper">
                     <img :src="`${mainOrigin}assets/icon/travel.png`" alt="travel Image" class="travel">
                 </div>
                 <div class="btn-text">
-                    <router-link :to="{ name: 'travelIndex' }" class="see-all">Travel Info</router-link>
+                    Travel Info
                 </div>
-            </button>
-            <button class="quick-link-btn">
+            </router-link>
+            <router-link :to="{ name: 'helplineIndex' }" class="quick-link-btn full-link">
                 <div class="icon-wrapper">
                     <img :src="`${mainOrigin}assets/icon/customer-support.png`" alt="customer-support Image" class="customer-support">
                 </div>
                 <div class="btn-text">
-                    <router-link :to="{ name: 'helplineIndex' }" class="see-all">Helpline</router-link>
+                    Helpline
                 </div>
-            </button>
+            </router-link>
+
         </div>
 
 <!--        <div-->
