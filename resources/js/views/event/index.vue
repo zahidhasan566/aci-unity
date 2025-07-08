@@ -48,7 +48,7 @@
                 <div class="event-meta">
                     <span class="event-date">📅 {{ event.EventDate }}</span>
                     <span class="event-time">🕘 {{ moment(event.StartTime, 'HH:mm:ss').format('hh:mm A') }}</span>
-                    <button class="feedback-btn"   v-show="!event.feedback || event.feedback.length === 0" @click="openFeedback(index)">Feedback</button>
+<!--                    <button class="feedback-btn"   v-show="!event.feedback || event.feedback.length === 0" @click="openFeedback(index)">Feedback</button>-->
                 </div>
             </div>
         </div>

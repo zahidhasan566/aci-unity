@@ -39,22 +39,26 @@
             <div class="remainingHeader">
                 <div class="welcome-message">
                     <div class="row">
-                        <div class="col-md-6 col-sm-6 col-8">
-                            <h6>    <img :src="`${mainOrigin}assets/icon/happyface.png`" alt="happyface Image" class="happyface"> Welcome to the Marketing & Sales Conference 2025–26 of ACI Pharma Business</h6>
-                            <p>We are thrilled to have you join us for this milestone event — a celebration of our achievements, a time to recognize our champions, and a platform to shape the future together.</p>
+                        <div class="col-md-12 col-sm-12 col-12">
+                            <h6>    Welcome to the Marketing & Sales Conference 2025–26 of ACI Pharma Business</h6>
+                            <p>We are thrilled to have you join us for this milestone event — a celebration of our achievements, a time to recognize our champions, and a platform to shape the future together.
+                                Let’s recharge our passion, realign our strategies, and reignite the momentum as we move forward into a new era of excellence.</p>
 
-                            <h6>Customer Core, Achieve More
+                            <h7>Customer Core, Achieve More
                                 <br>
-                                M Mohibuz Zaman
+                                <span style="margin-top: 10px">
+                                    M Mohibuz Zaman  <br>
                                 MD & CEO, ACI HealthCare Limited
-                            </h6>
+                                </span>
+
+                            </h7>
 
                         </div>
-                        <div class="col-md-6 col-sm-6 col-4">
-                            <div class="profile-icon-community">
-                                <img :src="`${mainOrigin}assets/icon/community.png`" alt="profile Image" class="profile"></div>
+<!--                        <div class="col-md-6 col-sm-6 col-4">-->
+<!--                            <div class="profile-icon-community">-->
+<!--                                <img :src="`${mainOrigin}assets/icon/community.png`" alt="profile Image" class="profile"></div>-->
 
-                        </div>
+<!--                        </div>-->
 
                     </div>
 
@@ -153,6 +157,28 @@
                 </div>
             </button>
         </div>
+
+<!--        <div-->
+<!--            v-for="(event, index) in eventInfo"-->
+<!--            :key="index"-->
+<!--            class="timeline-item"-->
+<!--        >-->
+<!--            <div class="timeline-marker">-->
+<!--                <span class="marker-circle">{{ index + 1 }}</span>-->
+<!--                <div class="timeline-line" v-if="index !== eventInfo.length - 1"></div>-->
+<!--            </div>-->
+
+<!--            <div class="timeline-content">-->
+<!--                <h4 class="event-title">⭐ {{ event.Title }}</h4>-->
+<!--                <p><strong>Des:</strong> {{ event.Description }}</p>-->
+<!--                <p><strong>Venue:</strong> {{ event.Venue }}</p>-->
+<!--                <div class="event-meta">-->
+<!--                    <span class="event-date">📅 {{ event.EventDate }}</span>-->
+<!--                    <span class="event-time">🕘 {{ moment(event.StartTime, 'HH:mm:ss').format('hh:mm A') }}</span>-->
+<!--                    &lt;!&ndash;                    <button class="feedback-btn"   v-show="!event.feedback || event.feedback.length === 0" @click="openFeedback(index)">Feedback</button>&ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!-- Gallery Section -->
 <!--        <div class="award-section">-->
@@ -762,7 +788,91 @@ export default {
     background-color: #eceff1; /* Light gray */
     color: #90a4ae; /* Gray text */
 }
+.event-timeline {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
 
+.timeline-item {
+    display: flex;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.timeline-marker {
+    position: relative;
+    width: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.marker-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #0C2189;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.timeline-line {
+    width: 2px;
+    flex: 1;
+    background: #d1d5db;
+    margin-top: 2px;
+}
+
+.timeline-content {
+    background: #EFF2FF;
+    border-radius: 10px;
+    padding: 12px 16px;
+    flex: 1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.timeline-content:hover {
+    background-color: #0C2189;
+    color: white;
+    cursor: pointer;
+}
+
+.timeline-content:hover .event-date,
+.timeline-content:hover .event-time {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.timeline-content:hover .feedback-btn {
+    background-color: #2563eb;
+    color: white;
+}
+
+.event-title {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.event-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.event-date,
+.event-time {
+    background: #e0e7ff;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+}
 /* Seller Section */
 .seller-section {
     margin-top: 25px;

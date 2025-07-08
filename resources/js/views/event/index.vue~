@@ -152,7 +152,7 @@ export default {
                 rating: this.rating,
                 feedback: this.feedbackText,
             }, (response) => {
-                this.rating = '';
+                this.rating = '3';
                 this.feedbackText = '';
                 this.successNoti(response.message);
                 this.showModal = false
