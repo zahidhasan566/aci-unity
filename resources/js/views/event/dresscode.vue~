@@ -1,0 +1,29 @@
+<template>
+    <div class="container">
+        <div style="text-align: initial; margin-bottom: 5px">
+            <p style="font-size: 20px;font-weight: bold;color: black"><span style="font-size: 15px;" @click="goBack"> <i class="ti-angle-left"></i></span> {{title}} </p>
+        </div>
+        <div class="icon-wrapper">
+            <img
+                :src="`${mainOrigin}assets/images/dresscode.jpg`"
+                alt="Dresscode Image"
+                class="dresscode-large"
+            >
+        </div>
+    </div>
+
+
+</template>
+<script setup>
+</script>
+
+
+<style scoped>
+.dresscode-large {
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* center it */
+}
+</style>

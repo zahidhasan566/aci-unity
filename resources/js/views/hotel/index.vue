@@ -71,7 +71,8 @@ export default {
             return this.hotels.filter(data => {
                 const searchMatch = this.searchText === '' || (
                     data.HotelName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-                    data.UserName.toLowerCase().includes(this.searchText.toLowerCase())
+                    data.UserName.toLowerCase().includes(this.searchText.toLowerCase())||
+                    data.UserId.toLowerCase().includes(this.searchText.toLowerCase())
                 );
 
                 const dateMatch = this.selectedDate === '' || data.date === this.selectedDate;

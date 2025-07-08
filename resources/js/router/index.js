@@ -18,6 +18,7 @@ import AwardGallery from "../views/award-gallery/index.vue";
 import singleDetails from "../views/award-gallery/details.vue";
 import galleryIndex from "../views/gallery/index.vue";
 import detailsGallery from "../views/gallery/details.vue";
+import dressCodeIndex from "../views/event/dresscode.vue";
 
 Vue.use(VueRouter);
 
@@ -120,6 +121,12 @@ const routes = [
                 name: 'detailsGallery',
                 component: detailsGallery,
             },
+            {
+                path: baseurl + 'dress-code',
+                name: 'dressCodeIndex',
+                component: dressCodeIndex,
+            },
+
 
 
 

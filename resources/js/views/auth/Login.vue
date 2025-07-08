@@ -4,7 +4,6 @@
       <div class="card overflow-hidden account-card mx-3">
           <div class="image-container">
               <img :src="`${mainOrigin}assets/images/loginBg2.jpg`" alt="Background Image" class="background-image">
-              <div class="image-text">ACI <br> <span style="color: white">Unity</span></div>
           </div>
 <!--        <div class="bg-gradient p-4 text-white text-center position-relative">-->
 <!--            -->

@@ -12,7 +12,6 @@ trait UserHotelHelper
             ->leftJoin('TravelInfo', 'TravelInfo.UserId', '=', 'RoomAllocations.UserId')
             ->where('RoomAllocations.UserId', $userId)
             ->first();
-        dd($allocation->TravelInfo['ArrivalTime']);
 
         if (!$allocation || !$allocation->room || !$allocation->room->hotel) {
             return null;
@@ -24,8 +23,8 @@ trait UserHotelHelper
                 'name' => $allocation->room->hotel->HotelName,
                 'address' => $allocation->room->hotel->Address,
                 'map' => $allocation->room->hotel->GoogleMapLink,
-                'check_in' => $allocation->TravelInfo->ArrivalTime,
-                'check_out' => $allocation->TravelInfo->DepartureTime,
+                'check_in' => !empty($allocation->ArrivalTime) ? $allocation->TravelInfo->ArrivalTime : null,
+                'check_out' => !empty($allocation->DepartureTime) ? $allocation->TravelInfo->DepartureTime : null,
                 'facilities' => $allocation->room->hotel->Facilities,
                 'rules' => $allocation->room->hotel->Rules,
             ],
