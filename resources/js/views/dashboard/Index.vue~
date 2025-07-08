@@ -69,14 +69,18 @@
 
         </div>
         <div class="hotel-banner">
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-8"> <span v-if="hotelInfo && hotelInfo.hotel" class="hotel-name">🏨 Hotel: {{hotelInfo.hotel.name}}</span></div>
-                <div style="text-align:right" class="col-md-6 col-sm-6 col-4"> <span v-if="hotelInfo && hotelInfo.room" class="room-number">🚪 Room: {{hotelInfo.room.number}}</span></div>
-
+            <div style="flex: 1; min-width: 250px; text-align: left;">
+        <span v-if="hotelInfo && hotelInfo.hotel" class="hotel-name">
+            🏨 Hotel: {{hotelInfo.hotel.name}}
+        </span>
             </div>
-
-
+            <div style="text-align: right;">
+        <span v-if="hotelInfo && hotelInfo.room" class="room-number">
+            🚪 Room: {{hotelInfo.room.number}}
+        </span>
+            </div>
         </div>
+        
         <!-- Upcoming Event Section -->
         <div class="upcoming-events">
             <div class="section-header">
@@ -530,24 +534,43 @@ export default {
     font-size: 14px;
 }
 .hotel-banner {
-    /*display: flex;*/
-    flex-wrap: wrap;              /* allow wrap on small screens */
-    justify-content: center;      /* center horizontally */
-    align-items: center;          /* center vertically */
-    gap: 8px 20px;                /* vertical and horizontal spacing */
+    display: flex;
+    flex-wrap: wrap;             /* allow wrapping */
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px 0;
     padding: 12px;
     background-color: #EFF2FF;
     font-weight: 600;
-    /*font-size: 1rem;*/
     text-align: center;
     margin-bottom: 25px;
 }
 
-.hotel-name,
-.room-number {
-    flex: 1 1 auto;               /* allow resizing and wrapping */
-    white-space: nowrap;
+.hotel-name, .room-number {
+    word-break: break-word;
+    white-space: normal;
 }
+/*.hotel-banner {*/
+/*    !*display: flex;*!*/
+/*    flex-wrap: wrap;              !* allow wrap on small screens *!*/
+/*    justify-content: center;      !* center horizontally *!*/
+/*    align-items: center;          !* center vertically *!*/
+/*    gap: 8px 20px;                !* vertical and horizontal spacing *!*/
+/*    padding: 12px;*/
+/*    background-color: #EFF2FF;*/
+/*    font-weight: 600;*/
+/*    !*font-size: 1rem;*!*/
+/*    text-align: center;*/
+/*    margin-bottom: 25px;*/
+/*}*/
+
+/*.hotel-name, .room-number {*/
+/*    white-space: nowrap;*/
+/*    overflow: hidden;*/
+/*    text-overflow: ellipsis;*/
+/*    display: inline-block;*/
+/*    max-width: 100%;*/
+/*}*/
 
 /* Event Card Styling */
 
