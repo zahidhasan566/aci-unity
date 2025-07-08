@@ -543,10 +543,12 @@ export default {
     margin-bottom: 25px;
 }
 
-.hotel-name,
-.room-number {
-    flex: 1 1 auto;               /* allow resizing and wrapping */
+.hotel-name, .room-number {
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 100%;
 }
 
 /* Event Card Styling */

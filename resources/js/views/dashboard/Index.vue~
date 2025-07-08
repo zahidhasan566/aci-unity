@@ -538,7 +538,7 @@ export default {
     padding: 12px;
     background-color: #EFF2FF;
     font-weight: 600;
-    font-size: 1rem;
+    /*font-size: 1rem;*/
     text-align: center;
     margin-bottom: 25px;
 }
