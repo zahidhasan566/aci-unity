@@ -16,6 +16,8 @@ class IndexPageController extends Controller
     public function index(){
         $userId = auth()->user()->UserId;
 
+
+
         $hotelInfo = $this->getHotelInfoByUser($userId);
         $eventInfo = EventSchedule::select('EventSchedule.*')->OrderBy('EventDate','asc')->get();
         $awards = Awards::all();

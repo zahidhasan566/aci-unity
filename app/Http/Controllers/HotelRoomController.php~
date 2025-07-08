@@ -2,9 +2,101 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Awards;
+use App\Models\EventSchedule;
+use App\Models\Hotels;
+use App\Models\Photos;
+use App\Models\RoomAllocations;
+use App\Traits\UserHotelHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HotelRoomController extends Controller
 {
-    //
+    use UserHotelHelper;
+    public function index(){
+        $userId = auth()->user()->UserId;
+        $hotelInfoUserWise = $this->getHotelInfoByUser($userId);
+        $hotelInfo = RoomAllocations::select(
+            'RoomAllocations.RoomID',
+            'RoomAllocations.UserId',
+            'Rooms.RoomNumber',
+            'Rooms.RoomType',
+            'Hotels.HotelName',
+            'Hotels.Address',
+            'Hotels.GoogleMapLink'
+        )
+            ->join('Rooms', 'Rooms.RoomID', '=', 'RoomAllocations.RoomID')
+            ->join('Hotels', 'Hotels.HotelID', '=', 'Rooms.HotelID')
+            ->cursor(); // Efficient for large datasets
+
+        $users = collect();
+
+        $userIds = collect($hotelInfo)->pluck('UserId')->unique()->toArray();
+
+        foreach (array_chunk($userIds, 1000) as $chunk) {
+            // Step 1: Try pharmaSqlSrv first
+            $pharmaUsers = DB::connection('pharmaSqlSrv')
+                ->table('UserManager')
+                ->select('UserId', 'UserName')
+                ->whereIn('UserId', $chunk)
+                ->get()
+                ->keyBy('UserId');
+
+            $users = $users->merge($pharmaUsers);
+
+            // Step 2: Find missing UserIds not found in pharma
+            $missingUserIds = array_diff($chunk, $pharmaUsers->keys()->toArray());
+
+            if (!empty($missingUserIds)) {
+                $fallbackUsers = DB::connection('sqlsrv') // fallback DB
+                ->table('UserManager')
+                    ->select('UserId', 'UserName')
+                    ->whereIn('UserId', $missingUserIds)
+                    ->get()
+                    ->keyBy('UserId');
+
+                $users = $users->merge($fallbackUsers);
+            }
+        }
+
+// Step 3: Attach UserName
+        $results = collect($hotelInfo)->map(function ($item) use ($users) {
+            $item->UserName = $users[$item->UserId]->UserName ?? 'Unknown';
+            return $item;
+        });
+        dd([
+            'firstItem' => $hotelInfo->first(),
+            'userKeys' => $users->keys(),
+            'userExample' => $users->first(),
+        ]);
+//        $hotelInfo = RoomAllocations::select('RoomAllocations.RoomID','RoomAllocations.UserId','Rooms.RoomNumber','Rooms.RoomType','Hotels.HotelName','Hotels.Address','Hotels.GoogleMapLink')
+//                    ->join('Rooms', 'Rooms.RoomID', '=', 'RoomAllocations.RoomID')
+//                    ->join('Hotels', 'Hotels.HotelID', '=', 'Rooms.HotelID')
+//                    ->get();
+//
+//        // Step 2: Extract unique user IDs from hotelInfo
+//        $userIds = $hotelInfo->pluck('UserId')->unique()->toArray();
+//
+//// Step 3: Fetch user info from pharmaSqlSrv
+//        $users = DB::connection('pharmaSqlSrv')
+//            ->table('UserManager')
+//            ->select('UserId', 'UserName')
+//            ->whereIn('UserId', $userIds)
+//            ->where('ACTIVE', 'Y')
+//            ->get()
+//            ->keyBy('UserId');
+//
+//// Step 4: Attach user names to hotelInfo
+//        $hotelInfo->transform(function ($item) use ($users) {
+//            $item->UserName = $users[$item->UserId]->UserName ?? 'Unknown';
+//            return $item;
+//        });
+        return response()->json([
+            'hotelInfo' => $hotelInfo,
+            'hotelInfoUserWise' => $results,
+        ]);
+
+
+    }
 }

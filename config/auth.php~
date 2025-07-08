@@ -45,7 +45,7 @@ return [
             'provider' => 'users',
         ],
         'api_second' => [
-            'driver' => 'jwt',
+            'driver' => 'session',
             'provider' => 'second_users',
         ],
 

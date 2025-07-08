@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\AssignedVro;
 use App\Models\User;
+use App\Models\UserManager;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,25 +54,45 @@ class AuthController extends Controller
         $userId = $request->userID;
         $password = $request->password;
         $user = DB::connection('pharmaSqlSrv')->select("SELECT dbo.ufn_PasswordDecode(Password) as DecodPassword,* FROM UserManager where UserId='$userId' AND ACTIVE = 'Y'");
-        if ($user) {
+        if ($user && isset($user[0])) {
             if ($user[0]->DecodPassword == $password) {
                 $user = User::where('UserId', $userId)->first();
                 Auth::login($user);
                 $token = JWTAuth::fromUser($user);
-                return $this->respondWithToken($token,$user);
+                return $this->respondWithToken($token, $user);
             } else {
                 return response()->json([
                     'status' => 'error',
                     'data' => [],
-                    'message' => 'Invalid User ID or Password!'
-                ],401);
+                    'message' => 'Invalid password!'
+                ], 401);
             }
         }
+// If not found in first DB, check in second
+        $secondUser = DB::connection('sqlsrv')->select("SELECT dbo.ufn_PasswordDecode(Password) as DecodPassword,* FROM UserManager where UserId='$userId' AND ACTIVE = 'Y'");
+        if ($secondUser && isset($secondUser[0])) {
+            if ($secondUser[0]->DecodPassword == $password) {
+                $secondUser = UserManager::where('UserId', $userId)->first();
+                Auth::login($secondUser);
+                $token = JWTAuth::fromUser($secondUser);
+                return $this->respondWithToken($token, $secondUser);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'data' => [],
+                    'message' => 'Invalid password!'
+                ], 401);
+            }
+        }
+
+
+        // No user found in either system
         return response()->json([
             'status' => 'error',
             'data' => [],
-            'message' => 'No user found!'
-        ],500);
+            'message' => 'User ID not found!'
+        ], 404);
+
     }
 
     public function me()
@@ -79,18 +100,41 @@ class AuthController extends Controller
         return response()->json($this->guard()->user());
 
     }
-
-    public function logout()
+    public function logout(Request $request)
     {
         try {
-            $user = JWTAuth::parseToken()->authenticate();
-//            UserLog::create(['UserId' => $user->ID, 'TransactionTime' => Carbon::now(), 'TransactionDetails' => "Logged Out"]);
-            $this->guard()->logout();
-        } catch (\Exception $exception) {
+            // Get the token from the request
+            $token = JWTAuth::getToken();
 
+            // Invalidate the token (add to blacklist)
+            JWTAuth::invalidate($token);
+
+            // Clear the authenticated user
+            auth()->logout();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Successfully logged out'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to logout: ' . $e->getMessage()
+            ], 500);
         }
-        return response()->json(['message' => 'Successfully logged out']);
     }
+//    public function logout()
+//    {
+//        try {
+//            $user = JWTAuth::parseToken()->authenticate();
+////            UserLog::create(['UserId' => $user->ID, 'TransactionTime' => Carbon::now(), 'TransactionDetails' => "Logged Out"]);
+//            $this->guard()->logout();
+//        } catch (\Exception $exception) {
+//
+//        }
+//        return response()->json(['message' => 'Successfully logged out']);
+//    }
 
 
     public function refresh()
@@ -104,7 +148,7 @@ class AuthController extends Controller
             'access_token' => $token,
 //            'Users' => Auth::user(),
             'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60*60*24,
+            'expires_in' =>  60*60*24 *24,
             'user' => $user
         ]);
     }

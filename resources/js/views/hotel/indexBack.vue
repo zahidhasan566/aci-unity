@@ -5,39 +5,22 @@
             <div style="text-align: initial; margin-bottom: 5px">
                 <p style="font-size: 20px;font-weight: bold;color: black"><span style="font-size: 15px;" @click="goBack"> <i class="ti-angle-left"></i></span> {{title}} </p>
             </div>
-
-
-            <!-- 🔍 Filter Row -->
-            <div class="row mb-3">
-                <div class="col-12 pe-1">
-                    <input
-                        type="text"
-                        v-model="searchText"
-                        placeholder="🔍 Search by Hotel Name or Room Number..."
-                        class="form-control"
-                    />
-                </div>
-
-            </div>
-
         </div>
 
 
-        <div
-            v-for="(hotel, index) in filteredHotels"
-            :key="index"
-            class="timeline-item"
-        >
-            <div class="timeline-marker">
-                <span class="marker-circle">{{ index + 1 }}</span>
-                <div class="timeline-line" v-if="index !== filteredHotels.length - 1"></div>
-            </div>
 
-            <div class="timeline-content" style="overflow-y: scroll">
-                <h5 style="margin:0">{{ hotel.HotelName}}</h5>
-                <p style="margin:0"><strong>Room:</strong> {{ hotel.RoomNumber }}</p>
-                <p style="margin:0"><strong>Name:</strong> {{ hotel.UserName  }}</p>
-                <p style="margin:0"><strong>User Id:</strong> {{ hotel.UserId  }}</p>
+        <div>
+            <div class="timeline-content">
+                <h4 class="data-title">
+                    <div class="row hotel-banner">
+                        <div class="col-md-6 col-sm-6 col-7"> <span class="hotel-name">Hotel: {{hotelInfo.hotel.name}} </span></div>
+                        <div style="text-align:right" class="col-md-6 col-sm-6 col-5"> <span class="room-number">Room: {{hotelInfo.room.number}}</span></div>
+
+                    </div>
+
+                </h4>
+                <p><strong>Address:</strong> {{ hotelInfo.hotel.address }}</p>
+                <p><strong>Check In :</strong> {{ hotelInfo.hotel.check_in }}</p>
             </div>
         </div>
     </div>
@@ -53,7 +36,6 @@ export default {
         return {
             searchText: '',
             selectedDate: '',
-            hotels:[],
             hotelInfo: {
                 hotel: {
                     name: '' ,
@@ -70,8 +52,8 @@ export default {
         filteredHotels() {
             return this.hotels.filter(data => {
                 const searchMatch = this.searchText === '' || (
-                    data.HotelName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-                    data.UserName.toLowerCase().includes(this.searchText.toLowerCase())
+                    data.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                    data.room.toLowerCase().includes(this.searchText.toLowerCase())
                 );
 
                 const dateMatch = this.selectedDate === '' || data.date === this.selectedDate;
@@ -90,7 +72,7 @@ export default {
         },
         getData() {
             this.axiosGet('room-hotel-data', (response) => {
-                this.hotels = response.hotelInfo
+                this.hotelInfo = response.hotelInfo
             }, (error) => {
                 this.errorNoti(error);
             });

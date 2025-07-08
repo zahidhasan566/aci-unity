@@ -40,8 +40,14 @@
                 <div class="welcome-message">
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-8">
-                            <h2>    <img :src="`${mainOrigin}assets/icon/happyface.png`" alt="happyface Image" class="happyface"> Welcome</h2>
-                            <p>We are delighted to have you among us. On behalf of all the members and the management, we would like to extend our warmest welcome and good wishes!</p>
+                            <h6>    <img :src="`${mainOrigin}assets/icon/happyface.png`" alt="happyface Image" class="happyface"> Welcome to the Marketing & Sales Conference 2025–26 of ACI Pharma Business</h6>
+                            <p>We are thrilled to have you join us for this milestone event — a celebration of our achievements, a time to recognize our champions, and a platform to shape the future together.</p>
+
+                            <h6>Customer Core, Achieve More
+                                <br>
+                                M Mohibuz Zaman
+                                MD & CEO, ACI HealthCare Limited
+                            </h6>
 
                         </div>
                         <div class="col-md-6 col-sm-6 col-4">
@@ -467,7 +473,7 @@ export default {
 }
 
 .greeting .name {
-    font-size: 24px;
+    font-size: 12px;
     margin: 0;
     color: #000000;
     font-weight: 600;

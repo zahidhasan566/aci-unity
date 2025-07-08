@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
+use App\Models\UserManager;
 use Closure;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -18,8 +20,32 @@ class JwtMiddleware
     public function handle(Request $request, Closure $next)
     {
         try {
-            $user = JWTAuth::parseToken()->authenticate();
-            dd($user);
+            // Try both guards explicitly
+            foreach (['api', 'api_second'] as $guard) {
+                try {
+                    $token = JWTAuth::parseToken();
+                    $payload = $token->getPayload();
+                    dd($payload);
+                    // Manually verify the token
+                    if (JWTAuth::manager()->getJWTProvider()->decode($token->getToken())) {
+
+                        // Get user based on guard
+                        $user = $guard === 'api_second'
+                            ? UserManager::find($payload->get('sub'))
+                            : User::find($payload->get('sub'));
+
+                        if ($user) {
+                            auth()->shouldUse($guard);
+                            auth()->setUser($user);
+                            return $next($request);
+                        }
+                    }
+                } catch (\Exception $e) {
+                    continue; // Try next guard
+                }
+            }
+
+            throw new \Exception('Authentication failed');
         } catch (\Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
                 return response()->json(['status' => 'Token is Invalid'], 401);

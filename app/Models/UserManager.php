@@ -2,42 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class UserManager extends  Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
-
     protected $table = "UserManager";
     public $timestamps = false;
     public $primaryKey = 'UserId';
     protected $guarded = [];
     public $incrementing = false;
     protected $keyType = "string";
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'Password'
-    ];
-    protected $connection = 'pharmaSqlSrv';
+    protected $connection = 'sqlsrv';
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
     public function getAuthPassword()
     {
@@ -53,7 +40,7 @@ class User extends Authenticatable implements JWTSubject
         return $this instanceof \App\Models\UserManager ? 'api_second' : 'api';
     }
     public function getJWTCustomClaims() {
-        return ['guard' => 'api'];
+        return ['guard' => 'api_second'];
     }
     public function roles()
     {
