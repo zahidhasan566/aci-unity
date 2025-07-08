@@ -40,6 +40,7 @@
                 <div class="welcome-message">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-12">
+                            <h6>    Welcome to the Marketing & Sales Conference 2025–26 of ACI Pharma Business</h6>
                             <p>We are thrilled to have you join us for this milestone event — a celebration of our achievements, a time to recognize our champions, and a platform to shape the future together.
                                 Let’s recharge our passion, realign our strategies, and reignite the momentum as we move forward into a new era of excellence.</p>
 
@@ -69,8 +70,8 @@
         </div>
         <div class="hotel-banner">
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-6"> <span v-if="hotelInfo && hotelInfo.hotel" class="hotel-name">🏨 Hotel: {{hotelInfo.hotel.name}}</span></div>
-                <div style="text-align:right" class="col-md-6 col-sm-6 col-6"> <span v-if="hotelInfo && hotelInfo.room" class="room-number">🚪 Room: {{hotelInfo.room.number}}</span></div>
+                <div class="col-md-6 col-sm-6 col-8"> <span v-if="hotelInfo && hotelInfo.hotel" class="hotel-name">🏨 Hotel: {{hotelInfo.hotel.name}}</span></div>
+                <div style="text-align:right" class="col-md-6 col-sm-6 col-4"> <span v-if="hotelInfo && hotelInfo.room" class="room-number">🚪 Room: {{hotelInfo.room.number}}</span></div>
 
             </div>
 

@@ -70,8 +70,8 @@
         </div>
         <div class="hotel-banner">
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-6"> <span v-if="hotelInfo && hotelInfo.hotel" class="hotel-name">🏨 Hotel: {{hotelInfo.hotel.name}}</span></div>
-                <div style="text-align:right" class="col-md-6 col-sm-6 col-6"> <span v-if="hotelInfo && hotelInfo.room" class="room-number">🚪 Room: {{hotelInfo.room.number}}</span></div>
+                <div class="col-md-6 col-sm-6 col-8"> <span v-if="hotelInfo && hotelInfo.hotel" class="hotel-name">🏨 Hotel: {{hotelInfo.hotel.name}}</span></div>
+                <div style="text-align:right" class="col-md-6 col-sm-6 col-4"> <span v-if="hotelInfo && hotelInfo.room" class="room-number">🚪 Room: {{hotelInfo.room.number}}</span></div>
 
             </div>
 
@@ -538,7 +538,7 @@ export default {
     padding: 12px;
     background-color: #EFF2FF;
     font-weight: 600;
-    font-size: 1rem;
+    /*font-size: 1rem;*/
     text-align: center;
     margin-bottom: 25px;
 }
