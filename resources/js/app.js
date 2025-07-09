@@ -52,7 +52,6 @@ Vue.component('add-edit-assign-vro', require('./components/vro/assignVroAddEdit.
 import loader from "vue-ui-preloader";
 Vue.use(loader);
 
-
 const app = new Vue({
     el: '#app',
     store: store,

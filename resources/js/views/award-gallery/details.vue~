@@ -6,16 +6,22 @@
         <div class="container">
 
             <div class="d-flex flex-column align-items-center p-2 h-100" v-for="awardDetail in awardDetails">
-                <div class="img-wrapper mb-2">
-                    <img
-                        :src="`${mainOrigin}assets/award/${awardDetail.Image}`"
-                        alt="award"
-                        class="dresscode-large"
-                        @click="selectedImage = `${mainOrigin}assets/award/${awardDetail.Image}`"
-                        style="cursor: zoom-in;"
 
-                    />
+                <div v-if="selectedImage" class="zoom-overlay" @click.self="selectedImage = null">
+                    <vue-pinch-zoom>
+                        <img :src="selectedImage" class="zoomed-image" />
+                    </vue-pinch-zoom>
                 </div>
+<!--                <div class="img-wrapper mb-2">-->
+<!--                    <img-->
+<!--                        :src="`${mainOrigin}assets/award/${awardDetail.Image}`"-->
+<!--                        alt="award"-->
+<!--                        class="dresscode-large"-->
+<!--                        @click="selectedImage = `${mainOrigin}assets/award/${awardDetail.Image}`"-->
+<!--                        style="touch-action: manipulation;"-->
+
+<!--                    />-->
+<!--                </div>-->
             </div>
             <!-- Modal/Zoom Popup -->
             <div v-if="selectedImage" class="zoom-overlay" @click="selectedImage = null">
@@ -27,8 +33,13 @@
 <script>
 
 import {Common} from "../../mixins/common";
+import VuePinchZoom from 'vue-pinch-zoom';
+
 export default {
     mixins: [Common],
+    components: {
+        VuePinchZoom
+    },
     data() {
         return {
             galleryId: '',

@@ -28,6 +28,12 @@ License: MIT
   */
 
 /**
+  * vue-class-component v7.2.2
+  * (c) 2015-present Evan You
+  * @license MIT
+  */
+
+/**
  * @license
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>

@@ -18,8 +18,11 @@
                 </div>
             </div>
             <!-- Modal/Zoom Popup -->
-            <div v-if="selectedImage" class="zoom-overlay" @click="selectedImage = null">
-                <img :src="selectedImage" class="zoomed-image" />
+
+            <div v-if="selectedImage" class="zoom-overlay" @click.self="selectedImage = null">
+                <vue-pinch-zoom>
+                    <img :src="selectedImage" class="zoomed-image" />
+                </vue-pinch-zoom>
             </div>
         </div>
         </div>
@@ -27,8 +30,13 @@
 <script>
 
 import {Common} from "../../mixins/common";
+import VuePinchZoom from 'vue-pinch-zoom';
+
 export default {
     mixins: [Common],
+    components: {
+        VuePinchZoom
+    },
     data() {
         return {
             galleryId: '',
