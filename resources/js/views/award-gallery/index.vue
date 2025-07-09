@@ -37,9 +37,9 @@
                 <div class="d-flex flex-column align-items-center p-2 h-100">
                     <div class="img-wrapper mb-2">
                         <img
-                            :src="`${mainOrigin}assets/images/award1.png`"
+                            :src="`${mainOrigin}assets/award/${data.Photo}`"
                             alt="award"
-                            class="slide-img"
+                            class="dresscode-large"
                             @click="openSinglePageData(data.AwardID)"
 
                         />
@@ -174,7 +174,13 @@ export default {
     /*position: relative;*/
     margin-bottom: 25px;
 }
-
+.dresscode-large {
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* center it */
+}
 .timeline-marker {
     position: relative;
     width: 30px;
@@ -240,7 +246,7 @@ export default {
 }
 .img-wrapper {
     width: 100%;
-    min-height: 100px;
+    /*min-height: 100px;*/
     max-height: 100px;
     display: flex;
     justify-content: center;

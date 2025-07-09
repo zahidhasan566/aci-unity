@@ -1,28 +1,22 @@
 <template>
     <div>
         <div style="text-align: initial; margin-bottom: 5px">
-            <p style="font-size: 20px;font-weight: bold;color: black"><span style="font-size: 15px;" @click="goBack"> <i class="ti-angle-left"></i></span> {{title}} </p>
+            <p style="font-size: 20px;font-weight: bold;color: black"><span style="font-size: 15px;" @click="goBack"> <i class="ti-angle-left"></i></span> {{awardDetailsTitle}}</p>
         </div>
         <div class="container">
-            <h4>{{award.Title}}</h4>
 
-            <div class="d-flex flex-column align-items-center p-2 h-100">
+            <div class="d-flex flex-column align-items-center p-2 h-100" v-for="awardDetail in awardDetails">
                 <div class="img-wrapper mb-2">
                     <img
-                        :src="`${mainOrigin}assets/images/award1.png`"
+                        :src="`${mainOrigin}assets/award/${awardDetail.Image}`"
                         alt="award"
-                        class="slide-img"
+                        class="dresscode-large"
 
                     />
                 </div>
             </div>
-            <div class="timeline-content">
-                <p style="margin:0"><strong>Title: {{ award.Title }} </strong></p>
-                <p style="margin:0"><strong>Year: {{ award.Year }}</strong> </p>
-                <p style="margin:0"><strong>Category: {{ award.Category }}</strong> </p>
-            </div>
         </div>
-    </div>
+        </div>
 </template>
 <script>
 
@@ -33,14 +27,16 @@ export default {
         return {
             galleryId: '',
             title:'Award Gallery Details',
-            award:{}
+            awardDetails:[],
+            awardDetailsTitle:''
         };
     },
     mounted() {
          this.galleryId = this.$route.params.id;
 
         this.axiosGet('get-award-gallery-details/'+ this.galleryId, (response) => {
-            this.award = response.award
+            this.awardDetails = response.award
+            this.awardDetailsTitle =  response.award[0].Title
         }, (error) => {
             this.errorNoti(error);
         });
@@ -56,20 +52,11 @@ export default {
 
 
 <style scoped>
-.img-wrapper {
+.dresscode-large {
     width: 100%;
-    min-height: 100px;
-    max-height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-.timeline-content {
-    background: #EFF2FF;
-    border-radius: 10px;
-    padding: 12px 16px;
-    flex: 1;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    max-width: 700px;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* center it */
 }
 </style>

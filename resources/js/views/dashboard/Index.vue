@@ -184,28 +184,28 @@
 <!--            </div>-->
 <!--        </div>-->
 
-        <!-- Gallery Section -->
-<!--        <div class="award-section">-->
-<!--            <div class="section-header">-->
-<!--                <div class="row">-->
-<!--                    <div class="col-md-6 col-sm-6 col-9"> <h5>Award Winners Gallery </h5></div>-->
-<!--                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">-->
-<!--                        <router-link :to="{ name: 'AwardGallery' }" class="see-all">See All</router-link>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="awards-swiper">-->
-<!--                &lt;!&ndash; Swiper Slider &ndash;&gt;-->
-<!--                <swiper  :options="swiperOptions">-->
-<!--                    <swiper-slide v-for="(award, index) in awards" :key="index">-->
-<!--                        <div class="slide-card">-->
-<!--                            <img      @click="openSingleAwardPageData(award.AwardID)"  :src="`${mainOrigin}assets/images/award1.png`" alt="award" class="slide-img" />-->
-<!--                            <h5     @click="openSingleAwardPageData(award.AwardID)"  class="slide-title">{{ truncateText(award.Title, 40) }}</h5>-->
-<!--                        </div>-->
-<!--                    </swiper-slide>-->
-<!--                </swiper>-->
-<!--            </div>-->
-<!--        </div>-->
+<!--         Gallery Section -->
+        <div class="award-section">
+            <div class="section-header">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-9"> <h5>Award Winners Gallery </h5></div>
+                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">
+                        <router-link :to="{ name: 'AwardGallery' }" class="see-all">See All</router-link>
+                    </div>
+                </div>
+            </div>
+            <div class="awards-swiper">
+                <!-- Swiper Slider -->
+                <swiper  :options="swiperOptions">
+                    <swiper-slide v-for="(award, index) in awards" :key="index">
+                        <div class="slide-card">
+                            <img      @click="openSingleAwardPageData(award.AwardID)"  :src="`${mainOrigin}assets/award/${award.Photo}`" alt="award" class="slide-img" />
+                            <h5     @click="openSingleAwardPageData(award.AwardID)"  class="slide-title">{{ truncateText(award.Title, 40) }}</h5>
+                        </div>
+                    </swiper-slide>
+                </swiper>
+            </div>
+        </div>
 
         <!-- Seller Section -->
 <!--        <div class="gallery-section">-->

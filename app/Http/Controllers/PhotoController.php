@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AwardDetails;
 use App\Models\Awards;
 use App\Models\Helplines;
 use App\Models\Photos;
@@ -16,7 +17,7 @@ class PhotoController extends Controller
         ]);
     }
     public function awardGalleryDetails($awardID){
-        $award  = Awards::select('Awards.*')->where('Awards.AwardID', '=', $awardID)->first();
+        $award  = AwardDetails::select('AwardDetails.*','Awards.Title')->join('Awards', 'Awards.AwardID', '=', 'AwardDetails.AwardID')->where('AwardDetails.AwardID', '=', $awardID)->get();
         return response()->json([
             'award' => $award,
         ]);

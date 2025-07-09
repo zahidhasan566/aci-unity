@@ -37,9 +37,9 @@
                 <div class="d-flex flex-column align-items-center p-2 h-100">
                     <div class="img-wrapper mb-2">
                         <img
-                            :src="`${mainOrigin}assets/images/award1.png`"
+                            :src="`${mainOrigin}assets/award/${data.Photo}`"
                             alt="award"
-                            class="slide-img"
+                            class="dresscode-large"
                             @click="openSinglePageData(data.AwardID)"
 
                         />
@@ -117,7 +117,7 @@ export default {
                     data.Title.toLowerCase().includes(this.searchText.toLowerCase())
                 );
 
-                const dateMatch = this.selectedDate === '' || data.Year === this.selectedDate;
+                const dateMatch = this.selectedDate === '' || data.Year === String(new Date(this.selectedDate).getFullYear());
 
                 return searchMatch && dateMatch;
             });
@@ -174,7 +174,13 @@ export default {
     /*position: relative;*/
     margin-bottom: 25px;
 }
-
+.dresscode-large {
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* center it */
+}
 .timeline-marker {
     position: relative;
     width: 30px;

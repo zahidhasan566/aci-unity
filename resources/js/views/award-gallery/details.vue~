@@ -1,0 +1,62 @@
+<template>
+    <div>
+        <div style="text-align: initial; margin-bottom: 5px">
+            <p style="font-size: 20px;font-weight: bold;color: black"><span style="font-size: 15px;" @click="goBack"> <i class="ti-angle-left"></i></span> {{awardDetailsTitle}}</p>
+        </div>
+        <div class="container">
+
+            <div class="d-flex flex-column align-items-center p-2 h-100" v-for="awardDetail in awardDetails">
+                <div class="img-wrapper mb-2">
+                    <img
+                        :src="`${mainOrigin}assets/award/${awardDetail.Image}`"
+                        alt="award"
+                        class="dresscode-large"
+
+                    />
+                </div>
+            </div>
+        </div>
+        </div>
+</template>
+<script>
+
+import {Common} from "../../mixins/common";
+export default {
+    mixins: [Common],
+    data() {
+        return {
+            galleryId: '',
+            title:'Award Gallery Details',
+            awardDetails:[],
+            awardDetailsTitle:''
+        };
+    },
+    mounted() {
+         this.galleryId = this.$route.params.id;
+
+        this.axiosGet('get-award-gallery-details/'+ this.galleryId, (response) => {
+            this.awardDetails = response.award
+            this.awardDetailsTitle =  awardDetails[0].Title
+        }, (error) => {
+            this.errorNoti(error);
+        });
+    },
+    methods: {
+        goBack() {
+            this.$router.go(-1); // or use this.$router.push({ name: 'YourPreviousRoute' });
+        }
+    }
+}
+
+</script>
+
+
+<style scoped>
+.dresscode-large {
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* center it */
+}
+</style>
