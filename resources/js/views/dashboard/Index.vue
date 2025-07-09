@@ -200,7 +200,7 @@
                     <swiper-slide v-for="(award, index) in awards" :key="index">
                         <div class="slide-card">
                             <img      @click="openSingleAwardPageData(award.AwardID)"  :src="`${mainOrigin}assets/award/${award.Photo}`" alt="award" class="slide-img" />
-                            <h5     @click="openSingleAwardPageData(award.AwardID)"  class="slide-title">{{ truncateText(award.Title, 40) }}</h5>
+                            <h5  style="text-align: center"   @click="openSingleAwardPageData(award.AwardID)"  class="slide-title">{{ truncateText(award.Title, 40) }}</h5>
                         </div>
                     </swiper-slide>
                 </swiper>

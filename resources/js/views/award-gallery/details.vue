@@ -11,9 +11,15 @@
                         :src="`${mainOrigin}assets/award/${awardDetail.Image}`"
                         alt="award"
                         class="dresscode-large"
+                        @click="selectedImage = `${mainOrigin}assets/award/${awardDetail.Image}`"
+                        style="cursor: zoom-in;"
 
                     />
                 </div>
+            </div>
+            <!-- Modal/Zoom Popup -->
+            <div v-if="selectedImage" class="zoom-overlay" @click="selectedImage = null">
+                <img :src="selectedImage" class="zoomed-image" />
             </div>
         </div>
         </div>
@@ -28,7 +34,8 @@ export default {
             galleryId: '',
             title:'Award Gallery Details',
             awardDetails:[],
-            awardDetailsTitle:''
+            awardDetailsTitle:'',
+            selectedImage: null
         };
     },
     mounted() {
@@ -58,5 +65,27 @@ export default {
     height: auto;
     display: block;
     margin: 0 auto; /* center it */
+}
+.zoom-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.zoomed-image {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease;
+    transform: scale(1.05);
+    cursor: zoom-out;
 }
 </style>

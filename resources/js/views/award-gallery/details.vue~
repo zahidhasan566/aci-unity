@@ -11,9 +11,15 @@
                         :src="`${mainOrigin}assets/award/${awardDetail.Image}`"
                         alt="award"
                         class="dresscode-large"
+                        @click="selectedImage = `${mainOrigin}assets/award/${awardDetail.Image}`"
+                        style="cursor: zoom-in;"
 
                     />
                 </div>
+            </div>
+            <!-- Modal/Zoom Popup -->
+            <div v-if="selectedImage" class="zoom-overlay" @click="selectedImage = null">
+                <img :src="selectedImage" class="zoomed-image" />
             </div>
         </div>
         </div>
@@ -28,7 +34,8 @@ export default {
             galleryId: '',
             title:'Award Gallery Details',
             awardDetails:[],
-            awardDetailsTitle:''
+            awardDetailsTitle:'',
+            selectedImage: null
         };
     },
     mounted() {
@@ -36,7 +43,7 @@ export default {
 
         this.axiosGet('get-award-gallery-details/'+ this.galleryId, (response) => {
             this.awardDetails = response.award
-            this.awardDetailsTitle =  awardDetails[0].Title
+            this.awardDetailsTitle =  response.award[0].Title
         }, (error) => {
             this.errorNoti(error);
         });
