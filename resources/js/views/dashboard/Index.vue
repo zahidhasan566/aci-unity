@@ -48,7 +48,7 @@
                                 <br><br>
                                 <span style="margin-top: 10px;font-size: 16px;line-height: 1.2;">
                                     M Mohibuz Zaman <br>
-                                MD & CEO <br> ACI HealthCare Limited
+                                MD & CEO , ACI HealthCare Limited
                                 </span>
 
                             </p>
