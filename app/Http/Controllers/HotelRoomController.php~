@@ -10,6 +10,7 @@ use App\Models\RoomAllocations;
 use App\Traits\UserHotelHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class HotelRoomController extends Controller
 {
@@ -28,11 +29,16 @@ class HotelRoomController extends Controller
         )
             ->join('Rooms', 'Rooms.RoomID', '=', 'RoomAllocations.RoomID')
             ->join('Hotels', 'Hotels.HotelID', '=', 'Rooms.HotelID')
-            ->cursor(); // Efficient for large datasets
+            ->get()
+            ->map(function ($item) {
+                $item->UserId = (string) $item->UserId; // Force string here
+                return $item;
+            });
 
         $users = collect();
 
-        $userIds = collect($hotelInfo)->pluck('UserId')->unique()->toArray();
+        $userIds = $hotelInfo->pluck('UserId')->unique()->values()->all();
+        Log::info("All User IDs to find", $userIds);
 
         foreach (array_chunk($userIds, 1000) as $chunk) {
             // Step 1: Try pharmaSqlSrv first
@@ -41,9 +47,11 @@ class HotelRoomController extends Controller
                 ->select('UserId', 'UserName')
                 ->whereIn('UserId', $chunk)
                 ->get()
-                ->keyBy('UserId');
+                ->mapWithKeys(fn ($u) => [(string) $u->UserId => $u]);
 
-            $users = $users->merge($pharmaUsers);
+            foreach ($pharmaUsers as $id => $user) {
+                $users->put((string)$id, $user); // ✅ preserves string key
+            }
 
             // Step 2: Find missing UserIds not found in pharma
             $missingUserIds = array_diff($chunk, $pharmaUsers->keys()->toArray());
@@ -54,47 +62,29 @@ class HotelRoomController extends Controller
                     ->select('UserId', 'UserName')
                     ->whereIn('UserId', $missingUserIds)
                     ->get()
-                    ->keyBy('UserId');
+                    ->mapWithKeys(fn ($u) => [(string) $u->UserId => $u]);
 
-                $users = $users->merge($fallbackUsers);
+                foreach ($pharmaUsers as $id => $user) {
+                    $users->put((string)$id, $user); // ✅ preserves string key
+                }
             }
         }
-
-// Step 3: Attach UserName
+        Log::info("Final fetched users:", $users->pluck('UserName', 'UserId')->toArray());
+        // Step 3: Attach UserName
         $results = collect($hotelInfo)->map(function ($item) use ($users) {
-            $item->UserName = $users[$item->UserId]->UserName ?? 'Unknown';
+            $userId = (string) $item->UserId;
+
+            if (!isset($users[$userId])) {
+                Log::warning("UserId not found:", [$userId]);
+            }
+
+            $item->UserName = $users[$userId]->UserName ?? 'Unknown';
             return $item;
         });
-        dd([
-            'firstItem' => $hotelInfo->first(),
-            'userKeys' => $users->keys(),
-            'userExample' => $users->first(),
-        ]);
-//        $hotelInfo = RoomAllocations::select('RoomAllocations.RoomID','RoomAllocations.UserId','Rooms.RoomNumber','Rooms.RoomType','Hotels.HotelName','Hotels.Address','Hotels.GoogleMapLink')
-//                    ->join('Rooms', 'Rooms.RoomID', '=', 'RoomAllocations.RoomID')
-//                    ->join('Hotels', 'Hotels.HotelID', '=', 'Rooms.HotelID')
-//                    ->get();
-//
-//        // Step 2: Extract unique user IDs from hotelInfo
-//        $userIds = $hotelInfo->pluck('UserId')->unique()->toArray();
-//
-//// Step 3: Fetch user info from pharmaSqlSrv
-//        $users = DB::connection('pharmaSqlSrv')
-//            ->table('UserManager')
-//            ->select('UserId', 'UserName')
-//            ->whereIn('UserId', $userIds)
-//            ->where('ACTIVE', 'Y')
-//            ->get()
-//            ->keyBy('UserId');
-//
-//// Step 4: Attach user names to hotelInfo
-//        $hotelInfo->transform(function ($item) use ($users) {
-//            $item->UserName = $users[$item->UserId]->UserName ?? 'Unknown';
-//            return $item;
-//        });
+
         return response()->json([
-            'hotelInfo' => $hotelInfo,
-            'hotelInfoUserWise' => $results,
+            'hotelInfo' => $results,
+            'hotelInfoUserWise' => $hotelInfoUserWise,
         ]);
 
 

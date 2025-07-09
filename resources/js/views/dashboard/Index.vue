@@ -46,9 +46,9 @@
 
                             <p> <span style="font-size: 14px">Customer Core, Achieve More</span>
                                 <br><br>
-                                <span style="margin-top: 10px;font-size: 16px">
+                                <span style="margin-top: 10px;font-size: 16px;line-height: 1.2;">
                                     M Mohibuz Zaman
-                                MD & CEO, ACI HealthCare Limited
+                                MD & CEO <br> ACI HealthCare Limited
                                 </span>
 
                             </p>
@@ -188,7 +188,7 @@
 <!--        <div class="award-section">-->
 <!--            <div class="section-header">-->
 <!--                <div class="row">-->
-<!--                    <div class="col-md-6 col-sm-6 col-9"> <h5>Award Winning Gallery </h5></div>-->
+<!--                    <div class="col-md-6 col-sm-6 col-9"> <h5>Award Winners Gallery </h5></div>-->
 <!--                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">-->
 <!--                        <router-link :to="{ name: 'AwardGallery' }" class="see-all">See All</router-link>-->
 <!--                    </div>-->
