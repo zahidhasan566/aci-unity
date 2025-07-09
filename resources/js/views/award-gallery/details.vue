@@ -12,7 +12,7 @@
                         alt="award"
                         class="dresscode-large"
                         @click="selectedImage = `${mainOrigin}assets/award/${awardDetail.Image}`"
-                        style="cursor: zoom-in;"
+                        style="touch-action: manipulation;"
 
                     />
                 </div>
@@ -80,12 +80,10 @@ export default {
 }
 
 .zoomed-image {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease;
-    transform: scale(1.05);
-    cursor: zoom-out;
+    max-width: none;
+    width: 100%;
+    height: auto;
+    touch-action: pan-x pan-y;
+    user-select: none;
 }
 </style>
