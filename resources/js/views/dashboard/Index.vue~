@@ -188,7 +188,7 @@
 <!--        <div class="award-section">-->
 <!--            <div class="section-header">-->
 <!--                <div class="row">-->
-<!--                    <div class="col-md-6 col-sm-6 col-9"> <h5>Award Winning Gallery </h5></div>-->
+<!--                    <div class="col-md-6 col-sm-6 col-9"> <h5>Award Winners Gallery </h5></div>-->
 <!--                    <div class="col-md-6 col-sm-6 col-3" style="text-align:right">-->
 <!--                        <router-link :to="{ name: 'AwardGallery' }" class="see-all">See All</router-link>-->
 <!--                    </div>-->
