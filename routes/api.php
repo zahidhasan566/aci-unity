@@ -30,6 +30,7 @@ Route::group(['middleware' => ['jwt:api']], function () {
 
     //Home Dashboard
     Route::get('dashboard-data',[\App\Http\Controllers\IndexPageController::class,'index']);
+    Route::get('notification-data',[\App\Http\Controllers\CommonHelperController::class,'notification']);
     Route::get('event-schedule-data',[\App\Http\Controllers\EventScheduleController::class,'index']);
     Route::post('store-event-feedback',[\App\Http\Controllers\EventScheduleController::class,'storeEventFeedback']);
     Route::get('room-hotel-data',[\App\Http\Controllers\HotelRoomController::class,'index']);

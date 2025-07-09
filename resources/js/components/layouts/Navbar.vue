@@ -45,38 +45,13 @@
                             <a href="javascript:void(0);" class="dropdown-item notify-item active" v-for="(note, index) in notifications" :key="index">
                                 <div class="notify-icon bg-success"><i class="mdi mdi-bell-outline noti-icon"></i></div>
                                 <p v-if="notifications.length === 0" class="text-muted mb-0">No new notifications</p>
-                                <p v-else class="notify-details"> {{ note.message }}</p>
+                                <p v-else class="notify-details"> {{ note.Message }}</p>
                             </a>
                         </div>
 <!--                        &lt;!&ndash; All&ndash;&gt;<a href="javascript:void(0);" class="dropdown-item text-center text-primary">View all <i class="fi-arrow-right"></i></a>-->
                     </div>
                 </li>
 
-                <!-- notification -->
-<!--                <li class="dropdown notification-list list-inline-item">-->
-<!--                    <div class="dropdown notification-list nav-pro-img">-->
-<!--                        <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">-->
-<!--                            <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">-->
-<!--                        </a>-->
-<!--                        <div class="dropdown-menu dropdown-menu-right profile-dropdown">-->
-<!--                            &lt;!&ndash; item&ndash;&gt;-->
-<!--                            <button @click="openUserModel" class="dropdown-item" title="profile"> <i class="mdi mdi-account-circle m-r-5"></i>  Profile</button>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="dropdown notification-list list-inline-item">-->
-<!--                    <div class="dropdown notification-list nav-pro-img">-->
-<!--                        <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">-->
-<!--                            <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">-->
-<!--                        </a>-->
-<!--                        <div class="dropdown-menu dropdown-menu-right profile-dropdown">-->
-<!--                            &lt;!&ndash; item&ndash;&gt;-->
-<!--                            <button @click="openUserModel" class="dropdown-item" title="profile"> <i class="mdi mdi-account-circle m-r-5"></i>  Profile</button>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </li>-->
 
                 <li  class="notification-list list-inline-item">
                     <div class="nav-link waves-effect" style="padding: 0">
@@ -175,6 +150,9 @@ export default {
             return this.notifications.length;
         },
     },
+    created() {
+        this.getData();
+    },
     mounted() {
         // Example for real-time notification simulation
         // setInterval(() => {
@@ -192,6 +170,15 @@ export default {
                     this.errorNoti(error);
                 }
             );
+        },
+        getData() {
+            this.PreLoader = true;
+            this.axiosGet('notification-data', (response) => {
+                this.notifications = response.notifications
+                this.PreLoader = false;
+            }, (error) => {
+                this.errorNoti(error);
+            });
         },
         receiveNotification(message) {
             this.notifications.push({ message });
